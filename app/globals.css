@@ -34,7 +34,7 @@ body {
 }
 
 :root {
-  --col-red: #ff6257;
+  --col-brand: #0800ff;
   --col-blue: #69a9ff;
   --col-green: #3ddc97;
 }
@@ -78,11 +78,55 @@ html.light .hero-wash {
 html.light .hero-registers { opacity: 0.07; filter: invert(1); }
 html.light .brand-mark { filter: invert(1); }
 
-.hero-accent-text,
-.footer-wordmark { color: var(--col-red); }
+.hero-accent-text { color: var(--col-brand); }
 
-html.light .hero-accent-text,
-html.light .footer-wordmark { color: #c92f36; }
+html.light .hero-accent-text { color: var(--col-brand); }
+
+.site-footer-panel { background: #07152f; color: #fff; }
+.footer-icon-link {
+  display: inline-flex;
+  width: 2.75rem;
+  height: 2.75rem;
+  align-items: center;
+  justify-content: center;
+  border: 1px solid rgba(255, 255, 255, 0.16);
+  border-radius: 0.625rem;
+  background-color: rgba(255, 255, 255, 0.08);
+  color: #fff;
+  transition: background-color 160ms ease, border-color 160ms ease;
+}
+.footer-icon-link:hover { border-color: rgba(255, 255, 255, 0.32); background-color: rgba(255, 255, 255, 0.14); }
+.footer-icon-link--primary { border-color: #0800ff; background-color: #0800ff; }
+.footer-icon-link--primary:hover { border-color: #241eff; background-color: #241eff; }
+.footer-link { display: flex; align-items: center; justify-content: space-between; gap: 1rem; max-width: 20rem; color: rgba(255, 255, 255, 0.72); transition: color 160ms ease; }
+.footer-link:hover { color: #fff; }
+.site-footer-wordmark {
+  margin-bottom: -0.16em;
+  color: transparent;
+  font-size: clamp(10rem, 32vw, 30rem);
+  font-weight: 700;
+  line-height: 0.8;
+  letter-spacing: -0.04em;
+  text-align: center;
+  -webkit-text-stroke: 1px rgba(255, 255, 255, 0.22);
+}
+
+.docs-copy code {
+  font-family: var(--font-geist-mono), ui-monospace, monospace;
+  font-size: 0.9em;
+}
+
+.docs-copy pre {
+  overflow-x: auto;
+  padding: 1.25rem 0;
+  border-block: 1px solid rgba(255, 255, 255, 0.12);
+  color: #fff;
+}
+
+html.light .docs-copy pre {
+  border-color: rgba(17, 17, 17, 0.14);
+  color: #111;
+}
 
 .gooey-surface {
   background: #090909;
@@ -257,6 +301,7 @@ html.light .library-subtle { color: rgba(17,17,17,.52); }
 html.light .library-chip { border-color: rgba(17,17,17,.12); background: rgba(17,17,17,.045); color: rgba(17,17,17,.72); }
 
 html.light [class~="text-white"] { color: #111; }
+html.light .site-footer-panel [class~="text-white"] { color: #fff; }
 html.light [class~="bg-black"] { background-color: #fff; }
 html.light [class~="bg-black/90"] { background-color: rgba(255,255,255,.9); }
 html.light [class~="border-white/10"],
