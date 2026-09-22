@@ -1,0 +1,44 @@
+name: Request a feature
+description: Propose an improvement to Col.
+title: "Feature: "
+body:
+  - type: textarea
+    id: problem
+    attributes:
+      label: Problem
+      description: What is difficult or missing today? Describe the need before the solution.
+    validations:
+      required: true
+  - type: textarea
+    id: outcome
+    attributes:
+      label: Desired outcome
+      description: What should users be able to do when this is complete?
+    validations:
+      required: true
+  - type: textarea
+    id: proposal
+    attributes:
+      label: Suggested approach
+      description: Optional. Include references or examples if they clarify the idea.
+  - type: dropdown
+    id: area
+    attributes:
+      label: Area
+      options:
+        - Search and discovery
+        - Filters and comparison
+        - Library detail pages
+        - Contributions
+        - Accessibility
+        - Performance
+        - Other
+    validations:
+      required: true
+  - type: checkboxes
+    id: checks
+    attributes:
+      label: Submission checks
+      options:
+        - label: I searched existing issues and pull requests.
+          required: true

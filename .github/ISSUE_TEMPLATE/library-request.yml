@@ -1,0 +1,61 @@
+name: Request a library
+description: Suggest a UI library for the Col directory.
+title: "Library: "
+body:
+  - type: markdown
+    attributes:
+      value: Search the directory, open issues, and pull requests before submitting a duplicate.
+  - type: input
+    id: name
+    attributes:
+      label: Library name
+      placeholder: Ark UI
+    validations:
+      required: true
+  - type: input
+    id: url
+    attributes:
+      label: Official URL
+      placeholder: https://ark-ui.com
+    validations:
+      required: true
+  - type: textarea
+    id: value
+    attributes:
+      label: What does it provide?
+      description: Explain what makes this library useful and who it is for.
+    validations:
+      required: true
+  - type: dropdown
+    id: category
+    attributes:
+      label: Closest category
+      options:
+        - Component Library
+        - Animation & Motion
+        - Templates & Blocks
+        - Icons
+        - Charts & Data Viz
+        - 3D & WebGL
+        - CSS Framework
+        - A new category may be needed
+    validations:
+      required: true
+  - type: input
+    id: stacks
+    attributes:
+      label: Supported stacks
+      placeholder: React, Vue, TypeScript
+    validations:
+      required: true
+  - type: checkboxes
+    id: checks
+    attributes:
+      label: Submission checks
+      options:
+        - label: I searched existing libraries, issues, and pull requests.
+          required: true
+        - label: This is the official project URL and not an affiliate or tracking link.
+          required: true
+        - label: The library is publicly accessible.
+          required: true

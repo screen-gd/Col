@@ -1,0 +1,51 @@
+import type { Metadata } from "next";
+import { Geist_Mono, Inter, Pixelify_Sans } from "next/font/google";
+import "./globals.css";
+
+const inter = Inter({
+  variable: "--font-inter",
+  subsets: ["latin"],
+});
+
+const pixelifySans = Pixelify_Sans({
+  variable: "--font-pixelify-sans",
+  subsets: ["latin"],
+});
+
+const geistMono = Geist_Mono({
+  variable: "--font-geist-mono",
+  subsets: ["latin"],
+});
+
+export const metadata: Metadata = {
+  title: "Col — Collection of Libraries",
+  description: "We curate all the best libraries, so you don't have to.",
+  icons: { icon: "/brand/col-mark.png" },
+  keywords: [
+    "ui libraries",
+    "component library",
+    "react components",
+    "tailwind",
+    "design system",
+    "frontend",
+  ],
+};
+
+export default function RootLayout({
+  children,
+}: Readonly<{
+  children: React.ReactNode;
+}>) {
+  return (
+    <html lang="en" className="dark" suppressHydrationWarning>
+      <head>
+        <script dangerouslySetInnerHTML={{ __html: `try{const t=localStorage.getItem('col:theme');const l=t==='light'||(!t&&matchMedia('(prefers-color-scheme: light)').matches);document.documentElement.classList.toggle('light',l);document.documentElement.classList.toggle('dark',!l)}catch{}` }} />
+      </head>
+      <body
+        className={`${inter.variable} ${pixelifySans.variable} ${geistMono.variable} min-h-screen font-sans`}
+      >
+        {children}
+      </body>
+    </html>
+  );
+}

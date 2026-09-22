@@ -1,0 +1,60 @@
+import { ArrowUpRight, Heart, Layers3, Target } from "lucide-react";
+import type { Library } from "@/data/libraries";
+import { Badge } from "@/components/ui/badge";
+import { Button } from "@/components/ui/button";
+import { Card, CardAction, CardContent, CardFooter, CardHeader, CardTitle } from "@/components/ui/card";
+import { LibraryLogo } from "./LibraryLogo";
+
+function hostname(url: string): string {
+  try {
+    return new URL(url).hostname.replace(/^www\./, "");
+  } catch {
+    return url;
+  }
+}
+
+interface LibraryCardProps {
+  library: Library;
+  saved: boolean;
+  onToggleSaved: () => void;
+}
+
+export function LibraryCard({ library, saved, onToggleSaved }: LibraryCardProps) {
+  return (
+    <Card className="library-card group h-[286px] gap-4 overflow-hidden rounded-xl py-5 shadow-none transition-colors">
+      <CardHeader className="px-5">
+        <CardTitle className="flex items-center gap-3">
+          <span className="theme-border grid size-9 shrink-0 place-items-center rounded-lg border bg-white/[0.035]">
+            <LibraryLogo url={library.url} name={library.name} size={24} />
+          </span>
+          <span className="truncate text-[15px] tracking-[-0.01em]">{library.name}</span>
+        </CardTitle>
+        <p className="library-subtle ml-12 truncate text-[11px]">{hostname(library.url)}</p>
+        <CardAction>
+          <Button type="button" size="icon-sm" variant="ghost" onClick={onToggleSaved} aria-label={saved ? `Remove ${library.name} from saved` : `Save ${library.name}`} aria-pressed={saved} className="library-subtle rounded-lg hover:opacity-80">
+            <Heart fill={saved ? "currentColor" : "none"} aria-hidden />
+          </Button>
+        </CardAction>
+      </CardHeader>
+
+      <CardContent className="flex-1 px-5">
+        <p className="library-muted line-clamp-3 text-[13px] leading-5">{library.description}</p>
+        <div className="mt-4 flex flex-wrap gap-1.5">
+          {library.stacks.slice(0, 3).map((stack) => (
+            <Badge key={stack} variant="outline" className="library-chip px-2 py-0.5 text-[10px]">{stack}</Badge>
+          ))}
+        </div>
+      </CardContent>
+
+      <CardFooter className="library-subtle theme-border flex justify-between border-t px-5 pt-3 text-[10px]">
+        <div className="flex items-center gap-4">
+          <span className="flex items-center gap-1.5"><Layers3 className="size-3" aria-hidden />{library.stacks.length} stacks</span>
+          <span className="flex items-center gap-1.5"><Target className="size-3" aria-hidden />{library.useCases.length} uses</span>
+        </div>
+        <Button asChild size="icon-xs" variant="ghost" className="library-subtle rounded-md hover:opacity-80">
+          <a href={library.url} target="_blank" rel="noopener noreferrer" aria-label={`Open ${library.name}`}><ArrowUpRight aria-hidden /></a>
+        </Button>
+      </CardFooter>
+    </Card>
+  );
+}
