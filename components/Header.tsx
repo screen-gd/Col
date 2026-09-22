@@ -51,10 +51,16 @@ export function Header() {
           <Image src="/brand/col-mark.png" alt="" width={28} height={28} className="brand-mark size-7 object-contain" priority />
           <span className="brand-wordmark text-base font-bold tracking-[-0.03em]">Col</span>
         </a>
-        <a href="/libraries" className="absolute left-1/2 hidden -translate-x-1/2 text-sm text-white lg:block">
-          Libraries
-        </a>
-        <nav className="flex items-center gap-5">
+        <nav aria-label="Primary" className="absolute left-1/2 hidden -translate-x-1/2 items-center gap-7 text-sm text-white lg:flex">
+          <a href="/libraries">Libraries</a>
+          <a href="/docs">Docs</a>
+          <a href="/contributors">Contributors</a>
+        </nav>
+        <nav aria-label="Actions" className="flex items-center gap-4 sm:gap-5">
+          <div className="flex items-center gap-4 text-sm text-white lg:hidden">
+            <a href="/docs">Docs</a>
+            <a href="/contributors">People</a>
+          </div>
           <ThemeToggle />
           <a href="/#hero-search" aria-label="Search libraries" className="hidden text-white sm:block">
             <Search className="size-4" aria-hidden />
@@ -72,7 +78,7 @@ export function Header() {
             target="_blank"
             rel="noopener noreferrer"
             aria-label={`Contribute on GitHub${stars === null ? "" : `, ${stars} stars`}`}
-            className="flex items-center gap-2 rounded-xl border border-white/15 px-4 py-2 text-sm text-white transition-colors hover:border-white/30"
+            className="hidden items-center gap-2 rounded-xl border border-white/15 px-4 py-2 text-sm text-white transition-colors hover:border-white/30 md:flex"
           >
             <GitFork className="size-4" aria-hidden />
             <span>Contribute</span>
