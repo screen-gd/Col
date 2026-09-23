@@ -34,7 +34,7 @@ export function SiteFooter() {
           </div>
 
           <div className="flex flex-col gap-2 py-4 text-xs text-white/55 sm:flex-row sm:items-center sm:justify-between">
-            <p>© {new Date().getFullYear()} Col. All rights reserved.</p>
+            <p>© {new Date().getFullYear()} Screen. <a className="footer-link" href="https://github.com/screen-gd/Col/blob/main/LICENSE">MIT license</a>.</p>
             <p>Open source. Community maintained.</p>
           </div>
         </div>
