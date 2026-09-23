@@ -18,7 +18,7 @@ npm install
 npm run dev
 ```
 
-Run `npm run build` before submitting changes.
+Run `npm run check` before submitting changes.
 
 ## Add a library
 

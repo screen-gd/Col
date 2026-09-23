@@ -48,6 +48,13 @@ body:
       placeholder: React, Vue, TypeScript
     validations:
       required: true
+  - type: input
+    id: use-cases
+    attributes:
+      label: Use cases
+      placeholder: Dashboards, Rapid Prototyping
+    validations:
+      required: true
   - type: checkboxes
     id: checks
     attributes:

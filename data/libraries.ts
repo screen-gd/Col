@@ -63,7 +63,7 @@ export const libraries: Library[] = [
     name: "21st.dev",
     slug: "21st-dev",
     description:
-      "A marketplace of production-ready React components built by the community, installable in one command.",
+      "A marketplace of community-built React components, installable in one command.",
     url: "https://21st.dev",
     category: "Component Library",
     stacks: ["React", "Tailwind CSS", "TypeScript"],
@@ -82,11 +82,11 @@ export const libraries: Library[] = [
     tags: ["animated", "text effects", "backgrounds"],
   },
   {
-    name: "Transition.dev",
-    slug: "transition-dev",
+    name: "Transitions.dev",
+    slug: "transitions-dev",
     description:
-      "Ready-to-use animated transitions and motion primitives for modern React apps.",
-    url: "https://transition.dev",
+      "A collection of copyable UI transitions for web applications.",
+    url: "https://transitions.dev",
     category: "Animation & Motion",
     stacks: ["React", "TypeScript"],
     useCases: ["Micro-interactions", "Marketing Sites"],
@@ -96,7 +96,7 @@ export const libraries: Library[] = [
     name: "shadcn/ui",
     slug: "shadcn-ui",
     description:
-      "Beautifully designed, accessible components you copy into your project. Built on Radix UI and Tailwind CSS.",
+      "Accessible components you copy into your project, built on Radix UI and Tailwind CSS.",
     url: "https://ui.shadcn.com",
     category: "Component Library",
     stacks: ["React", "Tailwind CSS", "TypeScript"],
@@ -118,7 +118,7 @@ export const libraries: Library[] = [
     name: "Aceternity UI",
     slug: "aceternity-ui",
     description:
-      "Trendy animated components and sections — hero effects, 3D cards, and scroll experiences for modern websites.",
+      "Animated components and sections, including hero effects, 3D cards, and scroll experiences.",
     url: "https://ui.aceternity.com",
     category: "Animation & Motion",
     stacks: ["React", "Tailwind CSS", "TypeScript"],
@@ -129,10 +129,10 @@ export const libraries: Library[] = [
     name: "Motion",
     slug: "motion",
     description:
-      "A powerful, production-ready animation library for React and JavaScript (formerly Framer Motion).",
+      "An animation library for React, Vue, and JavaScript (formerly Framer Motion).",
     url: "https://motion.dev",
     category: "Animation & Motion",
-    stacks: ["React", "Vanilla JS", "TypeScript"],
+    stacks: ["React", "Vue", "Vanilla JS", "TypeScript"],
     useCases: ["Micro-interactions", "Creative & Experimental"],
     tags: ["framer motion", "gestures", "spring"],
   },
@@ -140,7 +140,7 @@ export const libraries: Library[] = [
     name: "GSAP",
     slug: "gsap",
     description:
-      "The industry-standard JavaScript animation library with ScrollTrigger, timelines, and physics-based motion.",
+      "A JavaScript animation library with ScrollTrigger, timelines, and physics-based motion.",
     url: "https://gsap.com",
     category: "Animation & Motion",
     stacks: ["Vanilla JS", "React", "Vue", "TypeScript"],
@@ -151,7 +151,7 @@ export const libraries: Library[] = [
     name: "Radix UI",
     slug: "radix-ui",
     description:
-      "Unstyled, accessible primitives for building high-quality design systems and web apps in React.",
+      "Unstyled, accessible primitives for building design systems and web apps in React.",
     url: "https://www.radix-ui.com",
     category: "Component Library",
     stacks: ["React", "TypeScript"],
@@ -173,7 +173,7 @@ export const libraries: Library[] = [
     name: "HeroUI",
     slug: "heroui",
     description:
-      "Beautiful, fast and modern React UI library with built-in theming (formerly NextUI).",
+      "A React UI library with built-in theming (formerly NextUI).",
     url: "https://www.heroui.com",
     category: "Component Library",
     stacks: ["React", "Tailwind CSS", "TypeScript"],
@@ -206,7 +206,7 @@ export const libraries: Library[] = [
     name: "Material UI (MUI)",
     slug: "mui",
     description:
-      "The most popular React implementation of Google's Material Design, with a huge ecosystem.",
+      "A React implementation of Google's Material Design with components and customization tools.",
     url: "https://mui.com",
     category: "Component Library",
     stacks: ["React", "TypeScript"],
@@ -217,7 +217,7 @@ export const libraries: Library[] = [
     name: "Ant Design",
     slug: "ant-design",
     description:
-      "An enterprise-class React UI design system with a rich set of high-quality components.",
+      "A React UI design system with components for enterprise applications.",
     url: "https://ant.design",
     category: "Component Library",
     stacks: ["React", "TypeScript"],
@@ -228,7 +228,7 @@ export const libraries: Library[] = [
     name: "daisyUI",
     slug: "daisyui",
     description:
-      "The most popular component library plugin for Tailwind CSS — semantic class names, zero JS required.",
+      "A Tailwind CSS component plugin with semantic class names and no JavaScript requirement.",
     url: "https://daisyui.com",
     category: "CSS Framework",
     stacks: ["Tailwind CSS", "Vanilla JS"],
@@ -272,7 +272,7 @@ export const libraries: Library[] = [
     name: "Origin UI",
     slug: "origin-ui",
     description:
-      "Beautiful copy-and-paste components built with Tailwind CSS and React, focused on inputs and application UI.",
+      "Copy-and-paste components built with Tailwind CSS and React, focused on inputs and application UI.",
     url: "https://originui.com",
     category: "Component Library",
     stacks: ["React", "Tailwind CSS", "TypeScript"],
@@ -283,7 +283,7 @@ export const libraries: Library[] = [
     name: "Motion Primitives",
     slug: "motion-primitives",
     description:
-      "Beautifully designed, animated components powered by Motion — copy, paste, and customize.",
+      "Animated components powered by Motion that you can copy and customize.",
     url: "https://motion-primitives.com",
     category: "Animation & Motion",
     stacks: ["React", "Tailwind CSS", "TypeScript"],
@@ -305,7 +305,7 @@ export const libraries: Library[] = [
     name: "Lucide",
     slug: "lucide",
     description:
-      "Beautiful, consistent open-source icons — a community fork of Feather Icons for every framework.",
+      "Open-source icons available for React, Vue, Svelte, Angular, and vanilla JavaScript.",
     url: "https://lucide.dev",
     category: "Icons",
     stacks: ["React", "Vue", "Svelte", "Angular", "Vanilla JS"],
@@ -317,7 +317,7 @@ export const libraries: Library[] = [
     slug: "recharts",
     description:
       "A composable, React-native charting library built on SVG components.",
-    url: "https://recharts.org",
+    url: "https://recharts.github.io/en-US/",
     category: "Charts & Data Viz",
     stacks: ["React", "TypeScript"],
     useCases: ["Data Visualization", "Dashboards"],
@@ -360,7 +360,7 @@ export const libraries: Library[] = [
     name: "PrimeVue",
     slug: "primevue",
     description:
-      "The most complete UI component suite for Vue — 90+ components, themes, and blocks.",
+      "A Vue component suite with 90+ components, themes, and blocks.",
     url: "https://primevue.org",
     category: "Component Library",
     stacks: ["Vue", "TypeScript"],

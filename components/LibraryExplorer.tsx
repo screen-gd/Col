@@ -2,7 +2,7 @@
 
 import { useEffect, useState } from "react";
 import Image from "next/image";
-import { BookOpen, GitFork, Layers3, LayoutGrid } from "lucide-react";
+import { BookOpen, Layers3, LayoutGrid } from "lucide-react";
 import { CATEGORIES, STACKS, libraries } from "@/data/libraries";
 import { SearchBar } from "./SearchBar";
 import { Button } from "@/components/ui/button";
@@ -88,7 +88,6 @@ export function LibraryExplorer() {
     { value: `${libraries.length}`, label: "Curated libraries", Icon: BookOpen },
     { value: `${CATEGORIES.length}`, label: "Categories", Icon: LayoutGrid },
     { value: `${STACKS.length}`, label: "Tech stacks", Icon: Layers3 },
-    { value: "100%", label: "Open source", Icon: GitFork },
   ];
 
   return (
@@ -113,7 +112,7 @@ export function LibraryExplorer() {
             the libraries that developers love, <span className="hero-accent-text">all in one place</span>
           </h1>
           <p className="hero-description mt-5 max-w-[560px] text-base leading-[1.55] sm:text-[17px]">
-            Discover, explore, and use the best open source libraries, components, and tools in one place. Curated by developers for developers.
+            Discover UI libraries, components, and tools by stack and use case.
           </p>
           <div className="animate-fade-up delay-1 mt-8 flex w-full justify-start">
             <SearchBar
@@ -140,7 +139,7 @@ export function LibraryExplorer() {
         </div>
       </div>
 
-      <div data-trail-safe className="hero-stats absolute bottom-10 left-1/2 z-10 hidden w-[min(1408px,calc(100%-3rem))] -translate-x-1/2 grid-cols-2 md:grid md:grid-cols-4">
+      <div data-trail-safe className="hero-stats absolute bottom-10 left-1/2 z-10 hidden w-[min(1408px,calc(100%-3rem))] -translate-x-1/2 grid-cols-2 md:grid md:grid-cols-3">
         {stats.map(({ value, label, Icon }, index) => (
           <div key={label} className={`hero-stat flex items-center gap-4 px-5 py-2 ${index > 0 ? "border-l" : ""}`}>
             <span className="hero-stat-icon grid size-12 shrink-0 place-items-center rounded-xl border">

@@ -8,11 +8,11 @@ web
 
 ## Users
 
-Frontend developers and product designers comparing UI libraries for an active project, plus contributors maintaining the directory.
+Frontend developers and product designers finding UI libraries for an active project, plus contributors maintaining the directory.
 
 ## Product Purpose
 
-Col is a community-maintained directory for finding, filtering, and comparing UI libraries without opening many disconnected sources.
+Col is a community-maintained directory for finding, filtering, sorting, and saving UI libraries without opening many disconnected sources.
 
 ## Positioning
 
