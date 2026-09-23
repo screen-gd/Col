@@ -7,6 +7,7 @@ import {
   Box,
   Cuboid,
   ImageIcon,
+  Lightbulb,
   PanelsTopLeft,
   Palette,
   type LucideIcon,
@@ -22,6 +23,7 @@ const CATEGORY_ICONS: Record<Category, LucideIcon> = {
   "Charts & Data Viz": BarChart3,
   "3D & WebGL": Box,
   "CSS Framework": Palette,
+  "Design Inspiration": Lightbulb,
 };
 
 interface CategoryBentoProps {
@@ -32,7 +34,7 @@ interface CategoryBentoProps {
 export function CategoryBento({ active, onSelect }: CategoryBentoProps) {
   return (
     <div className="overflow-x-auto pb-3">
-      <div className="grid min-w-[1240px] grid-cols-7 gap-4">
+      <div className="grid min-w-[1400px] grid-cols-8 gap-4">
         {CATEGORIES.map((category) => {
           const matches = libraries.filter((library) => library.category === category);
           const isActive = active === category;

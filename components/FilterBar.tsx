@@ -63,8 +63,8 @@ export function FilterBar({ activeCategory, activeStacks, activeUseCases, query,
       <div className="grid gap-2 lg:grid-cols-[minmax(320px,1fr)_180px_210px_auto]">
         <label className="relative block">
           <Search className="theme-muted pointer-events-none absolute top-1/2 left-3 size-4 -translate-y-1/2" aria-hidden />
-          <Input value={query} onChange={(event) => onQueryChange(event.target.value)} placeholder="Search libraries, tags, or keywords..." aria-label="Search libraries" className="coss-input h-10 w-full pr-16 pl-10" />
-          <kbd className="theme-muted theme-border pointer-events-none absolute top-1/2 right-2 -translate-y-1/2 rounded border px-2 py-1 text-[10px]">Ctrl K</kbd>
+          <Input id="library-search" value={query} onChange={(event) => onQueryChange(event.target.value)} placeholder="Search libraries, tags, or keywords..." aria-label="Search libraries" className="coss-input h-10 w-full pr-16 pl-10" />
+          <kbd className="theme-muted theme-border pointer-events-none absolute top-1/2 right-2 -translate-y-1/2 rounded border px-2 py-1 text-[10px]">Ctrl/⌘ K</kbd>
         </label>
 
         <FilterDropdown

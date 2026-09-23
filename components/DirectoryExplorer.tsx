@@ -54,6 +54,10 @@ export function DirectoryExplorer({ initialQuery = "" }: { initialQuery?: string
     );
   }, [query, category, stacks, useCases]);
 
+  useEffect(() => {
+    if (window.location.hash === "#library-search") document.getElementById("library-search")?.focus();
+  }, []);
+
   const visibleResults = (showSaved ? results.filter(({ slug }) => saved.has(slug)) : results)
     .toSorted((a, b) => sort === "name" ? a.name.localeCompare(b.name) : 0);
 

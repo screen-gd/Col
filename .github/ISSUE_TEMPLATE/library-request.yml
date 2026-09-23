@@ -38,6 +38,7 @@ body:
         - Charts & Data Viz
         - 3D & WebGL
         - CSS Framework
+        - Design Inspiration
         - A new category may be needed
     validations:
       required: true
