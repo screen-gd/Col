@@ -1,25 +1,87 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
+import { flushSync } from "react-dom";
 import { Moon, Sun } from "lucide-react";
+
+type ThemeViewTransition = {
+  ready: Promise<void>;
+  finished: Promise<void>;
+};
+
+type DocumentWithViewTransitions = Document & {
+  startViewTransition?: (update: () => void) => ThemeViewTransition;
+};
 
 export function ThemeToggle() {
   const [light, setLight] = useState(false);
+  const buttonRef = useRef<HTMLButtonElement>(null);
+  const transitioning = useRef(false);
 
   useEffect(() => {
     setLight(document.documentElement.classList.contains("light"));
   }, []);
 
   const toggle = () => {
-    const next = !light;
-    document.documentElement.classList.toggle("light", next);
-    document.documentElement.classList.toggle("dark", !next);
-    localStorage.setItem("col:theme", next ? "light" : "dark");
-    setLight(next);
+    if (transitioning.current) return;
+
+    const nextLight = !light;
+    const root = document.documentElement;
+    const applyTheme = () => {
+      root.classList.toggle("light", nextLight);
+      root.classList.toggle("dark", !nextLight);
+      localStorage.setItem("col:theme", nextLight ? "light" : "dark");
+      setLight(nextLight);
+    };
+    const startViewTransition = (document as DocumentWithViewTransitions).startViewTransition;
+
+    if (!startViewTransition || window.matchMedia("(prefers-reduced-motion: reduce)").matches) {
+      applyTheme();
+      return;
+    }
+
+    const button = buttonRef.current;
+    if (!button) {
+      applyTheme();
+      return;
+    }
+
+    const { left, top, width, height } = button.getBoundingClientRect();
+    const viewportWidth = window.innerWidth;
+    const viewportHeight = window.innerHeight;
+    const x = left + width / 2;
+    const y = top + height / 2;
+    const maxRadius = Math.hypot(
+      Math.max(x, viewportWidth - x),
+      Math.max(y, viewportHeight - y),
+    );
+    const point = `${(x / viewportWidth) * 100}% ${(y / viewportHeight) * 100}%`;
+    const radius = (maxRadius / (Math.hypot(viewportWidth, viewportHeight) / Math.SQRT2)) * 100;
+
+    transitioning.current = true;
+    const transition = startViewTransition.call(document, () => flushSync(applyTheme));
+    transition.ready
+      .then(() => {
+        root.animate(
+          { clipPath: [`circle(0% at ${point})`, `circle(${radius}% at ${point})`] },
+          { duration: 400, easing: "ease-in-out", fill: "forwards", pseudoElement: "::view-transition-new(root)" },
+        );
+      })
+      .catch(() => {});
+    transition.finished.finally(() => {
+      transitioning.current = false;
+    }).catch(() => {});
   };
 
   return (
-    <button type="button" onClick={toggle} aria-label={`Use ${light ? "dark" : "light"} mode`} className="theme-toggle grid size-9 place-items-center rounded-lg border">
+    <button
+      ref={buttonRef}
+      type="button"
+      onClick={toggle}
+      aria-label={`Use ${light ? "dark" : "light"} mode`}
+      title={light ? "Dark mode" : "Light mode"}
+      className="theme-toggle grid size-9 place-items-center rounded-lg border"
+    >
       {light ? <Moon className="size-4" aria-hidden /> : <Sun className="size-4" aria-hidden />}
     </button>
   );

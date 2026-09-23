@@ -52,7 +52,7 @@ npm install
 npm run dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000).
+Open the local URL printed in the terminal (usually [http://localhost:3000](http://localhost:3000)).
 
 Before opening a pull request:
 

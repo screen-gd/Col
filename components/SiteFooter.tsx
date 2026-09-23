@@ -1,50 +1,42 @@
 import Image from "next/image";
-import { ArrowUpRight, BookOpen, GitFork, MessageSquarePlus } from "lucide-react";
-
-const linkIcon = <ArrowUpRight className="size-4" aria-hidden />;
+import { BookOpen, GitFork, MessageSquarePlus } from "lucide-react";
 
 export function SiteFooter() {
   return (
     <footer className="theme-border border-t">
-      <div className="site-footer-panel overflow-hidden px-5 pt-14 sm:px-8 sm:pt-20">
+      <div className="site-footer-panel px-5 sm:px-8">
         <div className="mx-auto max-w-7xl">
-          <div className="grid gap-12 sm:grid-cols-2">
-            <div className="max-w-sm">
-              <div className="flex items-center gap-3">
-                <Image src="/brand/col-mark.png" alt="" width={40} height={40} className="size-10 object-contain" />
-                <span className="text-3xl font-semibold tracking-[-0.035em] text-white">Col</span>
+          <div className="flex flex-col gap-7 border-b border-white/15 py-7 xl:flex-row xl:items-center xl:justify-between">
+            <div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:gap-6">
+              <div className="flex items-center gap-2.5">
+                <Image src="/brand/col-mark.png" alt="" width={28} height={28} className="size-7 object-contain" />
+                <span className="text-xl font-semibold tracking-[-0.035em] text-white">Col</span>
               </div>
-              <p className="mt-5 text-sm leading-6 text-white/60">Sol could not do it himself, so we made Col.</p>
-            </div>
-
-            <div className="sm:justify-self-end sm:pr-24">
-              <h2 className="text-lg font-medium text-white">Explore the project</h2>
-              <div className="mt-5 flex gap-2.5">
+              <p className="text-sm text-white/60">Sol could not do it himself, so we made Col.</p>
+              <nav aria-label="Project links" className="flex gap-2.5">
                 <a className="footer-icon-link footer-icon-link--primary" href="https://github.com/screen-gd/Col" target="_blank" rel="noopener noreferrer" aria-label="View Col on GitHub">
-                  <GitFork className="size-5" aria-hidden />
+                  <GitFork className="size-4" aria-hidden />
                 </a>
                 <a className="footer-icon-link" href="/docs" aria-label="Read the Col documentation">
-                  <BookOpen className="size-5" aria-hidden />
+                  <BookOpen className="size-4" aria-hidden />
                 </a>
                 <a className="footer-icon-link" href="https://github.com/screen-gd/Col/issues/new/choose" target="_blank" rel="noopener noreferrer" aria-label="Contribute to Col">
-                  <MessageSquarePlus className="size-5" aria-hidden />
+                  <MessageSquarePlus className="size-4" aria-hidden />
                 </a>
-              </div>
+              </nav>
+            </div>
+
+            <div className="grid grid-cols-2 gap-x-8 gap-y-5 sm:grid-cols-3 xl:flex xl:gap-8">
+              <FooterLinks title="Discover" links={[["All libraries", "/libraries"], ["Search", "/#hero-search"], ["Contributors", "/contributors"]]} />
+              <FooterLinks title="Contribute" links={[["Request a library", "https://github.com/screen-gd/Col/issues/new?template=library-request.yml"], ["Request a feature", "https://github.com/screen-gd/Col/issues/new?template=feature-request.yml"], ["Report a bug", "https://github.com/screen-gd/Col/issues/new?template=bug-report.yml"]]} external />
+              <FooterLinks title="Project" links={[["Docs", "/docs"], ["Sponsors", "/#sponsors"], ["GitHub", "https://github.com/screen-gd/Col"], ["Contributing", "https://github.com/screen-gd/Col/blob/main/CONTRIBUTING.md"]]} />
             </div>
           </div>
 
-          <div className="mt-24 grid gap-14 sm:grid-cols-3 sm:gap-10 lg:mt-32">
-            <FooterLinks title="Discover" links={[["All libraries", "/libraries"], ["Search", "/#hero-search"], ["Contributors", "/contributors"]]} />
-            <FooterLinks title="Contribute" links={[["Request a library", "https://github.com/screen-gd/Col/issues/new?template=library-request.yml"], ["Request a feature", "https://github.com/screen-gd/Col/issues/new?template=feature-request.yml"], ["Report a bug", "https://github.com/screen-gd/Col/issues/new?template=bug-report.yml"]]} external />
-            <FooterLinks title="Project" links={[["Docs", "/docs"], ["GitHub", "https://github.com/screen-gd/Col"], ["Contributing", "https://github.com/screen-gd/Col/blob/main/CONTRIBUTING.md"]]} />
-          </div>
-
-          <div className="mt-20 flex flex-col gap-3 border-b border-white/15 pb-6 text-xs text-white/55 sm:flex-row sm:items-center sm:justify-between">
+          <div className="flex flex-col gap-2 py-4 text-xs text-white/55 sm:flex-row sm:items-center sm:justify-between">
             <p>© {new Date().getFullYear()} Col. All rights reserved.</p>
             <p>Open source. Community maintained.</p>
           </div>
-
-          <p className="site-footer-wordmark" aria-hidden>Col</p>
         </div>
       </div>
     </footer>
@@ -55,10 +47,10 @@ function FooterLinks({ title, links, external = false }: { title: string; links:
   return (
     <nav aria-label={title}>
       <h3 className="text-xs font-medium tracking-[0.12em] text-white/45 uppercase">{title}</h3>
-      <div className="mt-5 flex flex-col gap-3 text-lg">
+      <div className="mt-2 flex flex-wrap gap-x-4 gap-y-1.5 text-[13px]">
         {links.map(([label, href]) => {
           const opensNewTab = external || href.startsWith("https://");
-          return <a key={href} className="footer-link" href={href} {...(opensNewTab ? { target: "_blank", rel: "noopener noreferrer" } : {})}><span>{label}</span>{linkIcon}</a>;
+          return <a key={href} className="footer-link" href={href} {...(opensNewTab ? { target: "_blank", rel: "noopener noreferrer" } : {})}>{label}</a>;
         })}
       </div>
     </nav>
