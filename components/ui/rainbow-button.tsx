@@ -6,7 +6,7 @@ import { cn } from "@/lib/utils"
 
 const rainbowButtonVariants = cva(
   cn(
-    "relative cursor-pointer group transition-all animate-rainbow",
+    "relative cursor-pointer group transition-all animate-rainbow motion-reduce:animate-none motion-reduce:transition-none motion-reduce:before:animate-none",
     "inline-flex items-center justify-center gap-2 shrink-0",
     "rounded-sm outline-none focus-visible:ring-[3px] aria-invalid:border-destructive",
     "text-sm font-medium whitespace-nowrap",

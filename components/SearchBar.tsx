@@ -44,6 +44,8 @@ export function SearchBar({ value, onChange, onSubmit }: SearchBarProps) {
     <form
       id="hero-search"
       role="search"
+      action="/libraries"
+      method="get"
       onSubmit={submit}
       className="hero-search relative flex h-14 w-full max-w-[44rem] items-center gap-3 rounded-xl border px-4"
     >
@@ -54,6 +56,7 @@ export function SearchBar({ value, onChange, onSubmit }: SearchBarProps) {
       <input
         ref={inputRef}
         type="search"
+        name="q"
         enterKeyHint="search"
         autoComplete="off"
         value={value}

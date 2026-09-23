@@ -34,6 +34,19 @@ export function Header() {
   }, [pathname]);
 
   useEffect(() => {
+    if (pathname === "/") return;
+    const handleShortcut = (event: KeyboardEvent) => {
+      const target = event.target;
+      if (event.key !== "/" || event.altKey || event.ctrlKey || event.metaKey ||
+        (target instanceof HTMLElement && (target.isContentEditable || ["INPUT", "TEXTAREA", "SELECT"].includes(target.tagName)))) return;
+      event.preventDefault();
+      window.location.assign("/#hero-search");
+    };
+    window.addEventListener("keydown", handleShortcut);
+    return () => window.removeEventListener("keydown", handleShortcut);
+  }, [pathname]);
+
+  useEffect(() => {
     const controller = new AbortController();
     fetch("https://api.github.com/repos/screen-gd/Col", { signal: controller.signal })
       .then((response) => (response.ok ? response.json() : Promise.reject()))
@@ -152,7 +165,7 @@ export function Header() {
 
         {menuOpen && (
           <nav id="site-header-mobile-menu" aria-label="Mobile primary" className="site-header-mobile-menu">
-            {links.map(([label, href]) => <a key={href} href={href} aria-current={pathname === href ? "page" : undefined}>{label}</a>)}
+            {links.map(([label, href]) => <a key={href} href={href} aria-current={pathname === href || pathname.startsWith(`${href}/`) ? "page" : undefined}>{label}</a>)}
             <a href="/#hero-search">Search libraries</a>
           </nav>
         )}

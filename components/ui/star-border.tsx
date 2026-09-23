@@ -34,12 +34,12 @@ export function StarBorder({
     >
       <span
         aria-hidden
-        className="pointer-events-none absolute right-[-250%] bottom-[-11px] z-0 h-1/2 w-[300%] rounded-full opacity-70"
+        className="pointer-events-none absolute right-[-250%] bottom-[-11px] z-0 h-1/2 w-[300%] rounded-full opacity-70 motion-reduce:hidden"
         style={{ ...starStyle, animationName: "star-border-movement-bottom" }}
       />
       <span
         aria-hidden
-        className="pointer-events-none absolute top-[-10px] left-[-250%] z-0 h-1/2 w-[300%] rounded-full opacity-70"
+        className="pointer-events-none absolute top-[-10px] left-[-250%] z-0 h-1/2 w-[300%] rounded-full opacity-70 motion-reduce:hidden"
         style={{ ...starStyle, animationName: "star-border-movement-top" }}
       />
       <div className="relative z-[1]">{children}</div>

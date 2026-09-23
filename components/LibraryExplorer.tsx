@@ -7,7 +7,8 @@ import { CATEGORIES, STACKS, libraries } from "@/data/libraries";
 import { SearchBar } from "./SearchBar";
 import { Button } from "@/components/ui/button";
 import { ScreenShader } from "./ScreenShader";
-import { ScreendevShader, type ShaderTheme } from "./ScreendevShader";
+import { ScreendevShader } from "./ScreendevShader";
+import type { ShaderTheme } from "./shader-runtime";
 
 const HERO_CARDS = [
   { name: "21st.dev", src: "/hero-logos/21st-dev-glow.png", className: "left-[3%] top-[35%]", size: "h-32 w-32", rotate: "rotate-5", duration: "8.4s" },
@@ -66,7 +67,7 @@ function HeroLibraryLogos() {
 
 export function LibraryExplorer() {
   const [query, setQuery] = useState("");
-  const [shaderTheme, setShaderTheme] = useState<ShaderTheme>("dark");
+  const [shaderTheme, setShaderTheme] = useState<ShaderTheme | null>(null);
   const [webgpuUnavailable, setWebgpuUnavailable] = useState(false);
 
   useEffect(() => {
@@ -93,7 +94,7 @@ export function LibraryExplorer() {
   return (
     <section className="hero-wash relative h-svh min-h-[760px] overflow-hidden">
       <div className="pointer-events-none absolute inset-0 z-0" aria-hidden>
-        {webgpuUnavailable ? (
+        {shaderTheme && (webgpuUnavailable ? (
           <ScreenShader theme={shaderTheme} background={{ dark: "#000000", light: "#f7f7f5" }} />
         ) : (
           <ScreendevShader
@@ -101,7 +102,7 @@ export function LibraryExplorer() {
             background={{ dark: "#000000", light: "#f7f7f5" }}
             onError={() => setWebgpuUnavailable(true)}
           />
-        )}
+        ))}
       </div>
       <div className="hero-registers pointer-events-none" aria-hidden />
       <HeroLibraryLogos />
@@ -154,12 +155,12 @@ export function LibraryExplorer() {
       </div>
 
       <a
-        href="https://openshaders.com/@screendev"
+        href={`https://openshaders.com/@${webgpuUnavailable ? "screen" : "screendev"}`}
         target="_blank"
         rel="noopener noreferrer"
         className="hero-shader-credit absolute bottom-4 right-5 z-10 text-[10px] tracking-[0.02em] sm:right-8"
       >
-        Background shader by @screendev on OpenShaders
+        Background shader by @{webgpuUnavailable ? "screen" : "screendev"} on OpenShaders
       </a>
     </section>
   );

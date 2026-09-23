@@ -206,7 +206,8 @@ html.light .hero-stat { background: transparent !important; border-color: rgba(1
 .hero-search-hint { position: absolute; inset: 0 auto auto 0; overflow: hidden; max-width: 100%; opacity: 0; text-overflow: ellipsis; white-space: nowrap; animation: hero-search-hint-cycle 9s ease-in-out infinite; }
 .hero-search-hint:nth-child(2) { animation-delay: 3s; }
 .hero-search-hint:nth-child(3) { animation-delay: 6s; }
-.hero-search:focus-within .hero-search-hints { visibility: hidden; }
+.hero-search:focus-within .hero-search-hints,
+.hero-search:has(.hero-search-input:not(:placeholder-shown)) .hero-search-hints { visibility: hidden; }
 .hero-search-shortcut { border-color: rgba(255,255,255,.14); color: rgba(255,255,255,.62); }
 .hero-search-submit { color: rgba(255,255,255,.82); transition: opacity 160ms ease; }
 .hero-search-submit:hover { opacity: .72; }
