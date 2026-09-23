@@ -21,7 +21,7 @@ interface BentoCardProps extends ComponentPropsWithoutRef<"div"> {
 // Magic UI Bento Grid: https://magicui.design/docs/components/bento-grid
 function BentoGrid({ children, className, ...props }: BentoGridProps) {
   return (
-    <div className={cn("grid w-full auto-rows-[18rem] grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-4", className)} {...props}>
+    <div className={cn("grid w-full auto-rows-[22rem] grid-cols-1 gap-4 sm:auto-rows-[18rem] sm:grid-cols-2 lg:grid-cols-3", className)} {...props}>
       {children}
     </div>
   );

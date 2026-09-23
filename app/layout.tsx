@@ -30,9 +30,12 @@ export const metadata: Metadata = {
   description: "We curate all the best libraries, so you don't have to.",
   icons: { icon: "/brand/col-mark.png" },
   openGraph: {
-    images: [{ url: "/col-social.png", width: 1730, height: 909, alt: "Col: UI libraries. All in one place." }],
+    type: "website",
+    url: siteUrl,
+    siteName: "Col",
+    images: [{ url: "/col-social-preview.jpg", width: 1200, height: 630, type: "image/jpeg", alt: "Col: UI libraries. All in one place." }],
   },
-  twitter: { card: "summary_large_image", images: ["/col-social.png"] },
+  twitter: { card: "summary_large_image", images: ["/col-social-preview.jpg"] },
   keywords: [
     "ui libraries",
     "component library",
