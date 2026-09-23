@@ -115,7 +115,7 @@ export function Header() {
           >
             <span ref={highlightRef} className="site-header-link-highlight" aria-hidden="true" />
             {links.map(([label, href]) => {
-              const active = !href.includes("#") && (pathname === href || pathname.startsWith(`${href}/`));
+              const active = pathname === href || pathname.startsWith(`${href}/`);
               return (
                 <a
                   key={href}
@@ -165,11 +165,8 @@ export function Header() {
 
         {menuOpen && (
           <nav id="site-header-mobile-menu" aria-label="Mobile primary" className="site-header-mobile-menu">
-            {links.map(([label, href]) => <a key={href} href={href} onClick={() => setMenuOpen(false)} aria-current={!href.includes("#") && (pathname === href || pathname.startsWith(`${href}/`)) ? "page" : undefined}>{label}</a>)}
-            <a href="/#hero-search" onClick={() => {
-              setMenuOpen(false);
-              if (pathname === "/") document.querySelector<HTMLInputElement>("#hero-search input")?.focus();
-            }}>Search libraries</a>
+            {links.map(([label, href]) => <a key={href} href={href} aria-current={pathname === href || pathname.startsWith(`${href}/`) ? "page" : undefined}>{label}</a>)}
+            <a href="/#hero-search">Search libraries</a>
           </nav>
         )}
       </div>

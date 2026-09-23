@@ -31,7 +31,7 @@
 
 ## What Col does
 
-Col organizes UI libraries by category, stack, and use case. Search from the homepage, then filter, sort, and save matching libraries in the directory.
+Col organizes UI libraries by category, stack, and use case. Search from the homepage, then compare matching libraries in the directory.
 
 - Search by name, keyword, category, stack, or use case.
 - Filter libraries without leaving the directory.
@@ -57,7 +57,7 @@ Open the local URL printed in the terminal (usually [http://localhost:3000](http
 Before opening a pull request:
 
 ```bash
-npm run check
+npm run build
 ```
 
 ## Request something
@@ -74,7 +74,7 @@ Include:
 - what it provides and who it helps;
 - its supported stacks;
 - the closest Col category and use cases;
-- confirmation that it is publicly accessible.
+- confirmation that it is maintained and publicly accessible.
 
 Search [existing libraries](data/libraries.ts), [issues](https://github.com/screen-gd/Col/issues), and [pull requests](https://github.com/screen-gd/Col/pulls) first.
 
@@ -105,7 +105,7 @@ Library-only pull requests should be small and should not redesign unrelated par
 3. Reuse the existing category, stack, and use-case values when possible.
 4. Keep the description factual and short.
 5. Confirm the URL points to the official project.
-6. Run `npm run check`.
+6. Run `npm run build`.
 7. Open a pull request using the provided template.
 
 ```ts
@@ -163,8 +163,6 @@ When contributing a future detail page, keep the prompt specific to that library
 app/                  Routes, layout, and global styles
 components/           Search, filters, cards, header, and shared UI
 data/libraries.ts     The curated library registry
-lib/                  Shared helpers and route metadata
-tests/                Registry and discovery checks
 public/brand/         Col brand assets
 public/hero-logos/    Library artwork used by the homepage
 .github/              Issue forms and pull request guidance

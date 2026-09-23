@@ -19,11 +19,6 @@ export function SearchBar({ value, onChange, onSubmit }: SearchBarProps) {
   const inputRef = useRef<HTMLInputElement>(null);
 
   useEffect(() => {
-    const focusHash = () => {
-      if (window.location.hash === "#hero-search") inputRef.current?.focus();
-    };
-    focusHash();
-    window.addEventListener("hashchange", focusHash);
     const handleShortcut = (event: KeyboardEvent) => {
       const isTyping = event.target instanceof HTMLElement && (
         event.target.isContentEditable || ["INPUT", "TEXTAREA", "SELECT"].includes(event.target.tagName)
@@ -37,10 +32,7 @@ export function SearchBar({ value, onChange, onSubmit }: SearchBarProps) {
     };
 
     window.addEventListener("keydown", handleShortcut);
-    return () => {
-      window.removeEventListener("keydown", handleShortcut);
-      window.removeEventListener("hashchange", focusHash);
-    };
+    return () => window.removeEventListener("keydown", handleShortcut);
   }, []);
 
   const submit = (event: FormEvent<HTMLFormElement>) => {
@@ -76,7 +68,7 @@ export function SearchBar({ value, onChange, onSubmit }: SearchBarProps) {
         aria-label="Search UI libraries"
         className="hero-search-input h-full min-w-0 flex-1 bg-transparent text-[15px] outline-none placeholder:text-transparent focus:placeholder:text-white/45 [&::-webkit-search-cancel-button]:hidden"
       />
-      <kbd className="hero-search-shortcut hidden shrink-0 rounded-md border px-2 py-1 font-mono text-[10px] tracking-wide sm:block">Ctrl/⌘ K</kbd>
+      <kbd className="hero-search-shortcut hidden shrink-0 rounded-md border px-2 py-1 font-mono text-[10px] tracking-wide sm:block">⌘ K</kbd>
       <button type="submit" className="hero-search-submit grid size-9 shrink-0 place-items-center rounded-lg" aria-label="Search libraries">
         <ArrowRight className="size-4" aria-hidden />
       </button>

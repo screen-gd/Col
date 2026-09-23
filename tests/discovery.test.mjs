@@ -1,25 +1,38 @@
 import assert from "node:assert/strict";
+import { readFileSync } from "node:fs";
 import { test } from "node:test";
-import { loadTs } from "./load-ts.mjs";
+import ts from "typescript";
 
-const { libraries } = await loadTs("../data/libraries.ts");
-const { siteUrl, staticRoutes } = await loadTs("../lib/site.ts");
-const dataUrl = `data:text/javascript,${encodeURIComponent(`export const libraries = ${JSON.stringify(libraries)}`)}`;
-const { GET } = await loadTs("../app/llms.txt/route.ts", { "@/data/libraries": dataUrl });
-const siteUrlModule = `data:text/javascript,${encodeURIComponent(`export const siteUrl = ${JSON.stringify(siteUrl)}; export const staticRoutes = ${JSON.stringify(staticRoutes)}`)}`;
-const { default: robots } = await loadTs("../app/robots.ts", { "@/lib/site": siteUrlModule });
-const { default: sitemap } = await loadTs("../app/sitemap.ts", { "@/lib/site": siteUrlModule });
+const source = readFileSync(new URL("../data/libraries.ts", import.meta.url), "utf8");
+const moduleSource = ts.transpileModule(source, { compilerOptions: { module: ts.ModuleKind.ESNext } }).outputText;
+const { libraries } = await import(`data:text/javascript,${encodeURIComponent(moduleSource)}`);
 
-test("discovery routes use the registry and route list", async () => {
-  assert.deepEqual(robots().rules[0], { userAgent: "*", allow: "/" });
-  assert.equal(robots().sitemap, `${siteUrl}/sitemap.xml`);
-  assert.deepEqual(sitemap().map(({ url }) => url), staticRoutes.map((route) => new URL(route, siteUrl).toString()));
+const built = (name) => readFileSync(new URL(`../.next/server/app/${name}.body`, import.meta.url), "utf8");
 
-  const response = GET();
-  assert.equal(response.headers.get("content-type"), "text/plain; charset=utf-8");
-  const body = await response.text();
+test("build emits complete discovery files", () => {
+  const robots = built("robots.txt");
+  const sitemap = built("sitemap.xml");
+  const llms = built("llms.txt");
+
+  for (const crawler of ["*", "GPTBot", "ClaudeBot", "PerplexityBot", "Google-Extended"]) {
+    assert.ok(robots.includes(`User-Agent: ${crawler}`));
+  }
+  assert.ok(robots.includes("Allow: /"));
+  assert.ok(robots.includes("Sitemap: https://collection-of-libs.vercel.app/sitemap.xml"));
+
+  for (const route of ["/", "/libraries", "/docs", "/contributors"]) {
+    assert.ok(sitemap.includes(`<loc>https://collection-of-libs.vercel.app${route}</loc>`));
+  }
+  assert.equal((sitemap.match(/<lastmod>/g) ?? []).length, 4);
+
+  const entries = llms.split("\n## ").slice(1);
+  assert.equal(entries.length, libraries.length);
   for (const library of libraries) {
-    assert.ok(body.includes(`## ${library.name}\n`));
-    assert.ok(body.includes(`- Description: ${library.description}`));
+    const entry = entries.find((item) => item.startsWith(`${library.name}\n`));
+    assert.ok(entry, `Missing ${library.name}`);
+    assert.ok(entry.includes(`- Domain: [${new URL(library.url).hostname.replace(/^www\./, "")}](${library.url})`));
+    assert.ok(entry.includes(`- Description: ${library.description}`));
+    assert.ok(entry.includes(`- Stacks: ${library.stacks.join(", ")}`));
+    assert.ok(entry.includes(`- Use cases: ${library.useCases.join(", ")}`));
   }
 });
