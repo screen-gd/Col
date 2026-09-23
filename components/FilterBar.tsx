@@ -84,7 +84,7 @@ export function FilterBar({ activeCategory, activeStacks, activeUseCases, query,
       </div>
 
       <Tabs value={activeCategory ?? "all"} onValueChange={(value) => onCategoryChange(value === "all" ? null : value as Category)}>
-        <TabsList className="h-auto w-full flex-wrap justify-start gap-1 rounded-none bg-transparent p-0">
+        <TabsList className="h-auto! w-full flex-wrap justify-start gap-1 rounded-none bg-transparent p-0">
           <TabsTrigger value="all" className="filter-tab flex-none rounded-md px-3 py-1.5">All</TabsTrigger>
           {CATEGORIES.map((category) => <TabsTrigger key={category} value={category} className="filter-tab flex-none rounded-md px-3 py-1.5">{category}</TabsTrigger>)}
         </TabsList>

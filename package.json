@@ -3,6 +3,7 @@
   "version": "0.1.0",
   "private": true,
   "description": "A community-maintained directory for discovering UI libraries.",
+  "license": "MIT",
   "scripts": {
     "dev": "next dev",
     "build": "next build",

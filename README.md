@@ -176,6 +176,8 @@ public/hero-logos/    Library artwork used by the homepage
 
 Be clear, constructive, and respectful. Contributions are welcome whether you are adding a library, improving metadata, fixing a bug, or making discovery easier.
 
+Col is licensed under the [MIT License](LICENSE).
+
 <div align="center">
   <strong>Find better tools. Build better interfaces.</strong>
 </div>

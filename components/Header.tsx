@@ -147,7 +147,7 @@ export function Header() {
           </a>
           <RainbowButton
             asChild
-            className="h-9 rounded-[10px] px-[19px] text-xs text-white dark:text-black max-[760px]:h-[34px] max-[760px]:rounded-[9px] max-[760px]:px-3"
+            className="h-9 rounded-[10px] px-[19px] text-xs text-white! dark:text-black! max-[760px]:h-[34px] max-[760px]:rounded-[9px] max-[760px]:px-3"
           >
             <a href="https://github.com/screen-gd/Col/issues/new" target="_blank" rel="noopener noreferrer">Submit</a>
           </RainbowButton>
