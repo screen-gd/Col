@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import { Geist_Mono, Geist_Pixel, Inter, Pixelify_Sans } from "next/font/google";
+import { siteUrl } from "@/lib/site";
 import "./globals.css";
 
 const inter = Inter({
@@ -24,9 +25,14 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
+  metadataBase: new URL(siteUrl),
   title: "Col — Collection of Libraries",
   description: "We curate all the best libraries, so you don't have to.",
   icons: { icon: "/brand/col-mark.png" },
+  openGraph: {
+    images: [{ url: "/col-social.png", width: 1730, height: 909, alt: "Col: UI libraries. All in one place." }],
+  },
+  twitter: { card: "summary_large_image", images: ["/col-social.png"] },
   keywords: [
     "ui libraries",
     "component library",
