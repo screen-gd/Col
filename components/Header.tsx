@@ -1,94 +1,161 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useRef, useState } from "react";
 import Image from "next/image";
-import { GitFork, Search, Star } from "lucide-react";
+import { usePathname } from "next/navigation";
+import { Menu, Search, X } from "lucide-react";
+import { RainbowButton } from "@/components/ui/rainbow-button";
 import { ThemeToggle } from "./ThemeToggle";
 
 const compactNumber = new Intl.NumberFormat("en", { notation: "compact", maximumFractionDigits: 1 });
+const links = [
+  ["Libraries", "/libraries"],
+  ["Docs", "/docs"],
+  ["Sponsors", "/#sponsors"],
+] as const;
 
 export function Header() {
+  const pathname = usePathname();
   const [scrolled, setScrolled] = useState(false);
+  const [menuOpen, setMenuOpen] = useState(false);
   const [stars, setStars] = useState<number | null>(null);
+  const linksRef = useRef<HTMLElement>(null);
+  const highlightRef = useRef<HTMLSpanElement>(null);
 
   useEffect(() => {
-    const update = () => setScrolled(window.scrollY > 32);
+    const update = () => setScrolled(window.scrollY > 50);
     update();
     window.addEventListener("scroll", update, { passive: true });
     return () => window.removeEventListener("scroll", update);
   }, []);
 
   useEffect(() => {
-    const controller = new AbortController();
+    setMenuOpen(false);
+  }, [pathname]);
 
+  useEffect(() => {
+    const controller = new AbortController();
     fetch("https://api.github.com/repos/screen-gd/Col", { signal: controller.signal })
       .then((response) => (response.ok ? response.json() : Promise.reject()))
       .then((repository: { stargazers_count?: number }) => {
-        if (typeof repository.stargazers_count === "number") {
-          setStars(repository.stargazers_count);
-        }
+        if (typeof repository.stargazers_count === "number") setStars(repository.stargazers_count);
       })
       .catch(() => {});
-
     return () => controller.abort();
   }, []);
 
+  const positionHighlight = useCallback((link: HTMLAnchorElement | null) => {
+    const container = linksRef.current;
+    const highlight = highlightRef.current;
+    if (!container || !highlight || !link) return;
+
+    const linkRect = link.getBoundingClientRect();
+    const containerRect = container.getBoundingClientRect();
+    highlight.style.width = `${linkRect.width}px`;
+    highlight.style.height = `${linkRect.height}px`;
+    highlight.style.transform = `translateX(${linkRect.left - containerRect.left}px)`;
+    highlight.style.opacity = "1";
+  }, []);
+
+  const getActiveLink = useCallback(
+    () => linksRef.current?.querySelector<HTMLAnchorElement>('[aria-current="page"]') ?? null,
+    [],
+  );
+
+  const restoreActiveHighlight = useCallback(() => {
+    const activeLink = getActiveLink();
+    if (activeLink) positionHighlight(activeLink);
+    else if (highlightRef.current) highlightRef.current.style.opacity = "0";
+  }, [getActiveLink, positionHighlight]);
+
+  useEffect(() => {
+    const frame = requestAnimationFrame(restoreActiveHighlight);
+    window.addEventListener("resize", restoreActiveHighlight);
+    return () => {
+      cancelAnimationFrame(frame);
+      window.removeEventListener("resize", restoreActiveHighlight);
+    };
+  }, [pathname, restoreActiveHighlight]);
+
+  const landing = pathname === "/";
+  const headerClass = `site-header${landing ? "" : " site-header--docs"}${scrolled ? " site-header--scrolled" : ""}`;
+
   return (
-    <header
-      className={`site-header fixed left-1/2 z-50 w-[calc(100%-2rem)] -translate-x-1/2 border transition-[top,max-width,background-color,border-color,box-shadow,border-radius,backdrop-filter] duration-500 ease-[cubic-bezier(.16,1,.3,1)] sm:w-[calc(100%-4rem)] ${
-        scrolled
-          ? "site-header-scrolled top-3 max-w-6xl rounded-2xl border-white/10 bg-black/90 backdrop-blur-xl"
-          : "top-2 max-w-[1450px] rounded-none border-transparent bg-transparent shadow-none backdrop-blur-none"
-      }`}
-    >
-      <div className="mx-auto flex max-w-7xl items-center justify-between px-5 py-4 sm:px-8">
-        <a
-          href="/"
-          aria-label="Col — Collection of Libraries"
-          title="Collection of Libraries"
-          className="flex items-center gap-2.5 text-white"
-        >
-          <Image src="/brand/col-mark.png" alt="" width={28} height={28} className="brand-mark size-7 object-contain" priority />
-          <span className="brand-wordmark text-base font-bold tracking-[-0.03em]">Col</span>
-        </a>
-        <nav aria-label="Primary" className="absolute left-1/2 hidden -translate-x-1/2 items-center gap-7 text-sm text-white lg:flex">
-          <a href="/libraries">Libraries</a>
-          <a href="/docs">Docs</a>
-          <a href="/contributors">Contributors</a>
-        </nav>
-        <nav aria-label="Actions" className="flex items-center gap-4 sm:gap-5">
-          <div className="flex items-center gap-4 text-sm text-white lg:hidden">
-            <a href="/docs">Docs</a>
-            <a href="/contributors">People</a>
-          </div>
+    <header className={headerClass}>
+      <div className="site-header-inner">
+        <div className="site-header-left">
+          <a href="/" aria-label="Col, Collection of Libraries" className="site-header-brand">
+            <Image src="/brand/col-mark.png" alt="" width={24} height={24} className="brand-mark" priority />
+            <span>Col</span>
+          </a>
+          <span className="site-header-divider" aria-hidden="true">/</span>
+          <nav
+            ref={linksRef}
+            aria-label="Primary"
+            className="site-header-links"
+            onMouseLeave={restoreActiveHighlight}
+            onBlur={(event) => {
+              if (!(event.relatedTarget instanceof Node) || !event.currentTarget.contains(event.relatedTarget)) {
+                restoreActiveHighlight();
+              }
+            }}
+          >
+            <span ref={highlightRef} className="site-header-link-highlight" aria-hidden="true" />
+            {links.map(([label, href]) => {
+              const active = pathname === href || pathname.startsWith(`${href}/`);
+              return (
+                <a
+                  key={href}
+                  href={href}
+                  aria-current={active ? "page" : undefined}
+                  className="site-header-link"
+                  onMouseEnter={(event) => positionHighlight(event.currentTarget)}
+                  onFocus={(event) => positionHighlight(event.currentTarget)}
+                >
+                  {label}
+                </a>
+              );
+            })}
+          </nav>
+        </div>
+
+        <div className="site-header-actions">
+          {!landing && (
+            <a href="/#hero-search" className="site-header-search" aria-label="Search libraries">
+              <Search size={14} aria-hidden="true" />
+              <span>Search...</span>
+              <kbd>/</kbd>
+            </a>
+          )}
           <ThemeToggle />
-          <a href="/#hero-search" aria-label="Search libraries" className="hidden text-white sm:block">
-            <Search className="size-4" aria-hidden />
+          <a href="https://github.com/screen-gd/Col" target="_blank" rel="noopener noreferrer" className="site-header-github" aria-label={`Col on GitHub${stars === null ? "" : `, ${stars} stars`}`}>
+            <svg viewBox="0 0 16 16" width="15" height="15" aria-hidden="true"><path fill="currentColor" d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82a7.65 7.65 0 0 1 2-.27c.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.013 8.013 0 0 0 16 8c0-4.42-3.58-8-8-8z" /></svg>
+            <span>{stars === null ? "..." : compactNumber.format(stars)}</span>
           </a>
-          <a
-            href="https://github.com/screen-gd/Col/issues/new"
-            target="_blank"
-            rel="noopener noreferrer"
-            className="hidden text-sm text-white md:block"
+          <RainbowButton
+            asChild
+            className="h-9 rounded-[10px] px-[19px] text-xs text-white dark:text-black max-[760px]:h-[34px] max-[760px]:rounded-[9px] max-[760px]:px-3"
           >
-            Submit
-          </a>
-          <a
-            href="https://github.com/screen-gd/Col"
-            target="_blank"
-            rel="noopener noreferrer"
-            aria-label={`Contribute on GitHub${stars === null ? "" : `, ${stars} stars`}`}
-            className="hidden items-center gap-2 rounded-xl border border-white/15 px-4 py-2 text-sm text-white transition-colors hover:border-white/30 md:flex"
+            <a href="https://github.com/screen-gd/Col/issues/new" target="_blank" rel="noopener noreferrer">Submit</a>
+          </RainbowButton>
+          <button
+            type="button"
+            className="site-header-menu"
+            aria-label={menuOpen ? "Close menu" : "Open menu"}
+            aria-expanded={menuOpen}
+            aria-controls="site-header-mobile-menu"
+            onClick={() => setMenuOpen((open) => !open)}
           >
-            <GitFork className="size-4" aria-hidden />
-            <span>Contribute</span>
-            <span className="h-4 w-px bg-white/15" aria-hidden />
-            <span className="flex items-center gap-1.5 font-medium tabular-nums">
-              <Star className="size-3.5" aria-hidden />
-              {stars === null ? "—" : compactNumber.format(stars)}
-            </span>
-          </a>
-        </nav>
+            {menuOpen ? <X size={17} aria-hidden="true" /> : <Menu size={17} aria-hidden="true" />}
+          </button>
+        </div>
+
+        {menuOpen && (
+          <nav id="site-header-mobile-menu" aria-label="Mobile primary" className="site-header-mobile-menu">
+            {links.map(([label, href]) => <a key={href} href={href} aria-current={pathname === href ? "page" : undefined}>{label}</a>)}
+            <a href="/#hero-search">Search libraries</a>
+          </nav>
+        )}
       </div>
     </header>
   );

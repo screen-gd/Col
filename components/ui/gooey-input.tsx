@@ -11,6 +11,7 @@ import {
 } from "react";
 import { motion } from "motion/react";
 import { cn } from "@/lib/utils";
+import { StarBorder } from "@/components/ui/star-border";
 
 export interface GooeyInputProps {
   value?: string;
@@ -132,46 +133,48 @@ export function GooeyInput({
       </svg>
 
       <div
-        className="gooey-filter-layer relative flex h-14 w-full items-center justify-center"
+        className="gooey-filter-layer relative flex h-14 w-full items-center justify-start"
         style={{ filter: `url(#${filterId})` }}
       >
-        <motion.div
-          initial="collapsed"
-          animate={open ? "expanded" : "collapsed"}
-          variants={buttonVariants}
-          transition={transition}
-          className="gooey-surface flex h-14 max-w-full items-center overflow-hidden rounded-[20px]"
-          onClick={() => setExpanded(true)}
-        >
-          {!open && (
-            <span className="ml-5">
-              <SearchIcon layoutId={iconLayoutId} />
-            </span>
-          )}
-          <motion.input
-            ref={inputRef}
-            layout
-            type="search"
-            enterKeyHint="search"
-            autoComplete="off"
-            value={searchValue}
-            disabled={disabled}
-            placeholder={placeholder}
-            aria-label="Search UI libraries"
-            onChange={handleChange}
-            onFocus={() => setExpanded(true)}
-            onBlur={() => {
-              if (!searchValue) setExpanded(false);
-            }}
-            onKeyDown={(event) => {
-              if (event.key === "Enter") onSubmit?.();
-            }}
-            className="gooey-input-text h-full min-w-0 flex-1 bg-transparent px-4 text-[15px] outline-none placeholder:opacity-55 [&::-webkit-search-cancel-button]:hidden"
-          />
-          <kbd className="gooey-key mr-4 hidden shrink-0 rounded-md border px-2 py-1 font-mono text-[10px] tracking-wide sm:block">
-            ⌘ K
-          </kbd>
-        </motion.div>
+        <StarBorder color="var(--col-blue)" speed="4s" id="hero-search" className="w-fit max-w-full cursor-text">
+          <motion.div
+            initial="collapsed"
+            animate={open ? "expanded" : "collapsed"}
+            variants={buttonVariants}
+            transition={transition}
+            className="gooey-surface hero-search-surface flex h-14 max-w-full items-center overflow-hidden rounded-[20px]"
+            onClick={() => setExpanded(true)}
+          >
+            {!open && (
+              <span className="ml-5">
+                <SearchIcon layoutId={iconLayoutId} />
+              </span>
+            )}
+            <motion.input
+              ref={inputRef}
+              layout
+              type="search"
+              enterKeyHint="search"
+              autoComplete="off"
+              value={searchValue}
+              disabled={disabled}
+              placeholder={placeholder}
+              aria-label="Search UI libraries"
+              onChange={handleChange}
+              onFocus={() => setExpanded(true)}
+              onBlur={() => {
+                if (!searchValue) setExpanded(false);
+              }}
+              onKeyDown={(event) => {
+                if (event.key === "Enter") onSubmit?.();
+              }}
+              className="gooey-input-text h-full min-w-0 flex-1 bg-transparent px-4 text-[15px] outline-none placeholder:opacity-55 [&::-webkit-search-cancel-button]:hidden"
+            />
+            <kbd className="gooey-key mr-4 hidden shrink-0 rounded-md border px-2 py-1 font-mono text-[10px] tracking-wide sm:block">
+              ⌘ K
+            </kbd>
+          </motion.div>
+        </StarBorder>
 
         <motion.div
           initial="collapsed"
