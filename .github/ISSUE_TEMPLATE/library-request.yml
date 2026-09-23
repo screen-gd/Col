@@ -38,6 +38,7 @@ body:
         - Charts & Data Viz
         - 3D & WebGL
         - CSS Framework
+        - Design Inspiration
         - A new category may be needed
     validations:
       required: true
@@ -46,13 +47,6 @@ body:
     attributes:
       label: Supported stacks
       placeholder: React, Vue, TypeScript
-    validations:
-      required: true
-  - type: input
-    id: use-cases
-    attributes:
-      label: Use cases
-      placeholder: Dashboards, Rapid Prototyping
     validations:
       required: true
   - type: checkboxes

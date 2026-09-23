@@ -1,0 +1,3 @@
+minimumReleaseAgeExclude:
+  - border-beam@1.4.0
+  - cn@0.4.0

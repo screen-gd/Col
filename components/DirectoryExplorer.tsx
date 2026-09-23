@@ -1,20 +1,30 @@
 "use client";
 
-import { useEffect, useMemo, useRef, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { Heart, SearchX } from "lucide-react";
 import {
   libraries,
   type Category,
+  type Library,
   type Stack,
   type UseCase,
 } from "@/data/libraries";
 import { Button } from "@/components/ui/button";
-import { filterLibraries, nextSaved, readSaved } from "@/lib/directory";
 import { FilterBar, FilterDropdown } from "./FilterBar";
 import { LibraryCard } from "./LibraryCard";
 
 const SAVED_LIBRARIES_KEY = "col:saved-libraries";
-const validSlugs = new Set(libraries.map(({ slug }) => slug));
+
+function matchesQuery(library: Library, tokens: string[]): boolean {
+  return tokens.every((token) => [
+    library.name,
+    library.description,
+    library.category,
+    ...library.stacks,
+    ...library.useCases,
+    ...(library.tags ?? []),
+  ].join(" ").toLowerCase().includes(token));
+}
 
 export function DirectoryExplorer({ initialQuery = "" }: { initialQuery?: string }) {
   const [query, setQuery] = useState(initialQuery);
@@ -24,46 +34,45 @@ export function DirectoryExplorer({ initialQuery = "" }: { initialQuery?: string
   const [saved, setSaved] = useState<Set<string>>(new Set());
   const [showSaved, setShowSaved] = useState(false);
   const [sort, setSort] = useState<"curated" | "name">("curated");
-  const searchRef = useRef<HTMLInputElement>(null);
 
   useEffect(() => {
-    try { setSaved(readSaved(localStorage.getItem(SAVED_LIBRARIES_KEY), validSlugs)); } catch { /* Session state remains available. */ }
-    const sync = (event: StorageEvent) => {
-      if (event.key === SAVED_LIBRARIES_KEY || event.key === null) setSaved(readSaved(event.key === null ? null : event.newValue, validSlugs));
-    };
-    window.addEventListener("storage", sync);
-    return () => window.removeEventListener("storage", sync);
+    try {
+      const stored: unknown = JSON.parse(localStorage.getItem(SAVED_LIBRARIES_KEY) ?? "[]");
+      if (Array.isArray(stored)) setSaved(new Set(stored.filter((slug): slug is string => typeof slug === "string")));
+    } catch {
+      localStorage.removeItem(SAVED_LIBRARIES_KEY);
+    }
   }, []);
+
+  const results = useMemo(() => {
+    const tokens = query.toLowerCase().trim().split(/\s+/).filter(Boolean);
+    return libraries.filter((library) =>
+      (tokens.length === 0 || matchesQuery(library, tokens)) &&
+      (category === null || library.category === category) &&
+      (stacks.length === 0 || stacks.every((stack) => library.stacks.includes(stack))) &&
+      (useCases.length === 0 || useCases.every((useCase) => library.useCases.includes(useCase))),
+    );
+  }, [query, category, stacks, useCases]);
 
   useEffect(() => {
-    const shortcut = (event: KeyboardEvent) => {
-      if ((event.ctrlKey || event.metaKey) && event.key.toLowerCase() === "k") {
-        event.preventDefault();
-        searchRef.current?.focus();
-      }
-    };
-    window.addEventListener("keydown", shortcut);
-    return () => window.removeEventListener("keydown", shortcut);
+    if (window.location.hash === "#library-search") document.getElementById("library-search")?.focus();
   }, []);
 
-  useEffect(() => {
-    if (window.location.hash === "#library-search") searchRef.current?.focus();
-  }, []);
-
-  const results = useMemo(() => filterLibraries(libraries, query, category, stacks, useCases, sort), [query, category, stacks, useCases, sort]);
-
-  const visibleResults = showSaved ? results.filter(({ slug }) => saved.has(slug)) : results;
+  const visibleResults = (showSaved ? results.filter(({ slug }) => saved.has(slug)) : results)
+    .toSorted((a, b) => sort === "name" ? a.name.localeCompare(b.name) : 0);
 
   const toggleSaved = (slug: string) => {
-    let stored: string | null | undefined;
-    try { stored = localStorage.getItem(SAVED_LIBRARIES_KEY); } catch { /* Use session state. */ }
-    const next = nextSaved(saved, stored, slug, validSlugs);
-    try {
-      localStorage.setItem(SAVED_LIBRARIES_KEY, JSON.stringify([...next]));
-    } catch {
-      // Keep the selection for this session when storage is unavailable.
-    }
-    setSaved(next);
+    setSaved((current) => {
+      const next = new Set(current);
+      if (next.has(slug)) next.delete(slug);
+      else next.add(slug);
+      try {
+        localStorage.setItem(SAVED_LIBRARIES_KEY, JSON.stringify([...next]));
+      } catch {
+        // Keep the selection for this session when storage is unavailable.
+      }
+      return next;
+    });
   };
 
   const clearFilters = () => {
@@ -71,7 +80,6 @@ export function DirectoryExplorer({ initialQuery = "" }: { initialQuery?: string
     setCategory(null);
     setStacks([]);
     setUseCases([]);
-    searchRef.current?.focus();
   };
 
   return (
@@ -82,7 +90,7 @@ export function DirectoryExplorer({ initialQuery = "" }: { initialQuery?: string
           <p className="theme-muted mt-2 text-sm">Search and filter the complete Col library directory.</p>
         </div>
         <div className="flex items-center gap-3">
-          <span role="status" aria-live="polite" className="theme-muted text-sm tabular-nums">{visibleResults.length} {visibleResults.length === 1 ? "library" : "libraries"}{visibleResults.length === 0 ? " found" : ""}</span>
+          <span className="theme-muted text-sm tabular-nums">{visibleResults.length} libraries</span>
           <FilterDropdown
             label={sort === "curated" ? "Curated order" : "Name A–Z"}
             value={sort}
@@ -98,7 +106,6 @@ export function DirectoryExplorer({ initialQuery = "" }: { initialQuery?: string
 
       <FilterBar
         query={query}
-        searchRef={searchRef}
         onQueryChange={setQuery}
         activeCategory={category}
         activeStacks={stacks}

@@ -1,6 +1,5 @@
 "use client";
 
-import type { RefObject } from "react";
 import { ChevronDown, RotateCcw, Search } from "lucide-react";
 import { CATEGORIES, STACKS, USE_CASES, type Category, type Stack, type UseCase } from "@/data/libraries";
 import { Button } from "@/components/ui/button";
@@ -12,6 +11,7 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import { Input } from "@/components/ui/input";
+import { Tabs, TabsList, TabsTrigger } from "@/components/ui/tabs";
 
 interface FilterDropdownProps {
   label: string;
@@ -48,7 +48,6 @@ interface FilterBarProps {
   activeStacks: Stack[];
   activeUseCases: UseCase[];
   query: string;
-  searchRef: RefObject<HTMLInputElement | null>;
   onQueryChange: (query: string) => void;
   onCategoryChange: (category: Category | null) => void;
   onStackChange: (stack: Stack | null) => void;
@@ -56,7 +55,7 @@ interface FilterBarProps {
   onClearAll: () => void;
 }
 
-export function FilterBar({ activeCategory, activeStacks, activeUseCases, query, searchRef, onQueryChange, onCategoryChange, onStackChange, onUseCaseChange, onClearAll }: FilterBarProps) {
+export function FilterBar({ activeCategory, activeStacks, activeUseCases, query, onQueryChange, onCategoryChange, onStackChange, onUseCaseChange, onClearAll }: FilterBarProps) {
   const hasFilters = query.trim() !== "" || activeCategory !== null || activeStacks.length > 0 || activeUseCases.length > 0;
 
   return (
@@ -64,7 +63,7 @@ export function FilterBar({ activeCategory, activeStacks, activeUseCases, query,
       <div className="grid gap-2 lg:grid-cols-[minmax(320px,1fr)_180px_210px_auto]">
         <label className="relative block">
           <Search className="theme-muted pointer-events-none absolute top-1/2 left-3 size-4 -translate-y-1/2" aria-hidden />
-          <Input id="library-search" ref={searchRef} value={query} onChange={(event) => onQueryChange(event.target.value)} placeholder="Search libraries, tags, or keywords..." aria-label="Search libraries" className="coss-input h-10 w-full pr-16 pl-10" />
+          <Input id="library-search" value={query} onChange={(event) => onQueryChange(event.target.value)} placeholder="Search libraries, tags, or keywords..." aria-label="Search libraries" className="coss-input h-10 w-full pr-16 pl-10" />
           <kbd className="theme-muted theme-border pointer-events-none absolute top-1/2 right-2 -translate-y-1/2 rounded border px-2 py-1 text-[10px]">Ctrl/⌘ K</kbd>
         </label>
 
@@ -84,10 +83,12 @@ export function FilterBar({ activeCategory, activeStacks, activeUseCases, query,
         {hasFilters && <Button type="button" variant="outline" onClick={onClearAll} className="coss-trigger"><RotateCcw aria-hidden /> Clear</Button>}
       </div>
 
-      <div role="group" aria-label="Category" className="flex flex-wrap justify-start gap-1">
-        <button type="button" aria-pressed={activeCategory === null} onClick={() => onCategoryChange(null)} className="filter-tab flex-none rounded-md border border-transparent px-3 py-1.5">All</button>
-        {CATEGORIES.map((category) => <button type="button" key={category} aria-pressed={activeCategory === category} onClick={() => onCategoryChange(category)} className="filter-tab flex-none rounded-md border border-transparent px-3 py-1.5">{category}</button>)}
-      </div>
+      <Tabs value={activeCategory ?? "all"} onValueChange={(value) => onCategoryChange(value === "all" ? null : value as Category)}>
+        <TabsList className="h-auto! w-full flex-wrap justify-start gap-1 rounded-none bg-transparent p-0">
+          <TabsTrigger value="all" className="filter-tab flex-none rounded-md px-3 py-1.5">All</TabsTrigger>
+          {CATEGORIES.map((category) => <TabsTrigger key={category} value={category} className="filter-tab flex-none rounded-md px-3 py-1.5">{category}</TabsTrigger>)}
+        </TabsList>
+      </Tabs>
     </div>
   );
 }
