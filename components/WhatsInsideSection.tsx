@@ -16,7 +16,6 @@ const features = [
     description: "Find UI libraries, animation tools, icon sets, and more in one place.",
     href: "/libraries",
     cta: "Browse libraries",
-    className: "lg:col-span-1",
     background: (
       <div className="bento-preview absolute inset-x-4 top-4 rounded-lg border p-3">
         {featuredLibraries.map((library) => (
@@ -35,7 +34,6 @@ const features = [
     description: "Narrow the directory by name, category, stack, or use case.",
     href: "/libraries#library-search",
     cta: "Search libraries",
-    className: "lg:col-span-2",
     background: (
       <div className="bento-preview absolute inset-x-5 top-5 rounded-lg border p-4">
         <div className="theme-border theme-control flex h-11 items-center gap-3 rounded-md border px-3">
@@ -57,7 +55,6 @@ const features = [
     description: `${CATEGORIES.length} clear categories help you find the right kind of tool.`,
     href: "/libraries",
     cta: "Explore categories",
-    className: "lg:col-span-1",
     background: (
       <div className="bento-preview absolute inset-x-5 top-5 grid grid-cols-2 gap-2 rounded-lg border p-4 sm:grid-cols-3">
         {CATEGORIES.slice(0, 4).map((category) => (
@@ -75,7 +72,6 @@ const features = [
     description: "Every listing links to its official project site or documentation.",
     href: sourceLibrary?.url ?? "/libraries",
     cta: "Visit a project",
-    className: "lg:col-span-1",
     background: sourceLibrary ? (
       <div className="bento-preview absolute inset-x-4 top-5 rounded-lg border p-4">
         <div className="flex items-center gap-3">
@@ -97,7 +93,6 @@ const features = [
     name: "Dedicated library pages",
     description: "Each library will have its own page, plus agent-specific setup guides.",
     status: "Coming soon",
-    className: "lg:col-span-2",
     background: detailLibrary ? (
       <div className="bento-preview absolute inset-x-5 top-5 rounded-lg border p-4">
         <div className="flex items-center gap-3">
@@ -125,7 +120,6 @@ const features = [
     name: "MCP connector",
     description: "Find libraries from your AI tools with a Col MCP connector.",
     status: "Coming soon",
-    className: "lg:col-span-1",
     background: (
       <div className="bento-preview absolute inset-x-4 top-5 rounded-lg border p-4">
         <p className="theme-text text-sm font-semibold">Col MCP</p>

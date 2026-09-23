@@ -89,8 +89,8 @@ export function DirectoryExplorer({ initialQuery = "" }: { initialQuery?: string
           <h1 className="theme-text text-4xl font-semibold tracking-[-0.04em]">Find the right tool.</h1>
           <p className="theme-muted mt-2 text-sm">Search and filter the complete Col library directory.</p>
         </div>
-        <div className="flex items-center gap-3">
-          <span className="theme-muted text-sm tabular-nums">{visibleResults.length} libraries</span>
+        <div className="flex flex-wrap items-center gap-3">
+          <span className="theme-muted whitespace-nowrap text-sm tabular-nums">{visibleResults.length} libraries</span>
           <FilterDropdown
             label={sort === "curated" ? "Curated order" : "Name A–Z"}
             value={sort}

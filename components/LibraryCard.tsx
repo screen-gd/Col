@@ -21,16 +21,18 @@ interface LibraryCardProps {
 
 export function LibraryCard({ library, saved, onToggleSaved }: LibraryCardProps) {
   return (
-    <Card className="library-card group h-[286px] gap-4 overflow-hidden rounded-xl py-5 shadow-none transition-colors">
+    <Card className="library-card group relative h-[286px] gap-4 overflow-hidden rounded-xl py-5 shadow-none transition-colors">
       <CardHeader className="px-5">
-        <CardTitle className="flex items-center gap-3">
-          <span className="theme-border grid size-9 shrink-0 place-items-center rounded-lg border bg-white/[0.035]">
-            <LibraryLogo url={library.url} name={library.name} size={24} />
-          </span>
-          <span className="truncate text-[15px] tracking-[-0.01em]">{library.name}</span>
+        <CardTitle className="min-w-0">
+          <a href={library.url} target="_blank" rel="noopener noreferrer" className="flex items-center gap-3 after:absolute after:inset-0 focus-visible:outline-2 focus-visible:outline-offset-2">
+            <span className="theme-border grid size-9 shrink-0 place-items-center rounded-lg border bg-white/[0.035]">
+              <LibraryLogo url={library.url} name={library.name} size={24} />
+            </span>
+            <span className="truncate text-[15px] tracking-[-0.01em]">{library.name}</span>
+          </a>
         </CardTitle>
         <p className="library-subtle ml-12 truncate text-[11px]">{hostname(library.url)}</p>
-        <CardAction>
+        <CardAction className="relative z-10">
           <Button type="button" size="icon-sm" variant="ghost" onClick={onToggleSaved} aria-label={saved ? `Remove ${library.name} from saved` : `Save ${library.name}`} aria-pressed={saved} className="library-subtle rounded-lg hover:opacity-80">
             <Heart fill={saved ? "currentColor" : "none"} aria-hidden />
           </Button>
@@ -51,7 +53,7 @@ export function LibraryCard({ library, saved, onToggleSaved }: LibraryCardProps)
           {library.stacks.length > 0 && <span className="flex items-center gap-1.5"><Layers3 className="size-3" aria-hidden />{library.stacks.length} {library.stacks.length === 1 ? "stack" : "stacks"}</span>}
           <span className="flex items-center gap-1.5"><Target className="size-3" aria-hidden />{library.useCases.length} {library.useCases.length === 1 ? "use" : "uses"}</span>
         </div>
-        <Button asChild size="icon-xs" variant="ghost" className="library-subtle rounded-md hover:opacity-80">
+        <Button asChild size="icon-xs" variant="ghost" className="library-subtle relative z-10 rounded-md hover:opacity-80">
           <a href={library.url} target="_blank" rel="noopener noreferrer" aria-label={`Open ${library.name}`}><ArrowUpRight aria-hidden /></a>
         </Button>
       </CardFooter>
