@@ -1,82 +1,51 @@
 import type { Metadata } from "next";
-import { ArrowUpRight } from "lucide-react";
-import { Header } from "@/components/Header";
-import { SiteFooter } from "@/components/SiteFooter";
+import { ArrowRight, ArrowUpRight, Search, SlidersHorizontal } from "lucide-react";
 
 export const metadata: Metadata = {
   title: "Docs — Col",
   description: "Learn how to use and contribute to Col.",
 };
 
-const sections = [
-  ["overview", "Overview"],
-  ["find", "Find a library"],
-  ["request", "Request a library"],
-  ["issues", "Report issues"],
-  ["pull-requests", "Open a pull request"],
-] as const;
-
 export default function DocsPage() {
   return (
-    <>
-      <Header />
-      <main className="w-full max-w-full overflow-x-hidden">
-        <div className="mx-auto min-h-screen max-w-7xl px-5 pt-36 pb-28 sm:px-8 sm:pt-44">
-        <div className="max-w-3xl">
-          <h1 className="theme-text text-5xl font-semibold tracking-[-0.04em] sm:text-7xl">Documentation</h1>
-          <p className="theme-muted mt-6 max-w-2xl text-lg leading-8">Find a library, request what is missing, or contribute an improvement to the directory.</p>
-        </div>
+    <article>
+      <h1 className="theme-text text-4xl font-semibold tracking-[-0.04em] sm:text-5xl">Introduction</h1>
+      <p className="theme-text mt-6 text-lg leading-8">Col is an open-source directory for discovering UI libraries by category, stack, and use case.</p>
+      <p className="theme-muted mt-4 text-lg leading-8">Find a library, narrow the results, then visit its official project page. You can save useful entries locally and request anything missing.</p>
 
-        <div className="mt-20 grid gap-16 lg:grid-cols-[14rem_minmax(0,1fr)]">
-          <nav aria-label="Documentation" className="theme-border border-t pt-5 lg:sticky lg:top-28 lg:h-fit">
-            <ul className="space-y-3 text-sm">
-              {sections.map(([id, label]) => <li key={id}><a className="theme-muted hover:underline" href={`#${id}`}>{label}</a></li>)}
-            </ul>
-          </nav>
-
-          <article className="docs-copy max-w-[72ch]">
-            <DocSection id="overview" title="What Col does">
-              <p>Col organizes UI libraries by category, stack, and use case. It catalogs libraries rather than individual components, and every listing points back to the project’s official source.</p>
-            </DocSection>
-
-            <DocSection id="find" title="Find a library">
-              <p>Search by name, keyword, category, stack, or use case. The homepage search opens the directory with your query applied, where you can refine the results and save useful entries locally.</p>
-              <DocLink href="/libraries">Browse all libraries</DocLink>
-            </DocSection>
-
-            <DocSection id="request" title="Request a library">
-              <p>Search the directory, existing issues, and open pull requests first. If the library is missing, include its official URL, supported stacks, category, use cases, and a short explanation of who it helps.</p>
-              <DocLink href="https://github.com/screen-gd/Col/issues/new?template=library-request.yml">Open a library request</DocLink>
-            </DocSection>
-
-            <DocSection id="issues" title="Report bugs and request features">
-              <p>Keep one outcome per issue. Bug reports should include the failing page or action, reproduction steps, expected and actual behavior, browser details, and supporting screenshots or console errors. Feature requests should lead with the problem and expected outcome.</p>
-              <div className="flex flex-wrap gap-x-6 gap-y-3">
-                <DocLink href="https://github.com/screen-gd/Col/issues/new?template=bug-report.yml">Report a bug</DocLink>
-                <DocLink href="https://github.com/screen-gd/Col/issues/new?template=feature-request.yml">Request a feature</DocLink>
-              </div>
-            </DocSection>
-
-            <DocSection id="pull-requests" title="Open a pull request">
-              <p>Fork the repository, create a focused branch, and keep unrelated changes out. Library additions belong in <code>data/libraries.ts</code> with a unique kebab-case slug, canonical URL, factual description, and existing taxonomy values where possible.</p>
-              <pre><code>{`npm install\nnpm run dev\nnpm run check`}</code></pre>
-              <p>Explain what changed, why it changed, and how you verified it. Include screenshots for visible interface changes.</p>
-              <DocLink href="https://github.com/screen-gd/Col/blob/main/CONTRIBUTING.md">Read the contribution guide</DocLink>
-            </DocSection>
-          </article>
+      <div className="docs-steps mt-9 overflow-hidden rounded-xl border">
+        <div className="grid sm:grid-cols-3">
+          <div className="docs-step p-5">
+            <div className="docs-accent flex items-center justify-between text-xs font-semibold"><span>01</span><Search className="size-4" aria-hidden /></div>
+            <h2 className="theme-text mt-6 font-semibold">Search the directory</h2>
+            <p className="theme-muted mt-2 text-sm leading-6">Find libraries by name, keyword, category, or use case.</p>
+          </div>
+          <div className="docs-step p-5">
+            <div className="docs-accent flex items-center justify-between text-xs font-semibold"><span>02</span><SlidersHorizontal className="size-4" aria-hidden /></div>
+            <h2 className="theme-text mt-6 font-semibold">Refine your results</h2>
+            <p className="theme-muted mt-2 text-sm leading-6">Filter by stack and compare the options that fit.</p>
+          </div>
+          <div className="docs-step p-5">
+            <div className="docs-accent flex items-center justify-between text-xs font-semibold"><span>03</span><ArrowUpRight className="size-4" aria-hidden /></div>
+            <h2 className="theme-text mt-6 font-semibold">Visit the source</h2>
+            <p className="theme-muted mt-2 text-sm leading-6">Every listing points to the library’s official website.</p>
           </div>
         </div>
-      </main>
-      <SiteFooter />
-    </>
+        <div className="theme-border flex flex-wrap items-center gap-5 border-t px-5 py-4">
+          <a className="docs-rail-cta inline-flex items-center gap-2 rounded-md px-4 py-2.5 text-sm font-semibold" href="/libraries">Browse libraries <ArrowRight className="size-4" aria-hidden /></a>
+          <a className="docs-text-link theme-muted text-sm" href="/docs/find-a-library">Read the search guide</a>
+        </div>
+      </div>
+
+      <section className="mt-14">
+        <h2 className="theme-text text-2xl font-semibold tracking-[-0.025em]">What Col does</h2>
+        <p className="theme-muted mt-4 leading-7">Col catalogs libraries rather than individual components. Each listing has a category, supported stacks, and use cases so you can decide where to look next without opening dozens of tabs.</p>
+        <ul className="theme-muted mt-5 list-disc space-y-3 pl-5 leading-7 marker:text-cyan-400">
+          <li>Explore libraries across the directory’s categories.</li>
+          <li>Save entries in your browser for later.</li>
+          <li>Request a library or contribute an improvement on GitHub.</li>
+        </ul>
+      </section>
+    </article>
   );
-}
-
-function DocSection({ id, title, children }: { id: string; title: string; children: React.ReactNode }) {
-  return <section id={id} className="theme-border scroll-mt-28 border-t py-10 first:border-t-0 first:pt-0"><h2 className="theme-text text-2xl font-semibold tracking-[-0.025em]">{title}</h2><div className="theme-muted mt-4 space-y-5 leading-7">{children}</div></section>;
-}
-
-function DocLink({ href, children }: { href: string; children: React.ReactNode }) {
-  const external = href.startsWith("https://");
-  return <a href={href} {...(external ? { target: "_blank", rel: "noopener noreferrer" } : {})} className="theme-text inline-flex items-center gap-2 font-medium underline decoration-current underline-offset-4">{children}<ArrowUpRight className="size-4" aria-hidden /></a>;
 }

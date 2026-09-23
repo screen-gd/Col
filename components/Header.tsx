@@ -2,6 +2,7 @@
 
 import { useCallback, useEffect, useRef, useState } from "react";
 import Image from "next/image";
+import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { Menu, Search, X } from "lucide-react";
 import { RainbowButton } from "@/components/ui/rainbow-button";
@@ -21,6 +22,7 @@ export function Header() {
   const [stars, setStars] = useState<number | null>(null);
   const linksRef = useRef<HTMLElement>(null);
   const highlightRef = useRef<HTMLSpanElement>(null);
+  const pendingLinkRef = useRef<HTMLAnchorElement>(null);
 
   useEffect(() => {
     const update = () => setScrolled(window.scrollY > 50);
@@ -34,13 +36,23 @@ export function Header() {
   }, [pathname]);
 
   useEffect(() => {
-    if (pathname === "/") return;
     const handleShortcut = (event: KeyboardEvent) => {
       const target = event.target;
-      if (event.key !== "/" || event.altKey || event.ctrlKey || event.metaKey ||
-        (target instanceof HTMLElement && (target.isContentEditable || ["INPUT", "TEXTAREA", "SELECT"].includes(target.tagName)))) return;
+      if (target instanceof HTMLElement && (target.isContentEditable || ["INPUT", "TEXTAREA", "SELECT"].includes(target.tagName))) return;
+
+      const slashShortcut = event.key === "/" && !event.altKey && !event.ctrlKey && !event.metaKey;
+      const commandShortcut = (event.ctrlKey || event.metaKey) && event.key.toLowerCase() === "k";
+      if (!slashShortcut && !commandShortcut) return;
+
+      if (pathname === "/libraries") {
+        if (!slashShortcut) return;
+        event.preventDefault();
+        document.querySelector<HTMLInputElement>("#library-search")?.focus();
+        return;
+      }
+
       event.preventDefault();
-      window.location.assign("/#hero-search");
+      window.location.assign("/libraries#library-search");
     };
     window.addEventListener("keydown", handleShortcut);
     return () => window.removeEventListener("keydown", handleShortcut);
@@ -76,16 +88,28 @@ export function Header() {
   );
 
   const restoreActiveHighlight = useCallback(() => {
+    if (pendingLinkRef.current && linksRef.current?.contains(pendingLinkRef.current)) {
+      positionHighlight(pendingLinkRef.current);
+      return;
+    }
     const activeLink = getActiveLink();
     if (activeLink) positionHighlight(activeLink);
     else if (highlightRef.current) highlightRef.current.style.opacity = "0";
   }, [getActiveLink, positionHighlight]);
 
   useEffect(() => {
-    const frame = requestAnimationFrame(restoreActiveHighlight);
+    pendingLinkRef.current = null;
+    let readyFrame = 0;
+    const frame = requestAnimationFrame(() => {
+      restoreActiveHighlight();
+      readyFrame = requestAnimationFrame(() => {
+        if (highlightRef.current) highlightRef.current.dataset.ready = "true";
+      });
+    });
     window.addEventListener("resize", restoreActiveHighlight);
     return () => {
       cancelAnimationFrame(frame);
+      cancelAnimationFrame(readyFrame);
       window.removeEventListener("resize", restoreActiveHighlight);
     };
   }, [pathname, restoreActiveHighlight]);
@@ -117,16 +141,20 @@ export function Header() {
             {links.map(([label, href]) => {
               const active = !href.includes("#") && (pathname === href || pathname.startsWith(`${href}/`));
               return (
-                <a
+                <Link
                   key={href}
                   href={href}
                   aria-current={active ? "page" : undefined}
                   className="site-header-link"
                   onMouseEnter={(event) => positionHighlight(event.currentTarget)}
                   onFocus={(event) => positionHighlight(event.currentTarget)}
+                  onClick={(event) => {
+                    if (!href.includes("#")) pendingLinkRef.current = event.currentTarget;
+                    positionHighlight(event.currentTarget);
+                  }}
                 >
                   {label}
-                </a>
+                </Link>
               );
             })}
           </nav>
@@ -134,7 +162,7 @@ export function Header() {
 
         <div className="site-header-actions">
           {!landing && (
-            <a href="/#hero-search" className="site-header-search" aria-label="Search libraries">
+            <a href="/libraries#library-search" className="site-header-search" aria-label="Search libraries">
               <Search size={14} aria-hidden="true" />
               <span>Search...</span>
               <kbd>/</kbd>
@@ -166,10 +194,7 @@ export function Header() {
         {menuOpen && (
           <nav id="site-header-mobile-menu" aria-label="Mobile primary" className="site-header-mobile-menu">
             {links.map(([label, href]) => <a key={href} href={href} onClick={() => setMenuOpen(false)} aria-current={!href.includes("#") && (pathname === href || pathname.startsWith(`${href}/`)) ? "page" : undefined}>{label}</a>)}
-            <a href="/#hero-search" onClick={() => {
-              setMenuOpen(false);
-              if (pathname === "/") document.querySelector<HTMLInputElement>("#hero-search input")?.focus();
-            }}>Search libraries</a>
+            <a href="/libraries#library-search" onClick={() => setMenuOpen(false)}>Search libraries</a>
           </nav>
         )}
       </div>

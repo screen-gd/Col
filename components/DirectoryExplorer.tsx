@@ -46,6 +46,10 @@ export function DirectoryExplorer({ initialQuery = "" }: { initialQuery?: string
     return () => window.removeEventListener("keydown", shortcut);
   }, []);
 
+  useEffect(() => {
+    if (window.location.hash === "#library-search") searchRef.current?.focus();
+  }, []);
+
   const results = useMemo(() => filterLibraries(libraries, query, category, stacks, useCases, sort), [query, category, stacks, useCases, sort]);
 
   const visibleResults = showSaved ? results.filter(({ slug }) => saved.has(slug)) : results;
