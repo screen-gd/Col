@@ -48,7 +48,7 @@ export function LibraryCard({ library, saved, onToggleSaved }: LibraryCardProps)
 
       <CardFooter className="library-subtle theme-border flex justify-between border-t px-5 pt-3 text-[10px]">
         <div className="flex items-center gap-4">
-          <span className="flex items-center gap-1.5"><Layers3 className="size-3" aria-hidden />{library.stacks.length} {library.stacks.length === 1 ? "stack" : "stacks"}</span>
+          {library.stacks.length > 0 && <span className="flex items-center gap-1.5"><Layers3 className="size-3" aria-hidden />{library.stacks.length} {library.stacks.length === 1 ? "stack" : "stacks"}</span>}
           <span className="flex items-center gap-1.5"><Target className="size-3" aria-hidden />{library.useCases.length} {library.useCases.length === 1 ? "use" : "uses"}</span>
         </div>
         <Button asChild size="icon-xs" variant="ghost" className="library-subtle rounded-md hover:opacity-80">

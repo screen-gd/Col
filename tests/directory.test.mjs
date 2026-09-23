@@ -40,8 +40,9 @@ test("registry metadata stays unique and within taxonomy", () => {
     assert.ok(library.name.trim() && library.description.trim());
     assert.equal(new URL(library.url).protocol, "https:");
     assert.ok(CATEGORIES.includes(library.category));
+    assert.ok(library.useCases.length > 0);
     for (const [values, taxonomy] of [[library.stacks, STACKS], [library.useCases, USE_CASES]]) {
-      assert.ok(values.length > 0 && values.every((value) => taxonomy.includes(value)));
+      assert.ok(values.every((value) => taxonomy.includes(value)));
       assert.equal(new Set(values).size, values.length);
     }
   }
