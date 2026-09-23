@@ -19,7 +19,7 @@ const geistMono = Geist_Mono({
 
 export const metadata: Metadata = {
   title: "Col — Collection of Libraries",
-  description: "Browse UI libraries by category, stack, and use case.",
+  description: "We curate all the best libraries, so you don't have to.",
   icons: { icon: "/brand/col-mark.png" },
   keywords: [
     "ui libraries",
@@ -39,7 +39,7 @@ export default function RootLayout({
   return (
     <html lang="en" className="dark" suppressHydrationWarning>
       <head>
-        <script dangerouslySetInnerHTML={{ __html: `let t;try{t=localStorage.getItem('col:theme')}catch{}const l=t==='light'||(t!=='dark'&&matchMedia('(prefers-color-scheme: light)').matches);document.documentElement.classList.toggle('light',l);document.documentElement.classList.toggle('dark',!l)` }} />
+        <script dangerouslySetInnerHTML={{ __html: `try{const t=localStorage.getItem('col:theme');const l=t==='light'||(!t&&matchMedia('(prefers-color-scheme: light)').matches);document.documentElement.classList.toggle('light',l);document.documentElement.classList.toggle('dark',!l)}catch{}` }} />
       </head>
       <body
         className={`${inter.variable} ${pixelifySans.variable} ${geistMono.variable} min-h-screen font-sans`}

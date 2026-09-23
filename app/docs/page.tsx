@@ -59,7 +59,7 @@ export default function DocsPage() {
 
             <DocSection id="pull-requests" title="Open a pull request">
               <p>Fork the repository, create a focused branch, and keep unrelated changes out. Library additions belong in <code>data/libraries.ts</code> with a unique kebab-case slug, canonical URL, factual description, and existing taxonomy values where possible.</p>
-              <pre><code>{`npm install\nnpm run dev\nnpm run check`}</code></pre>
+              <pre><code>{`npm install\nnpm run dev\nnpm run build`}</code></pre>
               <p>Explain what changed, why it changed, and how you verified it. Include screenshots for visible interface changes.</p>
               <DocLink href="https://github.com/screen-gd/Col/blob/main/CONTRIBUTING.md">Read the contribution guide</DocLink>
             </DocSection>

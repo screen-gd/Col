@@ -30,8 +30,8 @@ export function ThemeToggle() {
     const applyTheme = () => {
       root.classList.toggle("light", nextLight);
       root.classList.toggle("dark", !nextLight);
+      localStorage.setItem("col:theme", nextLight ? "light" : "dark");
       setLight(nextLight);
-      try { localStorage.setItem("col:theme", nextLight ? "light" : "dark"); } catch { /* Keep the theme for this session. */ }
     };
     const startViewTransition = (document as DocumentWithViewTransitions).startViewTransition;
 
@@ -59,14 +59,7 @@ export function ThemeToggle() {
     const radius = (maxRadius / (Math.hypot(viewportWidth, viewportHeight) / Math.SQRT2)) * 100;
 
     transitioning.current = true;
-    let transition: ThemeViewTransition;
-    try {
-      transition = startViewTransition.call(document, () => flushSync(applyTheme));
-    } catch {
-      transitioning.current = false;
-      applyTheme();
-      return;
-    }
+    const transition = startViewTransition.call(document, () => flushSync(applyTheme));
     transition.ready
       .then(() => {
         root.animate(
