@@ -408,11 +408,11 @@ html.light .hero-search-input::placeholder { color: transparent; }
   border: 0;
   border-bottom: 1px solid rgba(255,255,255,.08);
   border-radius: 0;
-  background: #090909;
+  background: #10181a;
   box-shadow: none;
 }
 
-.site-header--docs.site-header--scrolled .site-header-inner { background: rgba(0,0,0,.94); }
+.site-header--docs .site-header-link-highlight { border-color: rgba(136,213,223,.14); background: #141c1f; box-shadow: none; }
 
 .site-header-left, .site-header-actions, .site-header-brand, .site-header-links, .site-header-link, .site-header-search, .site-header-github, .site-header-menu {
   display: flex;
@@ -491,7 +491,8 @@ html.light .hero-search-input::placeholder { color: transparent; }
 
 html.light .site-header:not(.site-header--docs):not(.site-header--scrolled) .site-header-inner { border-color: transparent; background: transparent; color: #111; box-shadow: none; }
 html.light .site-header--scrolled:not(.site-header--docs) .site-header-inner { border-color: rgba(17,17,17,.1); background: rgba(255,255,255,.76); box-shadow: none; }
-html.light .site-header--docs .site-header-inner { border-color: rgba(17,17,17,.1); background: #fff; color: #111; }
+html.light .site-header--docs .site-header-inner { border-color: rgba(17,17,17,.1); background: #f7f7f5; color: #111; }
+html.light .site-header--docs .site-header-link-highlight { border-color: rgba(17,17,17,.1); background: #fff; box-shadow: none; }
 html.light .site-header-brand { color: #111; }
 html.light .site-header-divider { color: rgba(17,17,17,.55); }
 html.light .site-header-link { color: rgba(17,17,17,.76); }
@@ -525,7 +526,9 @@ html.light .site-header-search kbd { border-color: rgba(17,17,17,.14); color: rg
   }
   .site-header-mobile-menu a { padding: 10px 12px; border-radius: 8px; color: #fff; font-size: 13px; text-decoration: none; }
   .site-header-mobile-menu a:hover, .site-header-mobile-menu a[aria-current="page"] { background: rgba(255,255,255,.08); }
+  .site-header--docs .site-header-mobile-menu { border-color: rgba(136,213,223,.14); background: #141c1f; }
   html.light .site-header-mobile-menu { border-color: rgba(17,17,17,.12); background: rgba(255,255,255,.97); }
+  html.light .site-header--docs .site-header-mobile-menu { border-color: rgba(17,17,17,.12); background: #fff; }
   html.light .site-header-mobile-menu a { color: #111; }
   html.light .site-header-mobile-menu a:hover, html.light .site-header-mobile-menu a[aria-current="page"] { background: rgba(17,17,17,.06); }
 }

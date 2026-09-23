@@ -24,6 +24,8 @@ const geistMono = Geist_Mono({
   subsets: ["latin"],
 });
 
+const socialImage = "/col-social-preview.jpg?v=2";
+
 export const metadata: Metadata = {
   metadataBase: new URL(siteUrl),
   title: "Col — Collection of Libraries",
@@ -33,9 +35,9 @@ export const metadata: Metadata = {
     type: "website",
     url: siteUrl,
     siteName: "Col",
-    images: [{ url: "/col-social-preview.jpg", width: 1200, height: 630, type: "image/jpeg", alt: "Col: UI libraries. All in one place." }],
+    images: [{ url: socialImage, width: 1200, height: 630, type: "image/jpeg", alt: "Col: UI libraries. All in one place." }],
   },
-  twitter: { card: "summary_large_image", images: ["/col-social-preview.jpg"] },
+  twitter: { card: "summary_large_image", site: "@Screeendev", images: [socialImage] },
   keywords: [
     "ui libraries",
     "component library",

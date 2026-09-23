@@ -4,6 +4,8 @@ import { SponsorsSection } from "@/components/SponsorsSection";
 import { SiteFooter } from "@/components/SiteFooter";
 import { WhatsInsideSection } from "@/components/WhatsInsideSection";
 
+export const revalidate = 300;
+
 export default function Home() {
   return (
     <>
