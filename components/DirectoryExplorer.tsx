@@ -90,7 +90,7 @@ export function DirectoryExplorer({ initialQuery = "" }: { initialQuery?: string
           <p className="theme-muted mt-2 text-sm">Search and filter the complete Col library directory.</p>
         </div>
         <div className="flex flex-wrap items-center gap-3">
-          <span className="theme-muted whitespace-nowrap text-sm tabular-nums">{visibleResults.length} libraries</span>
+          <span className="theme-muted whitespace-nowrap text-sm tabular-nums">{visibleResults.length} {visibleResults.length === 1 ? "library" : "libraries"}</span>
           <FilterDropdown
             label={sort === "curated" ? "Curated order" : "Name A–Z"}
             value={sort}
@@ -98,7 +98,7 @@ export function DirectoryExplorer({ initialQuery = "" }: { initialQuery?: string
             onValueChange={(value) => setSort(value as "curated" | "name")}
             className="w-40"
           />
-          <Button type="button" variant="outline" onClick={() => setShowSaved((current) => !current)} aria-pressed={showSaved} className="theme-control hover:opacity-80">
+          <Button type="button" variant="outline" onClick={() => setShowSaved((current) => !current)} aria-pressed={showSaved} className="theme-control min-h-11 hover:opacity-80">
             <Heart fill={showSaved ? "currentColor" : "none"} aria-hidden /> Saved {saved.size}
           </Button>
         </div>
@@ -131,7 +131,7 @@ export function DirectoryExplorer({ initialQuery = "" }: { initialQuery?: string
         <div className="theme-border mt-6 flex flex-col items-center border border-dashed py-24 text-center">
           {showSaved ? <Heart className="theme-muted size-7" aria-hidden /> : <SearchX className="theme-muted size-7" aria-hidden />}
           <p className="theme-text mt-5 font-medium">{showSaved ? "No saved libraries yet" : "Nothing matches that search"}</p>
-          <p className="theme-muted mt-1.5 text-sm">Try another keyword or clear the filters.</p>
+          <p className="theme-muted mt-1.5 text-sm">{showSaved ? "Tap the heart on any library to save it here." : "Try another keyword or clear the filters."}</p>
         </div>
       )}
     </section>

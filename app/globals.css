@@ -412,6 +412,37 @@ html.light .hero-search-input::placeholder { color: transparent; }
   box-shadow: none;
 }
 
+#library-search { scroll-margin-top: 80px; }
+.filter-mobile-toggle, .docs-mobile-toggle { display: none; }
+.library-save[aria-pressed="true"] { color: #8be5ef; }
+html.light .library-save[aria-pressed="true"] { color: #0800ff; }
+.contributors-page { background: #10181a; }
+html.light .contributors-page { background: #f7f7f5; }
+.footer-link { min-height: 44px; align-items: center; }
+.site-header-menu, .site-header-search, .site-header-github { min-height: 44px; }
+.coss-trigger { min-height: 44px; }
+.docs-sidebar-search, .docs-sidebar-link { min-height: 44px; }
+
+@media (max-width: 1023px) {
+  .docs-mobile-toggle { display: flex; }
+  .docs-sidebar-content { display: none; }
+  .docs-sidebar-content-open { display: block; }
+  .filter-mobile-toggle { display: flex; }
+  .filter-advanced { display: none; }
+  .filter-advanced-open { display: grid; grid-template-columns: repeat(2,minmax(0,1fr)); gap: 8px; }
+  .filter-advanced-open > :last-child { grid-column: 1 / -1; }
+  .filter-categories { display: none; }
+  .filter-categories-open { display: block; }
+}
+@media (max-width: 760px) {
+  .search-key-hint, .site-header-search kbd { display: none; }
+  .site-header-menu { min-width: 44px; }
+  .site-header-mobile-menu a { min-height: 44px; display: flex; align-items: center; }
+  .directory-section { padding-top: 100px; }
+  .filter-advanced-open { grid-template-columns: 1fr; }
+  .filter-advanced-open > :last-child { grid-column: auto; }
+}
+
 .site-header--docs .site-header-link-highlight { border-color: rgba(136,213,223,.14); background: #141c1f; box-shadow: none; }
 
 .site-header-left, .site-header-actions, .site-header-brand, .site-header-links, .site-header-link, .site-header-search, .site-header-github, .site-header-menu {

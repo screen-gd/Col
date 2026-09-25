@@ -46,7 +46,7 @@ export default async function ContributorsPage() {
   return (
     <>
       <Header />
-      <main className="w-full max-w-full overflow-x-hidden">
+      <main className="contributors-page w-full max-w-full overflow-x-hidden">
         <div className="mx-auto min-h-screen max-w-7xl px-5 pt-36 pb-28 sm:px-8 sm:pt-44">
         <div className="flex flex-col gap-8 sm:flex-row sm:items-end sm:justify-between">
           <div>
@@ -57,7 +57,7 @@ export default async function ContributorsPage() {
         </div>
 
         {contributors.length ? (
-          <ul className="theme-border mt-20 grid grid-cols-2 border-t sm:grid-cols-3 lg:grid-cols-5">
+          <ul className={`theme-border mt-20 grid grid-cols-2 border-t ${contributors.length > 2 ? "sm:grid-cols-3 lg:grid-cols-4" : "sm:grid-cols-2"}`}>
             {contributors.map((contributor) => (
               <li key={contributor.id} className="theme-border border-b p-4 sm:p-6 lg:border-r">
                 <a href={contributor.html_url} target="_blank" rel="noopener noreferrer" className="group block" aria-label={`View ${contributor.login} on GitHub`}>

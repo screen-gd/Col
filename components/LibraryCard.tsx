@@ -33,7 +33,7 @@ export function LibraryCard({ library, saved, onToggleSaved }: LibraryCardProps)
         </CardTitle>
         <p className="library-subtle ml-12 truncate text-[11px]">{hostname(library.url)}</p>
         <CardAction className="relative z-10">
-          <Button type="button" size="icon-sm" variant="ghost" onClick={onToggleSaved} aria-label={saved ? `Remove ${library.name} from saved` : `Save ${library.name}`} aria-pressed={saved} className="library-subtle rounded-lg hover:opacity-80">
+          <Button type="button" size="icon-sm" variant="ghost" onClick={onToggleSaved} aria-label={saved ? `Remove ${library.name} from saved` : `Save ${library.name}`} aria-pressed={saved} className="library-save min-h-11 min-w-11 rounded-lg hover:opacity-80">
             <Heart fill={saved ? "currentColor" : "none"} aria-hidden />
           </Button>
         </CardAction>
@@ -41,11 +41,12 @@ export function LibraryCard({ library, saved, onToggleSaved }: LibraryCardProps)
 
       <CardContent className="flex-1 px-5">
         <p className="library-muted line-clamp-3 text-[13px] leading-5">{library.description}</p>
-        <div className="mt-4 flex flex-wrap gap-1.5">
+        {library.stacks.length > 0 && <div className="mt-4 flex flex-wrap gap-1.5">
           {library.stacks.slice(0, 3).map((stack) => (
             <Badge key={stack} variant="outline" className="library-chip px-2 py-0.5 text-[10px]">{stack}</Badge>
           ))}
-        </div>
+          {library.stacks.length > 3 && <Badge variant="outline" className="library-chip px-2 py-0.5 text-[10px]">+{library.stacks.length - 3}</Badge>}
+        </div>}
       </CardContent>
 
       <CardFooter className="library-subtle theme-border flex justify-between border-t px-5 pt-3 text-[10px]">

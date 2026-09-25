@@ -1,5 +1,6 @@
 import { DocsSidebar } from "@/components/DocsSidebar";
 import { Header } from "@/components/Header";
+import { SiteFooter } from "@/components/SiteFooter";
 import { ArrowUpRight } from "lucide-react";
 import { CATEGORIES, libraries } from "@/data/libraries";
 
@@ -32,6 +33,7 @@ export default function DocsLayout({ children }: { children: React.ReactNode }) 
           </div>
         </aside>
       </main>
+      <SiteFooter />
     </>
   );
 }

@@ -161,12 +161,12 @@ export function LibraryExplorer() {
       </div>
 
       <a
-        href={`https://openshaders.com/@${webgpuUnavailable ? "screen" : "screendev"}`}
+        href="https://openshaders.com/@screendev"
         target="_blank"
         rel="noopener noreferrer"
         className="hero-shader-credit absolute bottom-4 right-5 z-10 text-[10px] tracking-[0.02em] sm:right-8"
       >
-        Background shader by @{webgpuUnavailable ? "screen" : "screendev"} on OpenShaders
+        Background shader by @screendev on OpenShaders
       </a>
     </section>
   );
