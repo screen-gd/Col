@@ -227,20 +227,30 @@ export function ScreenShader({ theme = "dark", background, time, onError, classN
 function attach(gl: WebGL2RenderingContext, program: WebGLProgram, type: number, source: string) {
   const shader = gl.createShader(type);
   if (!shader) throw new Error("WebGL could not create a shader object.");
-  gl.shaderSource(shader, source);
-  gl.compileShader(shader);
-  if (!gl.getShaderParameter(shader, gl.COMPILE_STATUS)) throw new Error(`Shader failed to compile: ${gl.getShaderInfoLog(shader)}`);
-  gl.attachShader(program, shader);
+  try {
+    gl.shaderSource(shader, source);
+    gl.compileShader(shader);
+    if (!gl.getShaderParameter(shader, gl.COMPILE_STATUS)) throw new Error(`Shader failed to compile: ${gl.getShaderInfoLog(shader)}`);
+    gl.attachShader(program, shader);
+  } catch (error) {
+    gl.deleteShader(shader);
+    throw error;
+  }
   gl.deleteShader(shader);
 }
 
 function compile(gl: WebGL2RenderingContext, fragmentSource: string) {
   const program = gl.createProgram();
   if (!program) throw new Error("WebGL could not create a shader program.");
-  attach(gl, program, gl.VERTEX_SHADER, VERTEX_SHADER);
-  attach(gl, program, gl.FRAGMENT_SHADER, fragmentSource);
-  gl.linkProgram(program);
-  if (!gl.getProgramParameter(program, gl.LINK_STATUS)) throw new Error(`Shader failed to link: ${gl.getProgramInfoLog(program)}`);
+  try {
+    attach(gl, program, gl.VERTEX_SHADER, VERTEX_SHADER);
+    attach(gl, program, gl.FRAGMENT_SHADER, fragmentSource);
+    gl.linkProgram(program);
+    if (!gl.getProgramParameter(program, gl.LINK_STATUS)) throw new Error(`Shader failed to link: ${gl.getProgramInfoLog(program)}`);
+  } catch (error) {
+    gl.deleteProgram(program);
+    throw error;
+  }
   return program;
 }
 
@@ -257,11 +267,23 @@ function createShader(canvas: HTMLCanvasElement, options: ShaderOptions = {}): S
 
   const field = compile(gl, FIELD_SHADER);
   const fieldUniforms = uniforms(gl, field, ["iResolution", "iTime", "uLightMode", "uDarkBackground", "uLightBackground"]);
-  const post = compile(gl, POST_SHADER);
+  let post: WebGLProgram;
+  try {
+    post = compile(gl, POST_SHADER);
+  } catch (error) {
+    gl.deleteProgram(field);
+    throw error;
+  }
   const postUniforms = uniforms(gl, post, ["tScene", "iResolution", "uLightMode", "uPixelRatio", "uDarkBackground", "uLightBackground"]);
   const scene = gl.createTexture();
   const framebuffer = gl.createFramebuffer();
-  if (!scene || !framebuffer) throw new Error("WebGL could not create the shader scene.");
+  if (!scene || !framebuffer) {
+    if (scene) gl.deleteTexture(scene);
+    if (framebuffer) gl.deleteFramebuffer(framebuffer);
+    gl.deleteProgram(post);
+    gl.deleteProgram(field);
+    throw new Error("WebGL could not create the shader scene.");
+  }
   gl.bindTexture(gl.TEXTURE_2D, scene);
   gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MIN_FILTER, gl.LINEAR);
   gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MAG_FILTER, gl.LINEAR);

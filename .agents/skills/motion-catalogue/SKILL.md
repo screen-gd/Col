@@ -39,7 +39,7 @@ Activate when the user:
 
 | Skill | Best for |
 |-------|----------|
-| `gsap-skills` | Official GSAP: 8 skills — core, timeline, ScrollTrigger, Flip, Draggable, SplitText |
+| `gsap-skills` | Official GSAP: 8 skills — including core, timeline, ScrollTrigger, Flip, Draggable, SplitText |
 | `framer-motion-skills` | 6 Framer Motion skills: core, Next.js, variants, scroll, gestures, layout |
 | `motion-design-skill` | Official LottieFiles: timing, easing, choreography, Disney 12 principles |
 | `animate-skill` | Emil-inspired Next.js/React patterns: hover, toast, text reveal, modals |

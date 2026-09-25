@@ -130,8 +130,8 @@ export function DirectoryExplorer({ initialQuery = "" }: { initialQuery?: string
       ) : (
         <div className="theme-border mt-6 flex flex-col items-center border border-dashed py-24 text-center">
           {showSaved ? <Heart className="theme-muted size-7" aria-hidden /> : <SearchX className="theme-muted size-7" aria-hidden />}
-          <p className="theme-text mt-5 font-medium">{showSaved ? "No saved libraries yet" : "Nothing matches that search"}</p>
-          <p className="theme-muted mt-1.5 text-sm">{showSaved ? "Tap the heart on any library to save it here." : "Try another keyword or clear the filters."}</p>
+          <p className="theme-text mt-5 font-medium">{showSaved ? (saved.size === 0 ? "No saved libraries yet" : "No saved libraries match") : "Nothing matches that search"}</p>
+          <p className="theme-muted mt-1.5 text-sm">{showSaved ? (saved.size === 0 ? "Leave Saved to browse the directory, then tap the heart on any library to save it here." : "Clear the filters to see your saved libraries.") : "Try another keyword or clear the filters."}</p>
         </div>
       )}
     </section>
