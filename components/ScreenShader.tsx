@@ -1,4 +1,4 @@
-/* Background shader by @screen on OpenShaders: https://openshaders.com/@screen */
+/* Background shader by @screendev on OpenShaders: https://openshaders.com/@screendev */
 "use client";
 
 import { useEffect, useRef } from "react";
@@ -21,40 +21,40 @@ uniform vec3 uDarkBackground;
 uniform vec3 uLightBackground;
 out vec4 fragColor;
 
-const float HUE = 0.0247616936;
-const float HUE_SPREAD = 0.00896027964;
-const float HUE_TRAVEL = 1.61191618;
-const float CHROMA = 0.0828986764;
-const float LIGHTNESS = 0.566419363;
-const float COLOUR_CYCLE = 0.210922211;
-const float THETA = 2.11860061;
-const float SHEAR = 0.955188811;
-const float SHRINK = 0.958665013;
-const float LAYERS = 72.0;
-const float WARP_FREQ_X = 0.595242977;
-const float WARP_FREQ_Y = 2.40765452;
-const float WARP_AMP_X = 0.104781911;
-const float WARP_AMP_Y = 0.0273131337;
-const float ASPECT_X = 2.19655395;
-const float ASPECT_Y = 0.187779561;
-const float OFFSET_X = 0.391835809;
-const float OFFSET_Y = -0.0259866789;
-const float TILT = 1.37964761;
-const float ZOOM = 1.16922402;
-const float CENTRE_X = -0.606007397;
-const float CENTRE_Y = -0.400004715;
-const float GLOW_SIZE = 0.00274323416;
-const float FALLOFF = 0.303328395;
-const float VIGNETTE = 0.0613339283;
-const float FLOW_SPEED = 0.518149257;
-const float FLOW_DIRECTION = -1.0;
-const float BREATH_RATE = 0.471057415;
-const float BREATH_AMOUNT = 0.0587214343;
-const float PHASE = 78.3789444;
+const float HUE = 0.592417479;
+const float HUE_SPREAD = 0.00895982143;
+const float HUE_TRAVEL = 1.81699848;
+const float CHROMA = 0.105831832;
+const float LIGHTNESS = 0.561614811;
+const float COLOUR_CYCLE = 0.157766372;
+const float THETA = 2.11315823;
+const float SHEAR = 0.959939361;
+const float SHRINK = 0.9488644;
+const float LAYERS = 73.0;
+const float WARP_FREQ_X = 0.463788897;
+const float WARP_FREQ_Y = 2.47012258;
+const float WARP_AMP_X = 0.101558559;
+const float WARP_AMP_Y = 0.0322007388;
+const float ASPECT_X = 2.52213597;
+const float ASPECT_Y = 0.203344896;
+const float OFFSET_X = 0.407597601;
+const float OFFSET_Y = -0.0278026797;
+const float TILT = -1.14852977;
+const float ZOOM = 1.0978626;
+const float CENTRE_X = 0.22665225;
+const float CENTRE_Y = 0.488793045;
+const float GLOW_SIZE = 0.00219408958;
+const float FALLOFF = 0.316368669;
+const float VIGNETTE = 0.00159253448;
+const float FLOW_SPEED = 0.433230639;
+const float FLOW_DIRECTION = 1.0;
+const float BREATH_RATE = 0.447767794;
+const float BREATH_AMOUNT = 0.0520217642;
+const float PHASE = 23.3064098;
 const float ECHO = 0.0;
-const float ECHO_SHIFT = -0.127812564;
-const float SOFTNESS = 0.00230249879;
-const float LIGHT_SWING = 0.2629686;
+const float ECHO_SHIFT = 0.184553832;
+const float SOFTNESS = 0.00184572604;
+const float LIGHT_SWING = 0.283909291;
 
 const float TAU = 6.28318530718;
 
@@ -129,6 +129,44 @@ void main() {
 }
 `;
 
+const POST_SHADER = `#version 300 es
+precision highp float;
+
+uniform sampler2D tScene;
+uniform vec2 iResolution;
+uniform float uLightMode;
+uniform float uPixelRatio;
+uniform vec3 uDarkBackground;
+uniform vec3 uLightBackground;
+out vec4 fragColor;
+
+const float SCALE = 0.804260671;
+
+vec3 toInk(vec3 color) {
+  return mix(color - uDarkBackground, uLightBackground - color, uLightMode);
+}
+
+vec3 fromInk(vec3 ink) {
+  return mix(uDarkBackground + ink, uLightBackground - ink, uLightMode);
+}
+
+vec3 sceneInk(vec2 uv) {
+  return toInk(texture(tScene, clamp(uv, 0.0, 1.0)).rgb);
+}
+
+void main() {
+  float cell = max(3.0, floor(SCALE * 6.0 * uPixelRatio + 0.5));
+  vec2 grid = floor(gl_FragCoord.xy / cell);
+  vec2 centre = (grid + 0.5) * cell;
+  vec3 ink = vec3(0.0);
+  ink += sceneInk((centre + cell * vec2(-0.25, -0.25)) / iResolution);
+  ink += sceneInk((centre + cell * vec2(0.25, -0.25)) / iResolution);
+  ink += sceneInk((centre + cell * vec2(-0.25, 0.25)) / iResolution);
+  ink += sceneInk((centre + cell * vec2(0.25, 0.25)) / iResolution);
+  fragColor = vec4(clamp(fromInk(clamp(ink * 0.25, 0.0, 1.0)), 0.0, 1.0), 1.0);
+}
+`;
+
 export function ScreenShader({ theme = "dark", background, time, onError, className, style }: ShaderProps) {
   const canvas = useRef<HTMLCanvasElement>(null);
   const shader = useRef<ShaderHandle | null>(null);
@@ -189,20 +227,30 @@ export function ScreenShader({ theme = "dark", background, time, onError, classN
 function attach(gl: WebGL2RenderingContext, program: WebGLProgram, type: number, source: string) {
   const shader = gl.createShader(type);
   if (!shader) throw new Error("WebGL could not create a shader object.");
-  gl.shaderSource(shader, source);
-  gl.compileShader(shader);
-  if (!gl.getShaderParameter(shader, gl.COMPILE_STATUS)) throw new Error(`Shader failed to compile: ${gl.getShaderInfoLog(shader)}`);
-  gl.attachShader(program, shader);
+  try {
+    gl.shaderSource(shader, source);
+    gl.compileShader(shader);
+    if (!gl.getShaderParameter(shader, gl.COMPILE_STATUS)) throw new Error(`Shader failed to compile: ${gl.getShaderInfoLog(shader)}`);
+    gl.attachShader(program, shader);
+  } catch (error) {
+    gl.deleteShader(shader);
+    throw error;
+  }
   gl.deleteShader(shader);
 }
 
 function compile(gl: WebGL2RenderingContext, fragmentSource: string) {
   const program = gl.createProgram();
   if (!program) throw new Error("WebGL could not create a shader program.");
-  attach(gl, program, gl.VERTEX_SHADER, VERTEX_SHADER);
-  attach(gl, program, gl.FRAGMENT_SHADER, fragmentSource);
-  gl.linkProgram(program);
-  if (!gl.getProgramParameter(program, gl.LINK_STATUS)) throw new Error(`Shader failed to link: ${gl.getProgramInfoLog(program)}`);
+  try {
+    attach(gl, program, gl.VERTEX_SHADER, VERTEX_SHADER);
+    attach(gl, program, gl.FRAGMENT_SHADER, fragmentSource);
+    gl.linkProgram(program);
+    if (!gl.getProgramParameter(program, gl.LINK_STATUS)) throw new Error(`Shader failed to link: ${gl.getProgramInfoLog(program)}`);
+  } catch (error) {
+    gl.deleteProgram(program);
+    throw error;
+  }
   return program;
 }
 
@@ -211,13 +259,49 @@ function uniforms(gl: WebGL2RenderingContext, program: WebGLProgram, names: read
 }
 
 function createShader(canvas: HTMLCanvasElement, options: ShaderOptions = {}): ShaderHandle {
-  const gl = canvas.getContext("webgl2", { alpha: false, antialias: false, depth: false, stencil: false });
-  if (!gl) throw new Error("WebGL2 is not available in this browser.");
+  const context = canvas.getContext("webgl2", { alpha: false, antialias: false, depth: false, stencil: false });
+  if (!context) throw new Error("WebGL2 is not available in this browser.");
+  const gl = context;
   const dark = parseHex(options.background?.dark ?? "#090909");
   const light = parseHex(options.background?.light ?? "#ffffff");
 
   const field = compile(gl, FIELD_SHADER);
   const fieldUniforms = uniforms(gl, field, ["iResolution", "iTime", "uLightMode", "uDarkBackground", "uLightBackground"]);
+  let post: WebGLProgram;
+  try {
+    post = compile(gl, POST_SHADER);
+  } catch (error) {
+    gl.deleteProgram(field);
+    throw error;
+  }
+  const postUniforms = uniforms(gl, post, ["tScene", "iResolution", "uLightMode", "uPixelRatio", "uDarkBackground", "uLightBackground"]);
+  const scene = gl.createTexture();
+  const framebuffer = gl.createFramebuffer();
+  if (!scene || !framebuffer) {
+    if (scene) gl.deleteTexture(scene);
+    if (framebuffer) gl.deleteFramebuffer(framebuffer);
+    gl.deleteProgram(post);
+    gl.deleteProgram(field);
+    throw new Error("WebGL could not create the shader scene.");
+  }
+  gl.bindTexture(gl.TEXTURE_2D, scene);
+  gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MIN_FILTER, gl.LINEAR);
+  gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MAG_FILTER, gl.LINEAR);
+  gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_WRAP_S, gl.CLAMP_TO_EDGE);
+  gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_WRAP_T, gl.CLAMP_TO_EDGE);
+  let sceneWidth = 0;
+  let sceneHeight = 0;
+
+  function fitScene() {
+    if (sceneWidth === canvas.width && sceneHeight === canvas.height) return;
+    sceneWidth = canvas.width;
+    sceneHeight = canvas.height;
+    gl.bindTexture(gl.TEXTURE_2D, scene);
+    gl.texImage2D(gl.TEXTURE_2D, 0, gl.RGBA8, sceneWidth, sceneHeight, 0, gl.RGBA, gl.UNSIGNED_BYTE, null);
+    gl.bindFramebuffer(gl.FRAMEBUFFER, framebuffer);
+    gl.framebufferTexture2D(gl.FRAMEBUFFER, gl.COLOR_ATTACHMENT0, gl.TEXTURE_2D, scene, 0);
+    if (gl.checkFramebufferStatus(gl.FRAMEBUFFER) !== gl.FRAMEBUFFER_COMPLETE) throw new Error("WebGL shader scene is incomplete.");
+  }
 
   const setFrame = (locations: Record<string, WebGLUniformLocation | null>, time: number, theme: number) => {
     gl.uniform2f(locations.iResolution, canvas.width, canvas.height);
@@ -227,12 +311,29 @@ function createShader(canvas: HTMLCanvasElement, options: ShaderOptions = {}): S
     gl.uniform3fv(locations.uLightBackground, light);
   };
 
-  return animate(options, (time, theme) => {
+  return animate(options, (time, theme, pixelRatio) => {
+    fitScene();
     gl.viewport(0, 0, canvas.width, canvas.height);
+    gl.bindFramebuffer(gl.FRAMEBUFFER, framebuffer);
     gl.useProgram(field);
     setFrame(fieldUniforms, time, theme);
     gl.drawArrays(gl.TRIANGLES, 0, 3);
+
+    gl.bindFramebuffer(gl.FRAMEBUFFER, null);
+    gl.useProgram(post);
+    gl.activeTexture(gl.TEXTURE0);
+    gl.bindTexture(gl.TEXTURE_2D, scene);
+    gl.uniform1i(postUniforms.tScene, 0);
+    gl.uniform2f(postUniforms.iResolution, canvas.width, canvas.height);
+    gl.uniform1f(postUniforms.uLightMode, theme);
+    gl.uniform1f(postUniforms.uPixelRatio, pixelRatio);
+    gl.uniform3fv(postUniforms.uDarkBackground, dark);
+    gl.uniform3fv(postUniforms.uLightBackground, light);
+    gl.drawArrays(gl.TRIANGLES, 0, 3);
   }, canvas, () => {
     gl.deleteProgram(field);
+    gl.deleteProgram(post);
+    gl.deleteFramebuffer(framebuffer);
+    gl.deleteTexture(scene);
   }, Math.min(gl.getParameter(gl.MAX_TEXTURE_SIZE), gl.getParameter(gl.MAX_RENDERBUFFER_SIZE)));
 }

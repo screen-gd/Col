@@ -1,9 +1,9 @@
 "use client";
 
-import { useCallback, useEffect, useRef } from "react";
+import { useCallback, useEffect, useRef, useState } from "react";
 import { usePathname } from "next/navigation";
 import Link from "next/link";
-import { Search } from "lucide-react";
+import { ChevronDown, Search } from "lucide-react";
 
 const getStarted = [
   ["/docs", "Overview"],
@@ -18,6 +18,7 @@ const contribute = [
 
 export function DocsSidebar() {
   const pathname = usePathname();
+  const [open, setOpen] = useState(false);
   const linksRef = useRef<HTMLDivElement>(null);
   const highlightRef = useRef<HTMLSpanElement>(null);
   const pendingLinkRef = useRef<HTMLAnchorElement>(null);
@@ -64,12 +65,15 @@ export function DocsSidebar() {
 
   return (
     <nav aria-label="Documentation pages" className="docs-sidebar rounded-xl border p-4">
+      <button type="button" className="docs-mobile-toggle theme-text min-h-11 w-full items-center justify-between text-sm font-medium" aria-expanded={open} onClick={() => setOpen((current) => !current)}>Documentation menu <ChevronDown className={`size-4 ${open ? "rotate-180" : ""}`} aria-hidden /></button>
+      <div className={`docs-sidebar-content ${open ? "docs-sidebar-content-open" : ""}`}>
       <a href="/libraries#library-search" className="docs-sidebar-search mb-6 flex items-center gap-2 rounded-md border px-3 py-2 text-sm">
         <Search className="size-4" aria-hidden /> Search libraries
       </a>
       <div
         ref={linksRef}
         className="relative grid gap-6 sm:grid-cols-2 lg:grid-cols-1"
+        onClick={(event) => { if ((event.target as HTMLElement).closest("a")) setOpen(false); }}
         onMouseLeave={restoreActiveHighlight}
         onBlur={(event) => {
           if (!(event.relatedTarget instanceof Node) || !event.currentTarget.contains(event.relatedTarget)) restoreActiveHighlight();
@@ -88,6 +92,7 @@ export function DocsSidebar() {
             {contribute.map(([href, label]) => <li key={href}><Link href={href} aria-current={pathname === href ? "page" : undefined} className="docs-sidebar-link relative z-10 block rounded-md px-3 py-2" onMouseEnter={(event) => positionHighlight(event.currentTarget)} onFocus={(event) => positionHighlight(event.currentTarget)} onClick={(event) => { pendingLinkRef.current = event.currentTarget; positionHighlight(event.currentTarget); }}>{label}</Link></li>)}
           </ul>
         </div>
+      </div>
       </div>
     </nav>
   );

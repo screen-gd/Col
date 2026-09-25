@@ -12,6 +12,7 @@ const compactNumber = new Intl.NumberFormat("en", { notation: "compact", maximum
 const links = [
   ["Libraries", "/libraries"],
   ["Docs", "/docs"],
+  ["Contributors", "/contributors"],
   ["Sponsors", "/#sponsors"],
 ] as const;
 
@@ -38,14 +39,12 @@ export function Header() {
   useEffect(() => {
     const handleShortcut = (event: KeyboardEvent) => {
       const target = event.target;
-      if (target instanceof HTMLElement && (target.isContentEditable || ["INPUT", "TEXTAREA", "SELECT"].includes(target.tagName))) return;
-
       const slashShortcut = event.key === "/" && !event.altKey && !event.ctrlKey && !event.metaKey;
       const commandShortcut = (event.ctrlKey || event.metaKey) && event.key.toLowerCase() === "k";
       if (!slashShortcut && !commandShortcut) return;
+      if (slashShortcut && target instanceof HTMLElement && (target.isContentEditable || ["INPUT", "TEXTAREA", "SELECT"].includes(target.tagName))) return;
 
       if (pathname === "/libraries") {
-        if (!slashShortcut) return;
         event.preventDefault();
         document.querySelector<HTMLInputElement>("#library-search")?.focus();
         return;
@@ -138,7 +137,7 @@ export function Header() {
             }}
           >
             <span ref={highlightRef} className="site-header-link-highlight" aria-hidden="true" />
-            {links.map(([label, href]) => {
+            {links.filter(([, href]) => !landing || href !== "/contributors").map(([label, href]) => {
               const active = !href.includes("#") && (pathname === href || pathname.startsWith(`${href}/`));
               return (
                 <Link
@@ -175,7 +174,7 @@ export function Header() {
           </a>
           <RainbowButton
             asChild
-            className="h-9 rounded-[10px] px-[19px] text-xs text-white! dark:text-black! max-[760px]:h-[34px] max-[760px]:rounded-[9px] max-[760px]:px-3"
+            className="min-h-11 rounded-[10px] px-[19px] text-xs text-white! dark:text-black! max-[760px]:px-3"
           >
             <a href="https://github.com/screen-gd/Col/issues/new" target="_blank" rel="noopener noreferrer">Submit</a>
           </RainbowButton>
@@ -193,7 +192,7 @@ export function Header() {
 
         {menuOpen && (
           <nav id="site-header-mobile-menu" aria-label="Mobile primary" className="site-header-mobile-menu">
-            {links.map(([label, href]) => <a key={href} href={href} onClick={() => setMenuOpen(false)} aria-current={!href.includes("#") && (pathname === href || pathname.startsWith(`${href}/`)) ? "page" : undefined}>{label}</a>)}
+            {links.filter(([, href]) => !landing || href !== "/contributors").map(([label, href]) => <a key={href} href={href} onClick={() => setMenuOpen(false)} aria-current={!href.includes("#") && (pathname === href || pathname.startsWith(`${href}/`)) ? "page" : undefined}>{label}</a>)}
             <a href="/libraries#library-search" onClick={() => setMenuOpen(false)}>Search libraries</a>
           </nav>
         )}
