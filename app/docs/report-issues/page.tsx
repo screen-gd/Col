@@ -22,9 +22,6 @@ export default function ReportIssuesPage() {
         <a className="docs-rail-link mt-5 inline-flex items-center gap-2 font-medium" href="https://github.com/screen-gd/Col/issues/new?template=feature-request.yml" target="_blank" rel="noopener noreferrer">Request a feature <ArrowUpRight className="size-4" aria-hidden /></a>
       </section>
 
-      <div className="theme-border mt-12 border-t pt-6">
-        <a className="docs-rail-link inline-flex items-center gap-2 text-sm font-medium" href="/docs/pull-requests">Next: Open a pull request <ArrowUpRight className="size-4" aria-hidden /></a>
-      </div>
     </article>
   );
 }

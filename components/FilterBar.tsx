@@ -44,6 +44,7 @@ export function FilterDropdown({ label, value, items, onValueChange, className =
 }
 
 interface FilterBarProps {
+  showSaved: boolean;
   activeCategory: Category | null;
   activeStacks: Stack[];
   activeUseCases: UseCase[];
@@ -55,12 +56,12 @@ interface FilterBarProps {
   onClearAll: () => void;
 }
 
-export function FilterBar({ activeCategory, activeStacks, activeUseCases, query, onQueryChange, onCategoryChange, onStackChange, onUseCaseChange, onClearAll }: FilterBarProps) {
+export function FilterBar({ showSaved, activeCategory, activeStacks, activeUseCases, query, onQueryChange, onCategoryChange, onStackChange, onUseCaseChange, onClearAll }: FilterBarProps) {
   const [filtersOpen, setFiltersOpen] = useState(false);
-  const hasFilters = query.trim() !== "" || activeCategory !== null || activeStacks.length > 0 || activeUseCases.length > 0;
+  const hasFilters = showSaved || query.trim() !== "" || activeCategory !== null || activeStacks.length > 0 || activeUseCases.length > 0;
 
   return (
-    <aside aria-label="Library filters" className="theme-border h-fit space-y-5 border-r-0 px-5 py-4 sm:px-8 lg:sticky lg:top-[60px] lg:max-h-[calc(100dvh-60px)] lg:overflow-y-auto lg:border-r lg:p-6">
+    <aside aria-label="Library filters" className="theme-border h-fit space-y-5 border-r-0 px-5 py-4 sm:px-8 lg:sticky lg:top-[60px] lg:h-[calc(100dvh-60px)] lg:overflow-y-auto lg:border-r lg:p-6">
       <div className="space-y-3">
         <label className="relative block min-w-0">
           <Search className="theme-muted pointer-events-none absolute top-1/2 left-3 size-4 -translate-y-1/2" aria-hidden />
@@ -97,7 +98,7 @@ export function FilterBar({ activeCategory, activeStacks, activeUseCases, query,
             className="w-full"
           />
         </div>
-        <Button type="button" variant="outline" onClick={onClearAll} disabled={!hasFilters} className="coss-trigger w-full"><RotateCcw aria-hidden /> Clear filters</Button>
+        {hasFilters && <Button type="button" variant="outline" onClick={onClearAll} className="coss-trigger w-full"><RotateCcw aria-hidden /> Clear filters</Button>}
       </div>
     </aside>
   );

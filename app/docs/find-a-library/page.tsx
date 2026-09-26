@@ -20,7 +20,7 @@ export default function FindLibraryPage() {
         </section>
         <section className="theme-border border-t pt-7">
           <h2 className="theme-text text-2xl font-semibold">Filter and compare</h2>
-          <p className="theme-muted mt-3 leading-7">Narrow results by category, supported stack, and use case. Open a listing to visit the project’s official site and check its documentation.</p>
+          <p className="theme-muted mt-3 leading-7">Narrow results by category, supported stack, and use case. Open a listing for setup steps and links to the project’s official documentation.</p>
         </section>
         <section className="theme-border border-t pt-7">
           <h2 className="theme-text text-2xl font-semibold">Save for later</h2>
@@ -28,7 +28,6 @@ export default function FindLibraryPage() {
         </section>
       </div>
       <a className="docs-rail-cta mt-8 inline-flex items-center gap-2 rounded-md px-4 py-2.5 text-sm font-semibold" href="/libraries">Browse all libraries <ArrowUpRight className="size-4" aria-hidden /></a>
-      <div className="theme-border mt-12 border-t pt-6"><a className="docs-rail-link inline-flex items-center gap-2 text-sm font-medium" href="/docs/request-a-library">Next: Request a library <ArrowUpRight className="size-4" aria-hidden /></a></div>
     </article>
   );
 }

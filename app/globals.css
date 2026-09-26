@@ -256,8 +256,6 @@ html:not(.light) #sponsors { background: #10181a; }
 
 .docs-page-shell { background: radial-gradient(circle at 82% 0, rgba(43,187,205,.12), transparent 34rem), #10181a; }
 .docs-sidebar, .docs-rail-panel, .docs-steps { border-color: rgba(136,213,223,.14); background: #141c1f; }
-.docs-sidebar-search { border-color: rgba(136,213,223,.16); color: rgba(255,255,255,.72); transition: border-color 220ms ease, color 220ms ease; }
-.docs-sidebar-search:hover { border-color: rgba(119,220,233,.4); color: #fff; }
 .docs-sidebar-heading { color: rgba(255,255,255,.5); }
 .docs-sidebar-link-highlight {
   position: absolute;
@@ -294,7 +292,6 @@ html:not(.light) #sponsors { background: #10181a; }
 .docs-step + .docs-step { border-left: 1px solid rgba(136,213,223,.14); }
 html.light .docs-page-shell { background: radial-gradient(circle at 82% 0, rgba(43,187,205,.12), transparent 34rem), #f7f7f5; }
 html.light .docs-sidebar, html.light .docs-rail-panel, html.light .docs-steps { border-color: rgba(17,17,17,.14); background: #fff; }
-html.light .docs-sidebar-search { border-color: rgba(17,17,17,.16); color: #444; }
 html.light .docs-sidebar-heading { color: #666; }
 html.light .docs-sidebar-link { color: #444; }
 html.light .docs-sidebar-link:hover, html.light .docs-sidebar-link:focus-visible { color: #111; }
@@ -305,7 +302,7 @@ html.light .docs-rail-link:hover { color: #074e5a; }
 html.light .docs-step + .docs-step { border-color: rgba(17,17,17,.14); }
 @media (max-width: 639px) { .docs-step + .docs-step { border-left: 0; border-top: 1px solid rgba(136,213,223,.14); } }
 @media (prefers-reduced-motion: reduce) {
-  .docs-sidebar-search, .docs-sidebar-link, .docs-sidebar-link-highlight[data-ready="true"], .docs-text-link, .docs-rail-link, .footer-link { transition: none; }
+  .docs-sidebar-link, .docs-sidebar-link-highlight[data-ready="true"], .docs-text-link, .docs-rail-link, .footer-link { transition: none; }
 }
 
 .docs-copy code {
@@ -386,7 +383,7 @@ html.light .contributors-page { background: #f7f7f5; }
 .footer-link { min-height: 44px; align-items: center; }
 .site-header-menu, .site-header-search, .site-header-github { min-height: 44px; }
 .coss-trigger { min-height: 44px; }
-.docs-sidebar-search, .docs-sidebar-link { min-height: 44px; }
+.docs-sidebar-link { min-height: 44px; }
 
 @media (max-width: 1023px) {
   .docs-mobile-toggle { display: flex; }

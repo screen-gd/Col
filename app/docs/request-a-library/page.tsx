@@ -21,7 +21,6 @@ export default function RequestLibraryPage() {
         </ul>
       </section>
       <a className="docs-rail-cta mt-8 inline-flex items-center gap-2 rounded-md px-4 py-2.5 text-sm font-semibold" href="https://github.com/screen-gd/Col/issues/new?template=library-request.yml" target="_blank" rel="noopener noreferrer">Open a library request <ArrowUpRight className="size-4" aria-hidden /></a>
-      <div className="theme-border mt-12 border-t pt-6"><a className="docs-rail-link inline-flex items-center gap-2 text-sm font-medium" href="/docs/report-issues">Next: Report issues <ArrowUpRight className="size-4" aria-hidden /></a></div>
     </article>
   );
 }

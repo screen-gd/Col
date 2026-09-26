@@ -68,6 +68,7 @@ export function DirectoryExplorer({ initialQuery = "" }: { initialQuery?: string
     setCategory(null);
     setStacks([]);
     setUseCases([]);
+    setShowSaved(false);
   };
 
   const emptyHint = showSaved
@@ -82,6 +83,7 @@ export function DirectoryExplorer({ initialQuery = "" }: { initialQuery?: string
     <section className="directory-section min-h-screen w-full px-0 pt-[60px] pb-40">
       <div className="grid items-start gap-0 lg:grid-cols-[280px_minmax(0,1fr)]">
         <FilterBar
+          showSaved={showSaved}
           query={query}
           onQueryChange={setQuery}
           activeCategory={category}
