@@ -34,12 +34,13 @@
 Col organizes UI libraries by category, stack, and use case. Search from the homepage, then compare matching libraries in the directory.
 
 - Search by name, keyword, category, stack, or use case.
+- Search by component name, and jump straight to that component's official docs.
 - Filter libraries without leaving the directory.
 - Save useful libraries locally.
 - Open the official website or documentation from each listing.
 - Contribute missing libraries through a focused pull request.
 
-Col catalogs **libraries**, not individual components.
+Col catalogs **libraries**. Libraries can also list the components they document, so you can search by component name — but that list is partial and grows by contribution, so a component missing from Col is not necessarily missing from the library. Col never infers a component from a library's generic tags.
 
 ## Run it locally
 
@@ -57,6 +58,8 @@ Open the local URL printed in the terminal (usually [http://localhost:3000](http
 Before opening a pull request:
 
 ```bash
+npm run typecheck
+npm test
 npm run build
 ```
 
@@ -105,8 +108,9 @@ Library-only pull requests should be small and should not redesign unrelated par
 3. Reuse the existing category, stack, and use-case values when possible.
 4. Keep the description factual and short.
 5. Confirm the URL points to the official project.
-6. Run `npm run build`.
-7. Open a pull request using the provided template.
+6. If you add components, verify each one against the library's own docs in [`data/components.ts`](data/components.ts).
+7. Run `npm run build`.
+8. Open a pull request using the provided template.
 
 ```ts
 {
@@ -122,6 +126,22 @@ Library-only pull requests should be small and should not redesign unrelated par
 ```
 
 The `slug` must be unique, lowercase, and kebab-case. See [CONTRIBUTING.md](CONTRIBUTING.md) for the full checklist.
+
+### Adding components
+
+Components live in [`data/components.ts`](data/components.ts), keyed by the owning library's `slug`, so searching "date picker" or "stroke text" finds the libraries that document it and links straight to that component's page.
+
+```ts
+"library-slug": [
+  { name: "Date Picker", aliases: ["datepicker"], url: "https://library.example/docs/components/date-picker" },
+],
+```
+
+- `name` should be spelled the way the library documents it, for example `Date Picker`.
+- `aliases` are optional extra search terms for what people actually type, such as `cmdk` for a command palette. Keep them to real search terms, not synonyms for the rest of the index.
+- `url` must be the canonical documentation page for that exact component, on the same domain as the library, and must not be a setup or marketing page.
+
+Coverage is partial and grows by contribution, so add a handful you have checked rather than a long unverified list. Col states this plainly in the UI, so a short accurate list beats a long speculative one.
 
 ## Dedicated library pages
 
@@ -163,6 +183,7 @@ When contributing a future detail page, keep the prompt specific to that library
 app/                  Routes, layout, and global styles
 components/           Search, filters, cards, header, and shared UI
 data/libraries.ts     The curated library registry
+data/components.ts    Verified components, keyed by library slug
 public/brand/         Col brand assets
 public/hero-logos/    Library artwork used by the homepage
 .github/              Issue forms and pull request guidance

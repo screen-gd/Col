@@ -9,6 +9,10 @@
  * - `url` must be the library's primary website or docs.
  * - Pick from the existing Category / Stack / UseCase values when possible.
  * - Keep descriptions to one or two short sentences.
+ *
+ * Verified components live separately in `data/components.ts`, keyed by this
+ * file's `slug`. They grow on a different cadence: libraries arrive rarely,
+ * but one component collection can document hundreds of components at once.
  */
 
 export const CATEGORIES = [

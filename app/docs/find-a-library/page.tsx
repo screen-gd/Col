@@ -14,6 +14,11 @@ export default function FindLibraryPage() {
           <p className="theme-muted mt-3 leading-7">Search by name, keyword, category, stack, or use case. A homepage search opens the directory with your query already applied.</p>
         </section>
         <section className="theme-border border-t pt-7">
+          <h2 className="theme-text text-2xl font-semibold">Search by component</h2>
+          <p className="theme-muted mt-3 leading-7">Search for a component such as “date picker” or “cmdk” to find the libraries that document it. Each match links straight to that component’s official documentation, so you can confirm it is really there.</p>
+          <p className="theme-muted mt-3 leading-7">Component coverage is partial and grows by contribution. A component missing from Col is not necessarily missing from the library, and Col never lists a component just because a library’s tags are broad.</p>
+        </section>
+        <section className="theme-border border-t pt-7">
           <h2 className="theme-text text-2xl font-semibold">Filter and compare</h2>
           <p className="theme-muted mt-3 leading-7">Narrow results by category, supported stack, and use case. Open a listing to visit the project’s official site and check its documentation.</p>
         </section>

@@ -8,7 +8,7 @@ export default async function LibrariesPage({ searchParams }: { searchParams: Pr
   return (
     <>
       <Header />
-      <main className="w-full max-w-full overflow-x-hidden">
+      <main className="w-full max-w-full overflow-x-clip">
         <DirectoryExplorer initialQuery={q} />
       </main>
       <SiteFooter />

@@ -1,0 +1,169 @@
+import type { Category, Library, Stack, UseCase } from "../data/libraries";
+import type { ComponentIndex, LibraryComponent } from "../data/components";
+
+/**
+ * Directory search over a fixed library registry.
+ *
+ * The registry is a static module, so every searchable field is flattened once
+ * when the searcher is created rather than on each keystroke.
+ */
+
+export type DirectorySort = "curated" | "name";
+
+export interface DirectoryQuery {
+  query: string;
+  category: Category | null;
+  stacks: readonly Stack[];
+  useCases: readonly UseCase[];
+  sort: DirectorySort;
+}
+
+export interface SearchResult {
+  library: Library;
+  /**
+   * Components whose name or an alias matched. Empty when only the library's
+   * own fields matched, so a non-empty list is always the reason to show it.
+   */
+  components: LibraryComponent[];
+}
+
+interface IndexedComponent {
+  component: LibraryComponent;
+  haystack: string;
+}
+
+interface IndexedLibrary {
+  library: Library;
+  haystack: string;
+  components: IndexedComponent[];
+}
+
+function componentHaystack(component: LibraryComponent): string {
+  return [component.name, ...(component.aliases ?? [])].join(" ").toLowerCase();
+}
+
+/**
+ * Flattens every searchable field once. The registry only changes on deploy, so
+ * paying this on each keystroke instead would be pure waste.
+ */
+function buildIndex(registry: readonly Library[], components: ComponentIndex): IndexedLibrary[] {
+  return registry.map((library) => ({
+    library,
+    haystack: [
+      library.name,
+      library.description,
+      library.category,
+      ...library.stacks,
+      ...library.useCases,
+      ...(library.tags ?? []),
+      ...(components[library.slug] ?? []).flatMap((component) => [
+        component.name,
+        ...(component.aliases ?? []),
+      ]),
+    ]
+      .join(" ")
+      .toLowerCase(),
+    components: (components[library.slug] ?? []).map((component) => ({
+      component,
+      haystack: componentHaystack(component),
+    })),
+  }));
+}
+
+/**
+ * Relevance tiers, best first. An exact component name or alias beats a loose
+ * component match, which beats a match on the library's own metadata.
+ */
+function relevanceTier(result: SearchResult, normalizedQuery: string): number {
+  if (normalizedQuery === "") return 2;
+  const exact = result.components.some(
+    ({ name, aliases }) =>
+      name.toLowerCase() === normalizedQuery ||
+      (aliases ?? []).some((alias) => alias.toLowerCase() === normalizedQuery),
+  );
+  if (exact) return 0;
+  return result.components.length > 0 ? 1 : 2;
+}
+
+/**
+ * Ranks one matched component against the query, best first.
+ *
+ * Substring matching means "stroke text" also touches every other "… Text"
+ * component, so without this the card would fill with weak matches and push the
+ * component the user actually asked for off the end.
+ */
+function componentRank(
+  component: LibraryComponent,
+  tokens: readonly string[],
+  normalizedQuery: string,
+): number {
+  const name = component.name.toLowerCase();
+  if (name === normalizedQuery) return 0;
+  if (name.startsWith(normalizedQuery)) return 1;
+  if (tokens.every((token) => name.includes(token))) return 2;
+  const aliases = (component.aliases ?? []).map((alias) => alias.toLowerCase());
+  if (aliases.includes(normalizedQuery)) return 3;
+  if (tokens.some((token) => name.includes(token))) return 4;
+  return 5;
+}
+
+/**
+ * Builds a searcher over a fixed registry and component index. Call once and
+ * reuse, so the term flattening above is paid for a single time.
+ */
+export function createDirectorySearch(
+  registry: readonly Library[],
+  components: ComponentIndex = {},
+) {
+  const index = buildIndex(registry, components);
+
+  return function searchDirectory({
+    query,
+    category,
+    stacks,
+    useCases,
+    sort,
+  }: DirectoryQuery): SearchResult[] {
+    const normalizedQuery = query.toLowerCase().trim().replace(/\s+/g, " ");
+    const tokens = normalizedQuery.split(/\s+/).filter(Boolean);
+
+    const results = index
+      .filter(({ library, haystack }) => {
+        return (
+          tokens.every((token) => haystack.includes(token)) &&
+          (category === null || library.category === category) &&
+          stacks.every((stack) => library.stacks.includes(stack)) &&
+          useCases.every((useCase) => library.useCases.includes(useCase))
+        );
+      })
+      .map((entry) => ({
+        library: entry.library,
+        // With no tokens every component would vacuously match, so browsing the
+        // directory must not present a seeded library's components as hits.
+        // Otherwise any single token can identify a component: the filter above
+        // already guaranteed every token matches somewhere on this library, so
+        // "any" is what keeps a mixed query like "radix accordion" pointing at
+        // the Accordion component instead of dropping the attribution.
+        components:
+          tokens.length === 0
+            ? []
+            : entry.components
+                .filter(({ haystack }) => tokens.some((token) => haystack.includes(token)))
+                .map(({ component }) => component)
+                // Stable sort, so components of equal strength keep the order
+                // the registry lists them in.
+                .sort((a, b) =>
+                  componentRank(a, tokens, normalizedQuery) -
+                  componentRank(b, tokens, normalizedQuery),
+                ),
+      }));
+
+    // Array.prototype.sort is stable, so returning 0 keeps curated order.
+    return results.sort((a, b) => {
+      const byRelevance =
+        relevanceTier(a, normalizedQuery) - relevanceTier(b, normalizedQuery);
+      if (byRelevance !== 0) return byRelevance;
+      return sort === "name" ? a.library.name.localeCompare(b.library.name) : 0;
+    });
+  };
+}

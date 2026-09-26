@@ -36,6 +36,19 @@ Checklist:
 
 If a new category or stack is genuinely required, explain why in the pull request.
 
+## Add a component
+
+Components are how someone searches for "a date picker" or "stroke text" instead of browsing 56 libraries. They live in [`data/components.ts`](data/components.ts), keyed by the owning library's `slug`.
+
+- Only add a component you have verified on the library's own documentation site.
+- Spell `name` the way the library documents it, and point `url` at that component's page, not the library homepage. It must be on the library's own domain, and must not be a setup, CLI, or marketing page.
+- Use `aliases` for terms people genuinely search for, such as `cmdk` or `datepicker`. Do not pad them with synonyms.
+- Add a handful you have checked rather than a long list you have not. Col tells users the index is partial, so a short accurate list is better than a long speculative one.
+
+Many libraries publish a machine-readable component list at `/llms.txt`, which is a good starting point, but it also lists setup guides and paid tiers. Check every entry against the site's own navigation before adding it.
+
+Do not add a component to make a library match a search. If a library does not document it, it does not belong in the index.
+
 ## Fix a bug or add a feature
 
 - Follow the existing TypeScript and component patterns.

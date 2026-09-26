@@ -393,19 +393,12 @@ html.light .contributors-page { background: #f7f7f5; }
   .docs-sidebar-content { display: none; }
   .docs-sidebar-content-open { display: block; }
   .filter-mobile-toggle { display: flex; }
-  .filter-advanced { display: none; }
-  .filter-advanced-open { display: grid; grid-template-columns: repeat(2,minmax(0,1fr)); gap: 8px; }
-  .filter-advanced-open > :last-child { grid-column: 1 / -1; }
-  .filter-categories { display: none; }
-  .filter-categories-open { display: block; }
 }
 @media (max-width: 760px) {
   .search-key-hint, .site-header-search kbd { display: none; }
   .site-header-menu { min-width: 44px; }
   .site-header-mobile-menu a { min-height: 44px; display: flex; align-items: center; }
   .directory-section { padding-top: 100px; }
-  .filter-advanced-open { grid-template-columns: 1fr; }
-  .filter-advanced-open > :last-child { grid-column: auto; }
 }
 
 .site-header--docs .site-header-link-highlight { border-color: rgba(136,213,223,.14); background: #141c1f; box-shadow: none; }
@@ -634,11 +627,11 @@ html.light .coss-menu-item[data-highlighted] {
 
 .filter-tab { color: rgba(255,255,255,.72); }
 .filter-tab:hover { background: rgba(255,255,255,.06); color: #fff; }
-.filter-tab[data-state="active"] { border-color: rgba(255,255,255,.24); background: #fff; color: #080808; }
+.filter-tab[aria-pressed="true"] { border-color: rgba(255,255,255,.24); background: #fff; color: #080808; }
 
 html.light .filter-tab { color: rgba(17,17,17,.68); }
 html.light .filter-tab:hover { background: rgba(17,17,17,.05); color: #111; }
-html.light .filter-tab[data-state="active"] { border-color: #111; background: #111; color: #fff; }
+html.light .filter-tab[aria-pressed="true"] { border-color: #111; background: #111; color: #fff; }
 
 .library-card { border-color: rgba(255,255,255,.14); background: #050505; color: #fff; }
 .library-card:hover { border-color: rgba(255,255,255,.3); background: #090909; }

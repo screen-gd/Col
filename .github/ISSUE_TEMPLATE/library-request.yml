@@ -49,6 +49,14 @@ body:
       placeholder: React, Vue, TypeScript
     validations:
       required: true
+  - type: textarea
+    id: components
+    attributes:
+      label: Components you can verify from the official docs
+      description: Optional. List component names and their documentation URLs, copied from the library's own site. Col's component index is partial, so a short verified list is more useful than a long one.
+      placeholder: |
+        Date Picker — https://library.example/docs/components/date-picker
+        Combobox — https://library.example/docs/components/combobox
   - type: checkboxes
     id: checks
     attributes:

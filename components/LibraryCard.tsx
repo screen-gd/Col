@@ -1,5 +1,6 @@
 import { ArrowUpRight, Heart, Layers3, Target } from "lucide-react";
 import type { Library } from "@/data/libraries";
+import type { LibraryComponent } from "@/data/components";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Card, CardAction, CardContent, CardFooter, CardHeader, CardTitle } from "@/components/ui/card";
@@ -15,13 +16,15 @@ function hostname(url: string): string {
 
 interface LibraryCardProps {
   library: Library;
+  /** Components the query matched, ordered by relevance. */
+  matches: LibraryComponent[];
   saved: boolean;
   onToggleSaved: () => void;
 }
 
-export function LibraryCard({ library, saved, onToggleSaved }: LibraryCardProps) {
+export function LibraryCard({ library, matches, saved, onToggleSaved }: LibraryCardProps) {
   return (
-    <Card className="library-card group relative h-[286px] gap-4 overflow-hidden rounded-xl py-5 shadow-none transition-colors">
+    <Card className="library-card group relative min-h-[286px] gap-4 rounded-xl py-5 shadow-none transition-colors">
       <CardHeader className="px-5">
         <CardTitle className="min-w-0">
           <a href={library.url} target="_blank" rel="noopener noreferrer" className="flex items-center gap-3 after:absolute after:inset-0 focus-visible:outline-2 focus-visible:outline-offset-2">
@@ -41,12 +44,41 @@ export function LibraryCard({ library, saved, onToggleSaved }: LibraryCardProps)
 
       <CardContent className="flex-1 px-5">
         <p className="library-muted line-clamp-3 text-[13px] leading-5">{library.description}</p>
-        {library.stacks.length > 0 && <div className="mt-4 flex flex-wrap gap-1.5">
-          {library.stacks.slice(0, 3).map((stack) => (
-            <Badge key={stack} variant="outline" className="library-chip px-2 py-0.5 text-[10px]">{stack}</Badge>
-          ))}
-          {library.stacks.length > 3 && <Badge variant="outline" className="library-chip px-2 py-0.5 text-[10px]">+{library.stacks.length - 3}</Badge>}
-        </div>}
+        {matches.length > 0 ? (
+          <div className="mt-4 flex flex-wrap gap-1.5">
+            {matches.slice(0, 3).map((component) => (
+              <a
+                key={component.url}
+                href={component.url}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="library-chip focus-visible:outline-solid focus-visible:outline-2 focus-visible:outline-offset-2 relative z-10 inline-flex items-center gap-1 rounded-md border px-2 py-1 text-xs hover:opacity-80"
+              >
+                {component.name}
+                <ArrowUpRight className="size-2.5" aria-hidden />
+              </a>
+            ))}
+            {matches.length > 3 && (
+              <details className="relative z-10 w-full">
+                <summary className="library-subtle w-fit cursor-pointer rounded py-2 text-xs focus-visible:outline-solid focus-visible:outline-2 focus-visible:outline-offset-2">{matches.length - 3} more matches</summary>
+                <div className="flex flex-wrap gap-1.5 pt-1">
+                  {matches.slice(3).map((component) => (
+                    <a key={component.url} href={component.url} target="_blank" rel="noopener noreferrer" className="library-chip inline-flex items-center gap-1 rounded-md border px-2 py-1 text-xs hover:opacity-80 focus-visible:outline-solid focus-visible:outline-2 focus-visible:outline-offset-2">
+                      {component.name}<ArrowUpRight className="size-2.5" aria-hidden />
+                    </a>
+                  ))}
+                </div>
+              </details>
+            )}
+          </div>
+        ) : library.stacks.length > 0 ? (
+          <div className="mt-4 flex flex-wrap gap-1.5">
+            {library.stacks.slice(0, 3).map((stack) => (
+              <Badge key={stack} variant="outline" className="library-chip px-2 py-0.5 text-[10px]">{stack}</Badge>
+            ))}
+            {library.stacks.length > 3 && <Badge variant="outline" className="library-chip px-2 py-0.5 text-[10px]">+{library.stacks.length - 3}</Badge>}
+          </div>
+        ) : null}
       </CardContent>
 
       <CardFooter className="library-subtle theme-border flex justify-between border-t px-5 pt-3 text-[10px]">
