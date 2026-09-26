@@ -4,6 +4,7 @@ import { useCallback, useEffect, useRef, useState } from "react";
 import { usePathname } from "next/navigation";
 import Link from "next/link";
 import { ChevronDown, Search } from "lucide-react";
+import { Button } from "@/components/ui/button";
 
 const getStarted = [
   ["/docs", "Overview"],
@@ -65,7 +66,7 @@ export function DocsSidebar() {
 
   return (
     <nav aria-label="Documentation pages" className="docs-sidebar rounded-xl border p-4">
-      <button type="button" className="docs-mobile-toggle theme-text min-h-11 w-full items-center justify-between text-sm font-medium" aria-expanded={open} onClick={() => setOpen((current) => !current)}>Documentation menu <ChevronDown className={`size-4 ${open ? "rotate-180" : ""}`} aria-hidden /></button>
+      <Button type="button" variant="ghost" className="docs-mobile-toggle theme-text min-h-11 w-full justify-between px-0 text-sm hover:bg-transparent" aria-expanded={open} onClick={() => setOpen((current) => !current)}>Documentation menu <ChevronDown className={`size-4 ${open ? "rotate-180" : ""}`} aria-hidden /></Button>
       <div className={`docs-sidebar-content ${open ? "docs-sidebar-content-open" : ""}`}>
       <a href="/libraries#library-search" className="docs-sidebar-search mb-6 flex items-center gap-2 rounded-md border px-3 py-2 text-sm">
         <Search className="size-4" aria-hidden /> Search libraries

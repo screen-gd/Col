@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useState } from "react";
+import { Button } from "@/components/ui/button";
 
 const noticeKey = "col:site-notice-dismissed";
 
@@ -34,12 +35,14 @@ export function SiteNotice() {
           <p className="mt-1 text-sm leading-6">Found an issue or bug? Please report it on GitHub.</p>
         </div>
         <div className="flex shrink-0 flex-wrap items-center gap-x-5 gap-y-2">
-          <a href="https://github.com/screen-gd/Col/issues/new/choose" target="_blank" rel="noopener noreferrer" className="inline-flex min-h-11 items-center justify-center bg-[#0800ff] px-4 text-sm font-semibold text-white focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#0800ff]">
-            Open GitHub issue
-          </a>
-          <button type="button" onClick={close} className="min-h-11 text-sm font-medium underline underline-offset-4 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-current">
+          <Button asChild className="min-h-11 rounded-none bg-[#0800ff] px-4 text-sm font-semibold text-white hover:bg-[#241eff]">
+            <a href="https://github.com/screen-gd/Col/issues/new/choose" target="_blank" rel="noopener noreferrer">
+              Open GitHub issue
+            </a>
+          </Button>
+          <Button type="button" variant="link" onClick={close} className="min-h-11 px-0 text-sm text-inherit underline underline-offset-4">
             Close notice
-          </button>
+          </Button>
         </div>
       </div>
     </aside>

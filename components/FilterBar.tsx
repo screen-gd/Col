@@ -85,7 +85,7 @@ export function FilterBar({ activeCategory, activeStacks, activeUseCases, query,
         <Button type="button" variant="outline" onClick={onClearAll} disabled={!hasFilters} className="coss-trigger"><RotateCcw aria-hidden /> Clear</Button></div>
       </div>
 
-      <button type="button" className="filter-mobile-toggle min-h-11 w-full items-center justify-between text-sm font-medium" aria-expanded={filtersOpen} onClick={() => setFiltersOpen((open) => !open)}>Filters <ChevronDown className={`size-4 ${filtersOpen ? "rotate-180" : ""}`} aria-hidden /></button>
+      <Button type="button" variant="ghost" className="filter-mobile-toggle min-h-11 w-full justify-between px-0 text-sm hover:bg-transparent" aria-expanded={filtersOpen} onClick={() => setFiltersOpen((open) => !open)}>Filters <ChevronDown className={`size-4 ${filtersOpen ? "rotate-180" : ""}`} aria-hidden /></Button>
       <div className={`filter-categories ${filtersOpen ? "filter-categories-open" : ""}`}><Tabs value={activeCategory ?? "all"} onValueChange={(value) => onCategoryChange(value === "all" ? null : value as Category)}>
         <TabsList className="filter-category-list h-auto! w-full flex-nowrap justify-start gap-1 overflow-x-auto rounded-none bg-transparent p-0">
           <TabsTrigger value="all" className="filter-tab min-h-11 flex-none rounded-md px-3">All</TabsTrigger>

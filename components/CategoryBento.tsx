@@ -13,6 +13,7 @@ import {
   type LucideIcon,
 } from "lucide-react";
 import { CATEGORIES, libraries, type Category } from "@/data/libraries";
+import { Button } from "@/components/ui/button";
 import GlareHover from "./GlareHover";
 
 const CATEGORY_ICONS: Record<Category, LucideIcon> = {
@@ -53,8 +54,9 @@ export function CategoryBento({ active, onSelect }: CategoryBentoProps) {
               glareSize={180}
               className="group"
             >
-              <button
+              <Button
                 type="button"
+                variant="ghost"
                 onClick={() => {
                   onSelect(isActive ? null : category);
                   document.getElementById("directory")?.scrollIntoView({
@@ -62,7 +64,7 @@ export function CategoryBento({ active, onSelect }: CategoryBentoProps) {
                   });
                 }}
                 aria-pressed={isActive}
-                className="relative z-10 flex h-full w-full flex-col justify-between p-5 text-left"
+                className="relative z-10 flex h-full w-full flex-col items-stretch justify-between whitespace-normal p-5 text-left hover:bg-transparent"
               >
                 <div className="flex items-start justify-between text-white/75">
                   <Icon className="size-5" strokeWidth={1.5} aria-hidden />
@@ -77,7 +79,7 @@ export function CategoryBento({ active, onSelect }: CategoryBentoProps) {
                     {matches.slice(0, 3).map((library) => library.name).join(" · ") || "More soon"}
                   </p>
                 </div>
-              </button>
+              </Button>
             </GlareHover>
           );
         })}

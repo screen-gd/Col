@@ -168,9 +168,15 @@ public/hero-logos/    Library artwork used by the homepage
 .github/              Issue forms and pull request guidance
 ```
 
+## UI components
+
+Application controls use the components in [`components/ui`](components/ui). Use the existing `Button`, `Input`, `Tabs`, and `DropdownMenu` before adding another control. Keep product-specific layout and behavior in `components/`, and keep visual variants in `components/ui/` when the standard component does not cover them.
+
+`components.json` configures shadcn/ui. The components are owned by this repository and may use Radix primitives internally for keyboard and accessibility behavior. Theme colors for those components live in `app/globals.css`.
+
 ## Built with
 
-[Next.js](https://nextjs.org) · [React](https://react.dev) · [TypeScript](https://www.typescriptlang.org) · [Tailwind CSS](https://tailwindcss.com) · [Radix UI](https://www.radix-ui.com) · [Lucide](https://lucide.dev)
+[Next.js](https://nextjs.org) · [React](https://react.dev) · [TypeScript](https://www.typescriptlang.org) · [Tailwind CSS](https://tailwindcss.com) · [shadcn/ui](https://ui.shadcn.com) · [Radix UI](https://www.radix-ui.com) · [Lucide](https://lucide.dev)
 
 ## Community
 
