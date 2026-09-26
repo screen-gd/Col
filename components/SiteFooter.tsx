@@ -17,7 +17,7 @@ export function SiteFooter() {
             <div className="grid grid-cols-2 gap-x-10 gap-y-10 sm:grid-cols-3 sm:gap-x-14">
               <FooterLinks title="Discover" links={[["All libraries", "/libraries"], ["Search", "/libraries#library-search"], ["Contributors", "/contributors"]]} />
               <FooterLinks title="Contribute" links={[["Contribute", "https://github.com/screen-gd/Col/issues/new/choose"], ["Request a library", "https://github.com/screen-gd/Col/issues/new?template=library-request.yml"], ["Request a feature", "https://github.com/screen-gd/Col/issues/new?template=feature-request.yml"], ["Report a bug", "https://github.com/screen-gd/Col/issues/new?template=bug-report.yml"]]} />
-              <FooterLinks title="Project" links={[["Docs", "/docs"], ["Sponsors", "/#sponsors"], ["GitHub", "https://github.com/screen-gd/Col"], ["Contributing", "https://github.com/screen-gd/Col/blob/main/CONTRIBUTING.md"]]} />
+              <FooterLinks title="Project" links={[["Docs", "/docs"], ["Roadmap", "/#roadmap"], ["Sponsors", "/#sponsors"], ["GitHub", "https://github.com/screen-gd/Col"], ["Contributing", "https://github.com/screen-gd/Col/blob/main/CONTRIBUTING.md"]]} />
             </div>
           </div>
 

@@ -92,7 +92,7 @@ const features = [
     Icon: FileText,
     name: "Dedicated library pages",
     description: "Each library will have its own page, plus agent-specific setup guides.",
-    status: "Coming soon",
+    status: "In progress",
     background: detailLibrary ? (
       <div className="bento-preview absolute inset-x-5 top-5 rounded-lg border p-4">
         <div className="flex items-center gap-3">
