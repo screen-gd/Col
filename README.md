@@ -184,6 +184,7 @@ app/                  Routes, layout, and global styles
 components/           Search, filters, cards, header, and shared UI
 data/libraries.ts     The curated library registry
 data/components.ts    Verified components, keyed by library slug
+data/library-details/ Per-library detail pages and metadata
 public/brand/         Col brand assets
 public/hero-logos/    Library artwork used by the homepage
 .github/              Issue forms and pull request guidance

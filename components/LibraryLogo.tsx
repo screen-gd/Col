@@ -1,20 +1,13 @@
 "use client";
 
 import { useState } from "react";
+import { hostname } from "@/lib/utils";
 
 interface LibraryLogoProps {
   url: string;
   name: string;
   size?: number;
   className?: string;
-}
-
-function domain(url: string): string {
-  try {
-    return new URL(url).hostname.replace(/^www\./, "");
-  } catch {
-    return url;
-  }
 }
 
 /**
@@ -44,7 +37,7 @@ export function LibraryLogo({
   return (
     // eslint-disable-next-line @next/next/no-img-element
     <img
-      src={`https://www.google.com/s2/favicons?domain=${domain(url)}&sz=128`}
+      src={`https://www.google.com/s2/favicons?domain=${hostname(url)}&sz=128`}
       alt={`${name} logo`}
       width={size}
       height={size}

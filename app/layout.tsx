@@ -1,6 +1,6 @@
 import type { Metadata } from "next";
 import { Geist_Mono, Geist_Pixel, Inter, Pixelify_Sans } from "next/font/google";
-import { siteUrl } from "@/lib/site";
+import { siteUrl, socialImage } from "@/lib/site";
 import { SiteNotice } from "@/components/SiteNotice";
 import "./globals.css";
 
@@ -24,8 +24,6 @@ const geistMono = Geist_Mono({
   variable: "--font-geist-mono",
   subsets: ["latin"],
 });
-
-const socialImage = "/col-social-preview.jpg?v=2";
 
 export const metadata: Metadata = {
   metadataBase: new URL(siteUrl),

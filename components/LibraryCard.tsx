@@ -1,18 +1,13 @@
 import { ArrowUpRight, Heart, Layers3, Target } from "lucide-react";
+import Link from "next/link";
 import type { Library } from "@/data/libraries";
 import type { LibraryComponent } from "@/data/components";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
 import { LibraryLogo } from "./LibraryLogo";
-
-function hostname(url: string): string {
-  try {
-    return new URL(url).hostname.replace(/^www\./, "");
-  } catch {
-    return url;
-  }
-}
+import { hostname } from "@/lib/utils";
+import { libraryPath } from "@/lib/site";
 
 interface LibraryCardProps {
   library: Library;
@@ -26,12 +21,12 @@ export function LibraryCard({ library, matches, saved, onToggleSaved }: LibraryC
   return (
     <Card className="library-card group relative grid min-h-0 grid-cols-1 gap-x-5 gap-y-3 rounded-xl p-4 shadow-none transition-colors lg:grid-cols-[minmax(12rem,0.85fr)_minmax(0,2fr)_auto] lg:items-center">
       <div className="min-w-0">
-        <a href={library.url} target="_blank" rel="noopener noreferrer" className="flex min-w-0 items-center gap-3 after:absolute after:inset-0 focus-visible:outline-2 focus-visible:outline-offset-2">
+        <Link href={libraryPath(library.slug)} className="flex min-w-0 items-center gap-3 after:absolute after:inset-0 focus-visible:outline-2 focus-visible:outline-offset-2">
           <span className="theme-border grid size-9 shrink-0 place-items-center rounded-lg border bg-white/[0.035]">
             <LibraryLogo url={library.url} name={library.name} size={24} />
           </span>
           <span className="truncate text-[15px] tracking-[-0.01em]">{library.name}</span>
-        </a>
+        </Link>
         <p className="library-subtle mt-1.5 truncate pl-12 text-[11px]">{hostname(library.url)}</p>
         <div className="library-subtle mt-2 flex flex-wrap items-center gap-x-4 gap-y-1 text-[10px]">
           {library.stacks.length > 0 && <span className="flex items-center gap-1.5"><Layers3 className="size-3" aria-hidden />{library.stacks.length} {library.stacks.length === 1 ? "stack" : "stacks"}</span>}
@@ -83,7 +78,7 @@ export function LibraryCard({ library, matches, saved, onToggleSaved }: LibraryC
           <Heart fill={saved ? "currentColor" : "none"} aria-hidden />
         </Button>
         <Button asChild size="icon-sm" variant="ghost" className="library-subtle min-h-11 min-w-11 rounded-lg hover:opacity-80">
-          <a href={library.url} target="_blank" rel="noopener noreferrer" aria-label={`Open ${library.name}`}><ArrowUpRight aria-hidden /></a>
+          <a href={library.url} target="_blank" rel="noopener noreferrer" aria-label={`Visit ${library.name} website`}><ArrowUpRight aria-hidden /></a>
         </Button>
       </div>
     </Card>

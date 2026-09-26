@@ -28,7 +28,7 @@ export default function DocsPage() {
           <div className="docs-step p-5">
             <div className="docs-accent flex items-center justify-between text-xs font-semibold"><span>03</span><ArrowUpRight className="size-4" aria-hidden /></div>
             <h2 className="theme-text mt-6 font-semibold">Visit the source</h2>
-            <p className="theme-muted mt-2 text-sm leading-6">Every listing points to the library’s official website.</p>
+            <p className="theme-muted mt-2 text-sm leading-6">Every listing opens a detail page with official docs and setup steps.</p>
           </div>
         </div>
         <div className="theme-border flex flex-wrap items-center gap-5 border-t px-5 py-4">
