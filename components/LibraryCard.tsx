@@ -1,17 +1,12 @@
+import Link from "next/link";
 import { ArrowUpRight, Heart, Layers3, Target } from "lucide-react";
 import type { Library } from "@/data/libraries";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Card, CardAction, CardContent, CardFooter, CardHeader, CardTitle } from "@/components/ui/card";
+import { libraryPath } from "@/lib/site";
+import { hostname } from "@/lib/utils";
 import { LibraryLogo } from "./LibraryLogo";
-
-function hostname(url: string): string {
-  try {
-    return new URL(url).hostname.replace(/^www\./, "");
-  } catch {
-    return url;
-  }
-}
 
 interface LibraryCardProps {
   library: Library;
@@ -24,12 +19,12 @@ export function LibraryCard({ library, saved, onToggleSaved }: LibraryCardProps)
     <Card className="library-card group relative h-[286px] gap-4 overflow-hidden rounded-xl py-5 shadow-none transition-colors">
       <CardHeader className="px-5">
         <CardTitle className="min-w-0">
-          <a href={library.url} target="_blank" rel="noopener noreferrer" className="flex items-center gap-3 after:absolute after:inset-0 focus-visible:outline-2 focus-visible:outline-offset-2">
+          <Link href={libraryPath(library.slug)} className="flex items-center gap-3 after:absolute after:inset-0 focus-visible:outline-2 focus-visible:outline-offset-2">
             <span className="theme-border grid size-9 shrink-0 place-items-center rounded-lg border bg-white/[0.035]">
               <LibraryLogo url={library.url} name={library.name} size={24} />
             </span>
             <span className="truncate text-[15px] tracking-[-0.01em]">{library.name}</span>
-          </a>
+          </Link>
         </CardTitle>
         <p className="library-subtle ml-12 truncate text-[11px]">{hostname(library.url)}</p>
         <CardAction className="relative z-10">
@@ -55,7 +50,7 @@ export function LibraryCard({ library, saved, onToggleSaved }: LibraryCardProps)
           <span className="flex items-center gap-1.5"><Target className="size-3" aria-hidden />{library.useCases.length} {library.useCases.length === 1 ? "use" : "uses"}</span>
         </div>
         <Button asChild size="icon-xs" variant="ghost" className="library-subtle relative z-10 rounded-md hover:opacity-80">
-          <a href={library.url} target="_blank" rel="noopener noreferrer" aria-label={`Open ${library.name}`}><ArrowUpRight aria-hidden /></a>
+          <a href={library.url} target="_blank" rel="noopener noreferrer" aria-label={`Visit ${library.name} website`}><ArrowUpRight aria-hidden /></a>
         </Button>
       </CardFooter>
     </Card>

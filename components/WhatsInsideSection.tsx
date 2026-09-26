@@ -2,6 +2,7 @@ import { ArrowRight, ArrowUpRight, BookOpen, Bot, FileText, Layers3, PlugZap, Se
 import { BentoCard, BentoGrid } from "@/components/ui/bento-grid";
 import { LibraryLogo } from "@/components/LibraryLogo";
 import { CATEGORIES, STACKS, libraries } from "@/data/libraries";
+import { libraryPath } from "@/lib/site";
 
 const featuredLibraries = ["21st-dev", "react-bits", "shadcn-ui"]
   .map((slug) => libraries.find((library) => library.slug === slug))
@@ -91,8 +92,9 @@ const features = [
   {
     Icon: FileText,
     name: "Dedicated library pages",
-    description: "Each library will have its own page, plus agent-specific setup guides.",
-    status: "In progress",
+    description: "Explore each library's official links, setup steps, and agent prompt.",
+    href: detailLibrary ? libraryPath(detailLibrary.slug) : "/libraries",
+    cta: "Explore a library",
     background: detailLibrary ? (
       <div className="bento-preview rounded-lg border p-4">
         <div className="flex items-center gap-3">

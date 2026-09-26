@@ -33,6 +33,7 @@ Checklist:
 - Add only useful search tags; do not repeat every field.
 - Do not add affiliate, tracking, or shortened URLs.
 - Confirm the project is publicly accessible and actively useful.
+- Add the matching detail page in [`data/library-details/`](data/library-details/index.ts) and register it in that file's `libraryDetails` map, keyed by the same `slug`. The detail tests fail without it.
 
 If a new category or stack is genuinely required, explain why in the pull request.
 

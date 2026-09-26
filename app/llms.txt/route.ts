@@ -1,11 +1,12 @@
 import { libraries } from "@/data/libraries";
+import { hostname } from "@/lib/utils";
 
 export const dynamic = "force-static";
 
 export function GET() {
   const entries = libraries.map((library) => [
     `## ${library.name}`,
-    `- Domain: [${new URL(library.url).hostname.replace(/^www\./, "")}](${library.url})`,
+    `- Domain: [${hostname(library.url)}](${library.url})`,
     `- Description: ${library.description}`,
     `- Category: ${library.category}`,
     `- Stacks: ${library.stacks.join(", ")}`,
