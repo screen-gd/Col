@@ -39,9 +39,10 @@ export default function DocsPage() {
 
       <section className="mt-14">
         <h2 className="theme-text text-2xl font-semibold tracking-[-0.025em]">What Col does</h2>
-        <p className="theme-muted mt-4 leading-7">Col catalogs libraries rather than individual components. Each listing has a category, supported stacks, and use cases so you can decide where to look next without opening dozens of tabs.</p>
+        <p className="theme-muted mt-4 leading-7">Col catalogs libraries, and for many of them a verified list of the components they document. Each listing has a category, supported stacks, and use cases so you can decide where to look next without opening dozens of tabs.</p>
         <ul className="theme-muted mt-5 list-disc space-y-3 pl-5 leading-7 marker:text-cyan-400">
           <li>Explore libraries across the directory’s categories.</li>
+          <li>Search by component name and jump to that component’s official docs.</li>
           <li>Save entries in your browser for later.</li>
           <li>Request a library or contribute an improvement on GitHub.</li>
         </ul>

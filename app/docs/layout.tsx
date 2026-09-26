@@ -1,6 +1,5 @@
-import { DocsSidebar } from "@/components/DocsSidebar";
+import { DocsPageNavigation, DocsSidebar } from "@/components/DocsSidebar";
 import { Header } from "@/components/Header";
-import { SiteFooter } from "@/components/SiteFooter";
 import { ArrowUpRight } from "lucide-react";
 import { CATEGORIES, libraries } from "@/data/libraries";
 
@@ -12,7 +11,7 @@ export default function DocsLayout({ children }: { children: React.ReactNode }) 
         <aside className="min-w-0 lg:sticky lg:top-20 lg:self-start">
           <DocsSidebar />
         </aside>
-        <div className="docs-copy mx-auto w-full min-w-0 max-w-[76ch]">{children}</div>
+        <div className="docs-copy mx-auto w-full min-w-0 max-w-[76ch]">{children}<DocsPageNavigation /></div>
         <aside className="hidden xl:sticky xl:top-20 xl:block xl:self-start" aria-label="Explore Col">
           <div className="docs-rail-panel overflow-hidden rounded-xl border">
             <div className="docs-rail-art flex h-36 items-end px-5 pb-4">
@@ -33,7 +32,6 @@ export default function DocsLayout({ children }: { children: React.ReactNode }) 
           </div>
         </aside>
       </main>
-      <SiteFooter />
     </>
   );
 }

@@ -34,12 +34,13 @@
 Col organizes UI libraries by category, stack, and use case. Search from the homepage, then compare matching libraries in the directory.
 
 - Search by name, keyword, category, stack, or use case.
+- Search by component name, and jump straight to that component's official docs.
 - Filter libraries without leaving the directory.
 - Save useful libraries locally.
 - Open the official website or documentation from each listing.
 - Contribute missing libraries through a focused pull request.
 
-Col catalogs **libraries**, not individual components.
+Col catalogs **libraries**. Libraries can also list the components they document, so you can search by component name — but that list is partial and grows by contribution, so a component missing from Col is not necessarily missing from the library. Col never infers a component from a library's generic tags.
 
 ## Run it locally
 
@@ -57,6 +58,8 @@ Open the local URL printed in the terminal (usually [http://localhost:3000](http
 Before opening a pull request:
 
 ```bash
+npm run typecheck
+npm test
 npm run build
 ```
 
@@ -105,8 +108,9 @@ Library-only pull requests should be small and should not redesign unrelated par
 3. Reuse the existing category, stack, and use-case values when possible.
 4. Keep the description factual and short.
 5. Confirm the URL points to the official project.
-6. Run `npm run build`.
-7. Open a pull request using the provided template.
+6. If you add components, verify each one against the library's own docs in [`data/components.ts`](data/components.ts).
+7. Run `npm run build`.
+8. Open a pull request using the provided template.
 
 ```ts
 {
@@ -123,21 +127,55 @@ Library-only pull requests should be small and should not redesign unrelated par
 
 The `slug` must be unique, lowercase, and kebab-case. See [CONTRIBUTING.md](CONTRIBUTING.md) for the full checklist.
 
+### Adding components
+
+Components live in [`data/components.ts`](data/components.ts), keyed by the owning library's `slug`, so searching "date picker" or "stroke text" finds the libraries that document it and links straight to that component's page.
+
+```ts
+"library-slug": [
+  { name: "Date Picker", aliases: ["datepicker"], url: "https://library.example/docs/components/date-picker" },
+],
+```
+
+- `name` should be spelled the way the library documents it, for example `Date Picker`.
+- `aliases` are optional extra search terms for what people actually type, such as `cmdk` for a command palette. Keep them to real search terms, not synonyms for the rest of the index.
+- `url` must be the canonical documentation page for that exact component, on the same domain as the library, and must not be a setup or marketing page.
+
+Coverage is partial and grows by contribution, so add a handful you have checked rather than a long unverified list. Col states this plainly in the UI, so a short accurate list beats a long speculative one.
+
 ## Dedicated library pages
 
-Every library has a dedicated Col page with:
+Each library will have a dedicated Col page with:
 
 - a clear overview and best-fit use cases;
 - supported stacks and key capabilities;
-- official documentation and repository links, where the library publishes them;
-- installation commands, for libraries that are installed;
+- official documentation, repository, and installation links;
+- useful comparisons and alternatives;
 - a copyable setup prompt for coding agents.
 
 ### Agent setup prompt
 
-Every detail page carries a self-contained prompt an agent can paste to set that library up. Each one names the real packages and commands, states any prerequisites, and ends with a numbered set of steps grounded in the library's own documentation. Write it for that library rather than from a template.
+Library pages will provide a prompt based on this structure:
 
-When editing a detail page, keep the prompt specific to that library and link every installation claim to official documentation.
+```text
+Help me add [LIBRARY] to my project.
+
+Project context:
+- Framework: [FRAMEWORK]
+- Language: [LANGUAGE]
+- Styling: [STYLING SYSTEM]
+- Package manager: [PACKAGE MANAGER]
+
+Use the current official [LIBRARY] documentation. Inspect the existing project before changing files. Install only the required packages, follow the project's established patterns, preserve accessibility, and avoid replacing unrelated code.
+
+After implementation:
+1. Summarize the files changed.
+2. Explain any configuration added.
+3. Run the project's type-check and build commands.
+4. Call out any manual setup still required.
+```
+
+When contributing a future detail page, keep the prompt specific to that library and link every installation claim to official documentation.
 
 ## Project structure
 
@@ -145,7 +183,8 @@ When editing a detail page, keep the prompt specific to that library and link ev
 app/                  Routes, layout, and global styles
 components/           Search, filters, cards, header, and shared UI
 data/libraries.ts     The curated library registry
-data/library-details/ Per-library detail page content, one file per slug
+data/components.ts    Verified components, keyed by library slug
+data/library-details/ Per-library detail pages and metadata
 public/brand/         Col brand assets
 public/hero-logos/    Library artwork used by the homepage
 .github/              Issue forms and pull request guidance

@@ -3,7 +3,7 @@
 import { useCallback, useEffect, useRef, useState } from "react";
 import { usePathname } from "next/navigation";
 import Link from "next/link";
-import { ChevronDown, Search } from "lucide-react";
+import { ArrowLeft, ArrowRight, ChevronDown } from "lucide-react";
 import { Button } from "@/components/ui/button";
 
 const getStarted = [
@@ -16,6 +16,24 @@ const contribute = [
   ["/docs/report-issues", "Report issues"],
   ["/docs/pull-requests", "Open a pull request"],
 ] as const;
+
+const pages = [...getStarted, ...contribute];
+
+export function DocsPageNavigation() {
+  const pathname = usePathname();
+  const index = pages.findIndex(([href]) => href === pathname);
+  if (index < 0) return null;
+
+  const previous = pages[index - 1];
+  const next = pages[index + 1];
+
+  return (
+    <nav aria-label="Documentation pagination" className="theme-border mt-12 flex items-center justify-between gap-6 border-t pt-6 text-sm">
+      {previous ? <Link href={previous[0]} className="docs-rail-link inline-flex items-center gap-2 font-medium"><ArrowLeft className="size-4" aria-hidden /> Previous: {previous[1]}</Link> : <span />}
+      {next && <Link href={next[0]} className="docs-rail-link inline-flex items-center gap-2 text-right font-medium">Next: {next[1]} <ArrowRight className="size-4 shrink-0" aria-hidden /></Link>}
+    </nav>
+  );
+}
 
 export function DocsSidebar() {
   const pathname = usePathname();
@@ -68,9 +86,6 @@ export function DocsSidebar() {
     <nav aria-label="Documentation pages" className="docs-sidebar rounded-xl border p-4">
       <Button type="button" variant="ghost" className="docs-mobile-toggle theme-text min-h-11 w-full justify-between px-0 text-sm hover:bg-transparent" aria-expanded={open} onClick={() => setOpen((current) => !current)}>Documentation menu <ChevronDown className={`size-4 ${open ? "rotate-180" : ""}`} aria-hidden /></Button>
       <div className={`docs-sidebar-content ${open ? "docs-sidebar-content-open" : ""}`}>
-      <a href="/libraries#library-search" className="docs-sidebar-search mb-6 flex items-center gap-2 rounded-md border px-3 py-2 text-sm">
-        <Search className="size-4" aria-hidden /> Search libraries
-      </a>
       <div
         ref={linksRef}
         className="relative grid gap-6 sm:grid-cols-2 lg:grid-cols-1"

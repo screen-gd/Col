@@ -24,7 +24,8 @@ Visitors search from the homepage, refine results in the library directory, save
 
 ## Capabilities and Constraints
 
-- Catalog libraries rather than individual components.
+- Catalog libraries, and optionally a verified, explicitly partial list of components each library documents.
+- Never infer that a library offers a component from its generic tags, and never present component coverage as complete.
 - Keep library metadata factual and link to canonical project sources.
 - Preserve light and dark themes, keyboard access, responsive behavior, and reduced-motion support.
 - Only maintainers merge changes to the protected default branch.
@@ -35,7 +36,7 @@ The product is named Col and uses the line “Sol could not do it himself, so we
 
 ## Evidence on Hand
 
-The curated registry lives in `data/libraries.ts`; contribution rules live in `README.md`, `CONTRIBUTING.md`, and `.github/` issue templates.
+The curated registry lives in `data/libraries.ts`; verified components live in `data/components.ts`. Contribution rules live in `README.md`, `CONTRIBUTING.md`, and `.github/` issue templates.
 
 ## Product Principles
 
