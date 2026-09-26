@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { Geist_Mono, Geist_Pixel, Inter, Pixelify_Sans } from "next/font/google";
 import { siteUrl } from "@/lib/site";
+import { SiteNotice } from "@/components/SiteNotice";
 import "./globals.css";
 
 const inter = Inter({
@@ -62,6 +63,7 @@ export default function RootLayout({
         className={`${inter.variable} ${pixelifySans.variable} ${geistPixel.variable} ${geistMono.variable} min-h-screen font-sans`}
       >
         {children}
+        <SiteNotice />
       </body>
     </html>
   );
