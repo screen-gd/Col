@@ -121,7 +121,7 @@ export function DirectoryExplorer({ initialQuery = "" }: { initialQuery?: string
           {query.trim() && <p className="theme-muted mt-3 text-xs leading-5">Component coverage is partial. Links below are verified matches, not a complete inventory.</p>}
 
           {visibleResults.length ? (
-            <div className="mt-5 grid gap-4 sm:grid-cols-2 xl:grid-cols-3">
+            <div className="mt-5 grid grid-cols-1 gap-3">
               {visibleResults.map(({ library, components }) => (
                 <LibraryCard key={library.slug} library={library} matches={components} saved={saved.has(library.slug)} onToggleSaved={() => toggleSaved(library.slug)} />
               ))}
