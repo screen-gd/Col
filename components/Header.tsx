@@ -6,6 +6,7 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { Menu, Search, X } from "lucide-react";
 import { RainbowButton } from "@/components/ui/rainbow-button";
+import { Button } from "@/components/ui/button";
 import { ThemeToggle } from "./ThemeToggle";
 
 const compactNumber = new Intl.NumberFormat("en", { notation: "compact", maximumFractionDigits: 1 });
@@ -178,8 +179,9 @@ export function Header() {
           >
             <a href="https://github.com/screen-gd/Col/issues/new" target="_blank" rel="noopener noreferrer">Submit</a>
           </RainbowButton>
-          <button
+          <Button
             type="button"
+            variant="ghost"
             className="site-header-menu"
             aria-label={menuOpen ? "Close menu" : "Open menu"}
             aria-expanded={menuOpen}
@@ -187,7 +189,7 @@ export function Header() {
             onClick={() => setMenuOpen((open) => !open)}
           >
             {menuOpen ? <X size={17} aria-hidden="true" /> : <Menu size={17} aria-hidden="true" />}
-          </button>
+          </Button>
         </div>
 
         {menuOpen && (

@@ -3,6 +3,7 @@
 import { useEffect, useRef, useState } from "react";
 import { flushSync } from "react-dom";
 import { Moon, Sun } from "lucide-react";
+import { Button } from "@/components/ui/button";
 
 type ThemeViewTransition = {
   ready: Promise<void>;
@@ -74,15 +75,16 @@ export function ThemeToggle() {
   };
 
   return (
-    <button
+    <Button
       ref={buttonRef}
       type="button"
+      variant="ghost"
       onClick={toggle}
       aria-label={`Use ${light ? "dark" : "light"} mode`}
       title={light ? "Dark mode" : "Light mode"}
       className="theme-toggle grid size-11 place-items-center rounded-lg border"
     >
       {light ? <Moon className="size-4" aria-hidden /> : <Sun className="size-4" aria-hidden />}
-    </button>
+    </Button>
   );
 }

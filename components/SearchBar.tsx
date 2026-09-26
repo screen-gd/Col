@@ -2,6 +2,8 @@
 
 import { useEffect, useRef, type FormEvent } from "react";
 import { ArrowRight, Search } from "lucide-react";
+import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
 
 interface SearchBarProps {
   value: string;
@@ -53,7 +55,7 @@ export function SearchBar({ value, onChange, onSubmit }: SearchBarProps) {
       <div className="hero-search-hints" aria-hidden="true">
         {hints.map((hint) => <span key={hint} className="hero-search-hint">{hint}</span>)}
       </div>
-      <input
+      <Input
         ref={inputRef}
         type="search"
         name="q"
@@ -66,12 +68,12 @@ export function SearchBar({ value, onChange, onSubmit }: SearchBarProps) {
         }}
         placeholder="Search libraries, stacks, or use cases…"
         aria-label="Search UI libraries"
-        className="hero-search-input h-full min-w-0 flex-1 bg-transparent text-[15px] outline-none placeholder:text-transparent focus:placeholder:text-white/45 [&::-webkit-search-cancel-button]:hidden"
+        className="hero-search-input h-full min-w-0 flex-1 border-0 bg-transparent px-0 text-[15px] shadow-none placeholder:text-transparent focus-visible:border-0 focus-visible:ring-0 focus:placeholder:text-white/45 dark:bg-transparent [&::-webkit-search-cancel-button]:hidden"
       />
       <kbd className="hero-search-shortcut hidden shrink-0 rounded-md border px-2 py-1 font-mono text-[10px] tracking-wide sm:block">⌘ K</kbd>
-      <button type="submit" className="hero-search-submit grid size-9 shrink-0 place-items-center rounded-lg" aria-label="Search libraries">
+      <Button type="submit" size="icon" variant="ghost" className="hero-search-submit grid size-9 shrink-0 place-items-center rounded-lg hover:bg-transparent" aria-label="Search libraries">
         <ArrowRight className="size-4" aria-hidden />
-      </button>
+      </Button>
     </form>
   );
 }

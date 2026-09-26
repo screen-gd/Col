@@ -10,7 +10,6 @@
 
   --color-surface: #000;
   --color-surface-raised: #101010;
-  --color-accent: #fff;
   --color-accent-soft: #fff;
 }
 
@@ -127,6 +126,24 @@ html.light .hero-liquid-github:hover { background: rgba(17,17,17,.13); }
   --col-brand: #0800ff;
   --col-blue: #69a9ff;
   --col-green: #3ddc97;
+  --background: #000;
+  --foreground: #fff;
+  --card: #050505;
+  --card-foreground: #fff;
+  --popover: #101010;
+  --popover-foreground: #fff;
+  --primary: #0800ff;
+  --primary-foreground: #fff;
+  --secondary: #1a1a1a;
+  --secondary-foreground: #fff;
+  --muted: #1a1a1a;
+  --muted-foreground: #b3b3b3;
+  --accent: #202020;
+  --accent-foreground: #fff;
+  --destructive: #dc2626;
+  --border: #303030;
+  --input: #424242;
+  --ring: #69a9ff;
   --color-1: oklch(66.2% 0.225 25.9);
   --color-2: oklch(60.4% 0.26 302);
   --color-3: oklch(69.6% 0.165 251);
@@ -137,6 +154,23 @@ html.light .hero-liquid-github:hover { background: rgba(17,17,17,.13); }
 html.light body {
   background: #f7f7f5;
   color: #171717;
+}
+
+html.light {
+  --background: #f7f7f5;
+  --foreground: #171717;
+  --card: #fff;
+  --card-foreground: #171717;
+  --popover: #fff;
+  --popover-foreground: #171717;
+  --secondary: #ededeb;
+  --secondary-foreground: #171717;
+  --muted: #ededeb;
+  --muted-foreground: #525252;
+  --accent: #ededeb;
+  --accent-foreground: #171717;
+  --border: #d4d4d4;
+  --input: #bcbcbc;
 }
 
 .theme-text { color: #fff; }
@@ -867,6 +901,24 @@ html.light ::-webkit-scrollbar-thumb { border-color: #f7f7f5; background: #aaa; 
 }
 
 @theme inline {
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --color-card: var(--card);
+  --color-card-foreground: var(--card-foreground);
+  --color-popover: var(--popover);
+  --color-popover-foreground: var(--popover-foreground);
+  --color-primary: var(--primary);
+  --color-primary-foreground: var(--primary-foreground);
+  --color-secondary: var(--secondary);
+  --color-secondary-foreground: var(--secondary-foreground);
+  --color-muted: var(--muted);
+  --color-muted-foreground: var(--muted-foreground);
+  --color-accent: var(--accent);
+  --color-accent-foreground: var(--accent-foreground);
+  --color-destructive: var(--destructive);
+  --color-border: var(--border);
+  --color-input: var(--input);
+  --color-ring: var(--ring);
   --animate-shimmer-slide: shimmer-slide var(--speed) ease-in-out infinite alternate;
   --animate-spin-around: spin-around calc(var(--speed) * 2) infinite linear;
   --animate-rainbow: rainbow var(--speed, 2s) infinite linear;
