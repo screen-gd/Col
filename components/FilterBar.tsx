@@ -60,9 +60,8 @@ export function FilterBar({ activeCategory, activeStacks, activeUseCases, query,
   const hasFilters = query.trim() !== "" || activeCategory !== null || activeStacks.length > 0 || activeUseCases.length > 0;
 
   return (
-    <aside aria-label="Library filters" className="filter-shell h-fit space-y-5 rounded-xl p-4 lg:sticky lg:top-24 lg:max-h-[calc(100dvh-7rem)] lg:overflow-y-auto">
+    <aside aria-label="Library filters" className="theme-border h-fit space-y-5 border-r-0 px-5 py-4 sm:px-8 lg:sticky lg:top-[60px] lg:max-h-[calc(100dvh-60px)] lg:overflow-y-auto lg:border-r lg:p-6">
       <div className="space-y-3">
-        <h2 className="theme-text text-sm font-semibold">Find a library</h2>
         <label className="relative block min-w-0">
           <Search className="theme-muted pointer-events-none absolute top-1/2 left-3 size-4 -translate-y-1/2" aria-hidden />
           <Input id="library-search" value={query} onChange={(event) => onQueryChange(event.target.value)} placeholder="Libraries or components..." aria-label="Search libraries or components" className="coss-input h-11 w-full pr-9 pl-10" />

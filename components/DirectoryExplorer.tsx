@@ -79,28 +79,8 @@ export function DirectoryExplorer({ initialQuery = "" }: { initialQuery?: string
       : "Try another keyword or clear the filters.";
 
   return (
-    <section className="directory-section mx-auto min-h-screen max-w-[1480px] px-5 pt-32 pb-40 sm:px-8">
-      <div className="mb-7 flex flex-wrap items-end justify-between gap-5">
-        <div>
-          <h1 className="theme-text text-4xl font-semibold tracking-[-0.04em]">Find the right tool.</h1>
-          <p className="theme-muted mt-2 text-sm">Search and filter the complete Col library directory.</p>
-        </div>
-        <div className="flex flex-wrap items-center gap-3">
-          <span className="theme-muted whitespace-nowrap text-sm tabular-nums">{visibleResults.length} {visibleResults.length === 1 ? "library" : "libraries"}</span>
-          <FilterDropdown
-            label={sort === "curated" ? "Curated order" : "Name A–Z"}
-            value={sort}
-            items={[{ label: "Curated order", value: "curated" }, { label: "Name A–Z", value: "name" }]}
-            onValueChange={(value) => setSort(value as "curated" | "name")}
-            className="w-40"
-          />
-          <Button type="button" variant="outline" onClick={() => setShowSaved((current) => !current)} aria-pressed={showSaved} className="theme-control min-h-11 hover:opacity-80">
-            <Heart fill={showSaved ? "currentColor" : "none"} aria-hidden /> Saved {saved.size}
-          </Button>
-        </div>
-      </div>
-
-      <div className="grid items-start gap-6 lg:grid-cols-[260px_minmax(0,1fr)] lg:gap-8">
+    <section className="directory-section min-h-screen w-full px-0 pt-[60px] pb-40">
+      <div className="grid items-start gap-0 lg:grid-cols-[280px_minmax(0,1fr)]">
         <FilterBar
           query={query}
           onQueryChange={setQuery}
@@ -113,10 +93,22 @@ export function DirectoryExplorer({ initialQuery = "" }: { initialQuery?: string
           onClearAll={clearFilters}
         />
 
-        <div className="min-w-0">
-          <div className="theme-border flex items-end justify-between border-b pb-4">
-            <h2 className="theme-text text-xl font-semibold tracking-tight">{query || category || stacks.length || useCases.length ? "Results" : "All libraries"}</h2>
-            <p role="status" className="theme-muted text-sm tabular-nums">{visibleResults.length} of {libraries.length}</p>
+        <div className="min-w-0 px-5 py-4 sm:px-8 lg:px-8 lg:py-6">
+          <div className="theme-border flex flex-wrap items-center justify-between gap-3 border-b pb-4">
+            <h1 className="theme-text text-xl font-semibold tracking-tight">{query || category || stacks.length || useCases.length ? "Results" : "All libraries"}</h1>
+            <div className="flex flex-wrap items-center gap-2">
+              <p role="status" className="theme-muted whitespace-nowrap text-sm tabular-nums">{visibleResults.length} of {libraries.length}</p>
+              <FilterDropdown
+                label={sort === "curated" ? "Curated order" : "Name A–Z"}
+                value={sort}
+                items={[{ label: "Curated order", value: "curated" }, { label: "Name A–Z", value: "name" }]}
+                onValueChange={(value) => setSort(value as "curated" | "name")}
+                className="w-40"
+              />
+              <Button type="button" variant="outline" onClick={() => setShowSaved((current) => !current)} aria-pressed={showSaved} className="theme-control min-h-11 hover:opacity-80">
+                <Heart fill={showSaved ? "currentColor" : "none"} aria-hidden /> Saved {saved.size}
+              </Button>
+            </div>
           </div>
           {query.trim() && <p className="theme-muted mt-3 text-xs leading-5">Component coverage is partial. Links below are verified matches, not a complete inventory.</p>}
 
