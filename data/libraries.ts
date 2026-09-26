@@ -609,10 +609,10 @@ export const libraries: Library[] = [
     tags: ["gsap", "gallery", "scroll animation"],
   },
   {
-    name: "SATIS UI",
-    slug: "satis-ui",
+    name: "Satisium UI",
+    slug: "satisium-ui",
     description: "Animated React components for shadcn/ui projects.",
-    url: "https://satisui.xyz",
+    url: "https://ui.satisium.com/",
     category: "Animation & Motion",
     stacks: ["React", "Tailwind CSS", "TypeScript"],
     useCases: ["Micro-interactions", "Landing Pages"],
