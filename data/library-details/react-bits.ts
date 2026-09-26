@@ -37,9 +37,9 @@ export default {
 Prerequisites: a working React project with a package manager (npm, pnpm, yarn or bun). React Bits has no runtime npm package; each component is added individually through the shadcn CLI or jsrepo, or pasted in manually. If you use the shadcn CLI, the project needs a components.json (run "npx shadcn@latest init" first if there is none).
 
 Steps:
-1. This project uses TypeScript and Tailwind CSS, so pick the TS-TW variants of components.
+1. Check this project's language and styling, then choose the matching JS or TS and CSS or Tailwind variant.
 2. Read the component page in the official docs first to see its props and dependency list.
-3. Add one component, for example a text animation: npx shadcn@latest add https://reactbits.dev/r/SplitText-TS-TW (variant naming is <Component>-JS|TS-CSS|TW). jsrepo also works: npx jsrepo@latest add https://reactbits.dev/r/SplitText-TS-TW.
+3. Add one component. For a TypeScript and Tailwind project, for example: npx shadcn@latest add https://reactbits.dev/r/SplitText-TS-TW (variant naming is <Component>-JS|TS-CSS|TW). jsrepo also works: npx jsrepo@latest add https://reactbits.dev/r/SplitText-TS-TW.
 4. Install the runtime dependencies that component lists, for example: npm install gsap.
 5. Import the added component file into an existing page and render it with its props to confirm it works, then add further components the same way.
 

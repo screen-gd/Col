@@ -77,10 +77,11 @@ test("every library has a built detail page with name, website link, docs link, 
 });
 
 // The discovery suite already asserts sitemap coverage for every slug.
-test("unknown slugs do not get a generated page", () => {
-  for (const extension of ["html", "body"]) {
-    assert.equal(readBuilt(`libraries/definitely-not-a-library.${extension}`), null);
-  }
+test("unknown library slugs return 404", () => {
+  const manifest = JSON.parse(readFileSync(new URL("../.next/prerender-manifest.json", import.meta.url), "utf8"));
+  // Next serves only generated paths when the dynamic route has no fallback.
+  assert.equal(manifest.dynamicRoutes["/libraries/[slug]"]?.fallback, false);
+  assert.equal(manifest.routes["/libraries/definitely-not-a-library"], undefined);
 });
 
 // A slug missing from data/library-details/index.ts would 404 at the detail
