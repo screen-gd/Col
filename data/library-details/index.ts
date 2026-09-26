@@ -35,6 +35,26 @@ import bencho from "./bencho";
 import rare_ui from "./rare-ui";
 import obsidian_ui from "./obsidian-ui";
 import design_spells from "./design-spells";
+import ark_ui from "./ark-ui";
+import park_ui from "./park-ui";
+import headless_ui from "./headless-ui";
+import tailwind_css from "./tailwind-css";
+import kibo_ui from "./kibo-ui";
+import shadcnblocks from "./shadcnblocks";
+import ruixen_ui from "./ruixen-ui";
+import fancy_components from "./fancy-components";
+import anime_js from "./anime-js";
+import react_spring from "./react-spring";
+import lenis from "./lenis";
+import rive from "./rive";
+import dotlottie from "./dotlottie";
+import godui from "./godui";
+import hampton_ui from "./hampton-ui";
+import dimaac_ui from "./dimaac-ui";
+import satisium_ui from "./satisium-ui";
+import wensity_ui from "./wensity-ui";
+import ai_canvas from "./ai-canvas";
+import codefronts from "./codefronts";
 
 export type { LibraryDetails };
 
@@ -82,4 +102,24 @@ export const libraryDetails: Record<string, LibraryDetails> = {
   "rare-ui": rare_ui,
   "obsidian-ui": obsidian_ui,
   "design-spells": design_spells,
+  "ark-ui": ark_ui,
+  "park-ui": park_ui,
+  "headless-ui": headless_ui,
+  "tailwind-css": tailwind_css,
+  "kibo-ui": kibo_ui,
+  "shadcnblocks": shadcnblocks,
+  "ruixen-ui": ruixen_ui,
+  "fancy-components": fancy_components,
+  "anime-js": anime_js,
+  "react-spring": react_spring,
+  "lenis": lenis,
+  "rive": rive,
+  "dotlottie": dotlottie,
+  "godui": godui,
+  "hampton-ui": hampton_ui,
+  "dimaac-ui": dimaac_ui,
+  "satisium-ui": satisium_ui,
+  "wensity-ui": wensity_ui,
+  "ai-canvas": ai_canvas,
+  "codefronts": codefronts,
 };
