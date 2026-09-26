@@ -125,7 +125,7 @@ The `slug` must be unique, lowercase, and kebab-case. See [CONTRIBUTING.md](CONT
 
 ## Dedicated library pages
 
-Each library will have a dedicated Col page with:
+Every library has a dedicated Col page with:
 
 - a clear overview and best-fit use cases;
 - supported stacks and key capabilities;
@@ -135,7 +135,7 @@ Each library will have a dedicated Col page with:
 
 ### Agent setup prompt
 
-Library pages will provide a prompt based on this structure:
+Library pages provide a prompt based on this structure:
 
 ```text
 Help me add [LIBRARY] to my project.
@@ -155,7 +155,7 @@ After implementation:
 4. Call out any manual setup still required.
 ```
 
-When contributing a future detail page, keep the prompt specific to that library and link every installation claim to official documentation.
+When editing a detail page, keep the prompt specific to that library and link every installation claim to official documentation.
 
 ## Project structure
 
@@ -163,6 +163,7 @@ When contributing a future detail page, keep the prompt specific to that library
 app/                  Routes, layout, and global styles
 components/           Search, filters, cards, header, and shared UI
 data/libraries.ts     The curated library registry
+data/library-details/ Per-library detail page content, one file per slug
 public/brand/         Col brand assets
 public/hero-logos/    Library artwork used by the homepage
 .github/              Issue forms and pull request guidance
