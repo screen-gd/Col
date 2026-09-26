@@ -129,31 +129,13 @@ Every library has a dedicated Col page with:
 
 - a clear overview and best-fit use cases;
 - supported stacks and key capabilities;
-- official documentation, repository, and installation links;
-- useful comparisons and alternatives;
+- official documentation and repository links, where the library publishes them;
+- installation commands, for libraries that are installed;
 - a copyable setup prompt for coding agents.
 
 ### Agent setup prompt
 
-Library pages provide a prompt based on this structure:
-
-```text
-Help me add [LIBRARY] to my project.
-
-Project context:
-- Framework: [FRAMEWORK]
-- Language: [LANGUAGE]
-- Styling: [STYLING SYSTEM]
-- Package manager: [PACKAGE MANAGER]
-
-Use the current official [LIBRARY] documentation. Inspect the existing project before changing files. Install only the required packages, follow the project's established patterns, preserve accessibility, and avoid replacing unrelated code.
-
-After implementation:
-1. Summarize the files changed.
-2. Explain any configuration added.
-3. Run the project's type-check and build commands.
-4. Call out any manual setup still required.
-```
+Every detail page carries a self-contained prompt an agent can paste to set that library up. Each one names the real packages and commands, states any prerequisites, and ends with a numbered set of steps grounded in the library's own documentation. Write it for that library rather than from a template.
 
 When editing a detail page, keep the prompt specific to that library and link every installation claim to official documentation.
 

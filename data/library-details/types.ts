@@ -13,7 +13,7 @@ export interface LibraryDetails {
   repoUrl?: string;
   /** Current official install commands. Omit for resources that are not installed. */
   install?: { label: string; command: string }[];
-  /** 3-5 short, concrete steps to get started. */
+  /** Short, concrete steps to get started. */
   gettingStarted: string[];
   /** An official og:image or screenshot. Omit unless the URL is verified reachable. */
   preview?: { src: string; alt: string };
