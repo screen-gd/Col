@@ -2,43 +2,12 @@ import type { Metadata } from "next";
 import { ArrowUpRight } from "lucide-react";
 import { Header } from "@/components/Header";
 import { SiteFooter } from "@/components/SiteFooter";
+import { getContributors } from "@/lib/github-contributors";
 
 export const metadata: Metadata = {
   title: "Contributors — Col",
   description: "Meet the people contributing to Col.",
 };
-
-type GitHubContributor = {
-  id: number;
-  login: string;
-  avatar_url: string;
-  html_url: string;
-  contributions: number;
-  type: string;
-};
-
-async function getContributors(): Promise<GitHubContributor[]> {
-  try {
-    const contributors: GitHubContributor[] = [];
-    let page = 1;
-
-    while (true) {
-      const response = await fetch(`https://api.github.com/repos/screen-gd/Col/contributors?per_page=100&page=${page}`, {
-        headers: { Accept: "application/vnd.github+json", "User-Agent": "Col-directory" },
-        next: { revalidate: 3600 },
-      });
-      if (!response.ok) return [];
-      const batch = await response.json() as GitHubContributor[];
-      contributors.push(...batch);
-      if (batch.length < 100) break;
-      page += 1;
-    }
-
-    return contributors.filter((contributor) => contributor.type === "User");
-  } catch {
-    return [];
-  }
-}
 
 export default async function ContributorsPage() {
   const contributors = await getContributors();
