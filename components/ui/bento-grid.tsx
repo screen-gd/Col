@@ -21,7 +21,7 @@ interface BentoCardProps extends ComponentPropsWithoutRef<"div"> {
 // Magic UI Bento Grid: https://magicui.design/docs/components/bento-grid
 function BentoGrid({ children, className, ...props }: BentoGridProps) {
   return (
-    <div className={cn("grid w-full auto-rows-[22rem] grid-cols-1 gap-4 sm:auto-rows-[18rem] sm:grid-cols-2 lg:grid-cols-3", className)} {...props}>
+    <div className={cn("grid w-full grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3", className)} {...props}>
       {children}
     </div>
   );
@@ -32,28 +32,23 @@ function BentoCard({ name, className, background, Icon, description, href, cta, 
 
   return (
     <div
-      className={cn("magic-bento-card group relative col-span-1 flex transform-gpu flex-col justify-between overflow-hidden rounded-xl", className)}
+      className={cn("magic-bento-card group relative col-span-1 flex min-w-0 flex-col overflow-hidden rounded-xl", className)}
       {...props}
     >
-      <div aria-hidden="true">{background}</div>
-      <div className="relative z-10 p-4">
-        <div className={cn("pointer-events-none flex transform-gpu flex-col gap-1 transition-transform duration-300", href && cta && "lg:group-hover:-translate-y-10")}>
-          <Icon className="bento-card-icon h-9 w-9 origin-left transform-gpu transition-transform duration-300 ease-in-out group-hover:scale-75" />
+      <div aria-hidden="true" className="min-w-0 p-4 pb-6">{background}</div>
+      <div className="relative z-10 mt-auto p-4 pt-0">
+        <div className="flex flex-col gap-1">
+          <Icon className="bento-card-icon h-9 w-9" />
           <h3 className="bento-card-title text-xl font-semibold">{name}</h3>
           <p className="bento-card-description max-w-lg">{description}</p>
           {status && <span className="bento-card-cta mt-2 text-sm font-medium">{status}</span>}
         </div>
-        {href && cta && <div className="mt-3 flex items-center lg:hidden">
+        {href && cta && <div className="mt-3 flex items-center">
           <Button variant="link" asChild size="sm" className="bento-card-cta h-auto p-0">
             <a href={href} target={external ? "_blank" : undefined} rel={external ? "noopener noreferrer" : undefined}>{cta}<ArrowRightIcon className="ms-2 size-4" aria-hidden /></a>
           </Button>
         </div>}
       </div>
-      {href && cta && <div className="pointer-events-none absolute bottom-0 z-20 hidden w-full translate-y-10 items-center p-4 opacity-0 transition-all duration-300 group-hover:translate-y-0 group-hover:opacity-100 lg:flex">
-        <Button variant="link" asChild size="sm" className="bento-card-cta pointer-events-auto h-auto p-0">
-          <a href={href} target={external ? "_blank" : undefined} rel={external ? "noopener noreferrer" : undefined}>{cta}<ArrowRightIcon className="ms-2 size-4" aria-hidden /></a>
-        </Button>
-      </div>}
       <div className="pointer-events-none absolute inset-0 transition-colors duration-300 group-hover:bg-cyan-300/5" />
     </div>
   );

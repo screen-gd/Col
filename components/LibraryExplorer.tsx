@@ -72,11 +72,18 @@ export function LibraryExplorer() {
 
   useEffect(() => {
     const root = document.documentElement;
-    const syncTheme = () => setShaderTheme(root.classList.contains("light") ? "light" : "dark");
-    const observer = new MutationObserver(syncTheme);
-    syncTheme();
+    const desktop = window.matchMedia("(min-width: 768px)");
+    const syncShader = () => {
+      setShaderTheme(desktop.matches ? (root.classList.contains("light") ? "light" : "dark") : null);
+    };
+    const observer = new MutationObserver(syncShader);
+    syncShader();
     observer.observe(root, { attributes: true, attributeFilter: ["class"] });
-    return () => observer.disconnect();
+    desktop.addEventListener("change", syncShader);
+    return () => {
+      observer.disconnect();
+      desktop.removeEventListener("change", syncShader);
+    };
   }, []);
 
   const openLibrary = (search: string) => {
@@ -164,7 +171,7 @@ export function LibraryExplorer() {
         href="https://openshaders.com/@screendev"
         target="_blank"
         rel="noopener noreferrer"
-        className="hero-shader-credit absolute bottom-4 right-5 z-10 text-[10px] tracking-[0.02em] sm:right-8"
+        className="hero-shader-credit absolute bottom-4 right-5 z-10 hidden text-[10px] tracking-[0.02em] md:block md:right-8"
       >
         Background shader by @screendev on OpenShaders
       </a>

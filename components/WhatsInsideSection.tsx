@@ -17,7 +17,7 @@ const features = [
     href: "/libraries",
     cta: "Browse libraries",
     background: (
-      <div className="bento-preview absolute inset-x-4 top-4 rounded-lg border p-3">
+      <div className="bento-preview rounded-lg border p-3">
         {featuredLibraries.map((library) => (
           <div key={library.slug} className="theme-border flex items-center gap-3 border-b py-3 last:border-0">
             <LibraryLogo url={library.url} name={library.name} size={26} />
@@ -35,11 +35,11 @@ const features = [
     href: "/libraries#library-search",
     cta: "Search libraries",
     background: (
-      <div className="bento-preview absolute inset-x-5 top-5 rounded-lg border p-4">
+      <div className="bento-preview rounded-lg border p-4">
         <div className="theme-border theme-control flex h-11 items-center gap-3 rounded-md border px-3">
           <Search className="theme-muted size-4" />
-          <span className="theme-muted text-sm">dashboard accessibility</span>
-          <kbd className="theme-muted ml-auto text-xs">⌘ K</kbd>
+          <span className="theme-muted min-w-0 truncate text-sm">dashboard accessibility</span>
+          <kbd className="theme-muted ml-auto shrink-0 text-xs">⌘ K</kbd>
         </div>
         <div className="mt-4 flex flex-wrap gap-2">
           {STACKS.slice(0, 4).map((stack, index) => (
@@ -56,11 +56,11 @@ const features = [
     href: "/libraries",
     cta: "Explore categories",
     background: (
-      <div className="bento-preview absolute inset-x-5 top-5 grid grid-cols-2 gap-2 rounded-lg border p-4 sm:grid-cols-3">
+      <div className="bento-preview grid grid-cols-2 gap-2 rounded-lg border p-4">
         {CATEGORIES.slice(0, 4).map((category) => (
           <div key={category} className="bento-preview-chip theme-muted flex min-w-0 items-center gap-2 rounded-md border px-3 py-3 text-xs">
             <Layers3 className="size-4 shrink-0" />
-            <span className="truncate">{category}</span>
+            <span className="min-w-0 break-words">{category}</span>
           </div>
         ))}
       </div>
@@ -73,7 +73,7 @@ const features = [
     href: sourceLibrary?.url ?? "/libraries",
     cta: "Visit a project",
     background: sourceLibrary ? (
-      <div className="bento-preview absolute inset-x-4 top-5 rounded-lg border p-4">
+      <div className="bento-preview rounded-lg border p-4">
         <div className="flex items-center gap-3">
           <LibraryLogo url={sourceLibrary.url} name={sourceLibrary.name} size={32} />
           <div className="min-w-0">
@@ -94,7 +94,7 @@ const features = [
     description: "Each library will have its own page, plus agent-specific setup guides.",
     status: "In progress",
     background: detailLibrary ? (
-      <div className="bento-preview absolute inset-x-5 top-5 rounded-lg border p-4">
+      <div className="bento-preview rounded-lg border p-4">
         <div className="flex items-center gap-3">
           <LibraryLogo url={detailLibrary.url} name={detailLibrary.name} size={32} />
           <div className="min-w-0">
@@ -121,7 +121,7 @@ const features = [
     description: "Find libraries from your AI tools with a Col MCP connector.",
     status: "Coming soon",
     background: (
-      <div className="bento-preview absolute inset-x-4 top-5 rounded-lg border p-4">
+      <div className="bento-preview rounded-lg border p-4">
         <p className="theme-text text-sm font-semibold">Col MCP</p>
         <div className="theme-border mt-4 flex items-center gap-3 border-t pt-4">
           <span className="bento-preview-chip rounded-md border px-2 py-1 text-xs">AI tool</span>
