@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import { Geist_Mono, Inter, Nunito } from "next/font/google";
+import { Analytics } from "@vercel/analytics/next";
 import { SpeedInsights } from "@vercel/speed-insights/next";
 import { siteUrl, socialImage } from "@/lib/site";
 import { AppFrame } from "@/components/AppFrame";
@@ -58,6 +59,7 @@ export default function RootLayout({
       >
         <AppFrame>{children}</AppFrame>
         <SiteNotice />
+        <Analytics />
         <SpeedInsights />
       </body>
     </html>
